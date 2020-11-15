@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow {
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
 
 private:
     std::unique_ptr<Ui::MainWindow> ui;

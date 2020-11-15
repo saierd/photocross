@@ -12,10 +12,13 @@ set(SOURCE_FILES
     src/image_diff.cpp
     src/image_diff.h
     src/main.cpp
-    src/utility/finally.h
-    src/utility/signal_blocker.h
+    src/widgets/image_view.cpp
+    src/widgets/image_view.h
+    src/widgets/image_view.ui
     src/widgets/interactive_graphics_view.cpp
     src/widgets/interactive_graphics_view.h
+    src/widgets/synchronizable_graphics_view.cpp
+    src/widgets/synchronizable_graphics_view.h
     src/windows/main_window.cpp
     src/windows/main_window.h
     src/windows/main_window.ui)
