@@ -1,0 +1,12 @@
+Checks: >
+    bugprone-*,
+    google-explicit-constructor,
+    modernize-*,
+    -modernize-use-nodiscard,
+    -modernize-use-trailing-return-type,
+    performance-*,
+    readability-*,
+    -readability-magic-numbers,
+    -readability-redundant-access-specifiers
+HeaderFilterRegex: 'src/*'
+

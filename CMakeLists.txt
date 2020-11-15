@@ -4,6 +4,7 @@ project(imgdiff CXX)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
+include(cmake/clang_tidy.cmake)
 include(cmake/compiler_flags.cmake)
 
 set(SOURCE_DIRECTORY "src")
