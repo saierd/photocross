@@ -27,6 +27,6 @@ void ImageView::fitViewToScene()
 
 void ImageView::addPixmap(QPixmap const& image, double opacity)
 {
-    auto item = scene.addPixmap(image);
+    auto* item = scene.addPixmap(image);
     item->setOpacity(opacity);
 }

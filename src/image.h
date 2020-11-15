@@ -5,8 +5,8 @@
 
 class Image {
 public:
-    explicit Image(QImage const& image)
-      : imageData(image)
+    explicit Image(QImage image)
+      : imageData(std::move(image))
     {
     }
 
