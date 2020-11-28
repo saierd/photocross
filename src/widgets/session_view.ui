@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SessionView</class>
+ <widget class="QWidget" name="SessionView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>304</width>
+    <height>191</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="ImageView" name="image2" native="true"/>
+       </item>
+       <item>
+        <widget class="ImageView" name="image1" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="ImageView" name="comparisonView" native="true"/>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ImageView</class>
+   <extends>QWidget</extends>
+   <header>widgets/image_view.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

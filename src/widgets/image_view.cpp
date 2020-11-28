@@ -10,6 +10,10 @@ ImageView::ImageView(QWidget* parent)
     ui = std::make_unique<Ui::ImageView>();
     ui->setupUi(this);
 
+    ui->fitToView->setDefaultAction(ui->actionFitToView);
+
+    connect(ui->actionFitToView, &QAction::triggered, this, &ImageView::fitViewToScene);
+
     ui->graphicsView->setScene(&scene);
 }
 
@@ -22,7 +26,17 @@ void ImageView::synchronizeViews(ImageView const& other) const
 
 void ImageView::fitViewToScene()
 {
-    ui->graphicsView->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
+    ui->graphicsView->fitSceneInView();
+}
+
+void ImageView::setCaption(QString const& caption)
+{
+    ui->caption->setText(caption);
+}
+
+void ImageView::clear()
+{
+    scene.clear();
 }
 
 void ImageView::addPixmap(QPixmap const& image, double opacity)

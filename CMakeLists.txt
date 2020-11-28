@@ -13,11 +13,16 @@ set(SOURCE_FILES
     src/image_diff.cpp
     src/image_diff.h
     src/main.cpp
+    src/session.cpp
+    src/session.h
     src/widgets/image_view.cpp
     src/widgets/image_view.h
     src/widgets/image_view.ui
     src/widgets/interactive_graphics_view.cpp
     src/widgets/interactive_graphics_view.h
+    src/widgets/session_view.cpp
+    src/widgets/session_view.h
+    src/widgets/session_view.ui
     src/widgets/synchronizable_graphics_view.cpp
     src/widgets/synchronizable_graphics_view.h
     src/windows/main_window.cpp

@@ -5,9 +5,15 @@
 
 class Image {
 public:
-    explicit Image(QImage image)
-      : imageData(std::move(image))
+    explicit Image(QString _filename)
+      : filename(std::move(_filename))
+      , imageData(filename)
     {
+    }
+
+    QString const& file() const&
+    {
+        return filename;
     }
 
     QImage const& image() const&
@@ -26,5 +32,6 @@ public:
     }
 
 private:
+    QString filename;
     QImage imageData;
 };

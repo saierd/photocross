@@ -47,6 +47,12 @@ void InteractiveGraphicsView::zoomOut()
     zoom(-1);
 }
 
+void InteractiveGraphicsView::fitSceneInView()
+{
+    fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
+    emit viewChanged();
+}
+
 void InteractiveGraphicsView::wheelEvent(QWheelEvent* event)
 {
     if (event->angleDelta().y() > 0) {

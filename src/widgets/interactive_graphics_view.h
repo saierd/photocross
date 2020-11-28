@@ -14,6 +14,8 @@ public slots:
     void zoomIn();
     void zoomOut();
 
+    void fitSceneInView();
+
 signals:
     void viewChanged();
 

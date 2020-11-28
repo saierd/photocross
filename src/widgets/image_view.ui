@@ -27,9 +27,30 @@
     <number>0</number>
    </property>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="caption"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="fitToView"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="SynchronizableGraphicsView" name="graphicsView"/>
    </item>
   </layout>
+  <action name="actionFitToView">
+   <property name="icon">
+    <iconset theme="zoom-fit-best"/>
+   </property>
+   <property name="text">
+    <string>Fit to View</string>
+   </property>
+   <property name="toolTip">
+    <string>Fit to View</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

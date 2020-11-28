@@ -20,6 +20,9 @@ public:
 
     void fitViewToScene();
 
+    void setCaption(QString const& caption);
+
+    void clear();
     void addPixmap(QPixmap const& image, double opacity = 1.);
 
 private:
