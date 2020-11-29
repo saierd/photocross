@@ -17,9 +17,6 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
-public slots:
-    void fitToView();
-
 private:
     std::unique_ptr<Ui::MainWindow> ui;
     std::unique_ptr<Session> session;

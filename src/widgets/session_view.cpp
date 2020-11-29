@@ -12,6 +12,10 @@ SessionView::SessionView(QWidget* parent)
 
     ui->comparisonView->setCaption("Comparison View");
 
+    connect(ui->splitter, &QSplitter::splitterMoved, [this]() {
+        ui->comparisonView->forceViewPropagation();
+    });
+
     ui->image1->synchronizeViews(*ui->image2);
     ui->image1->synchronizeViews(*ui->comparisonView);
     ui->image2->synchronizeViews(*ui->comparisonView);
@@ -52,6 +56,22 @@ void SessionView::setSession(Session* _session)
     updateImage1();
     updateImage2();
     updateComparisonView();
+}
+
+void SessionView::flipLayoutDirection()
+{
+    if (ui->splitter->orientation() == Qt::Horizontal) {
+        ui->splitter->setOrientation(Qt::Vertical);
+        ui->imagesLayout->setDirection(QBoxLayout::LeftToRight);
+    } else {
+        ui->splitter->setOrientation(Qt::Horizontal);
+        ui->imagesLayout->setDirection(QBoxLayout::TopToBottom);
+    }
+
+    // Flipping the layout might change the center point visible in the image if the image does not fit the graphics
+    // view. Force synchronization of the views so that they are all centered on the same point again.
+    QApplication::processEvents();
+    ui->comparisonView->forceViewPropagation();
 }
 
 void SessionView::fitToView()

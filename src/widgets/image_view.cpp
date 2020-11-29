@@ -24,6 +24,11 @@ void ImageView::synchronizeViews(ImageView const& other) const
     ui->graphicsView->synchronizeViews(*other.ui->graphicsView);
 }
 
+void ImageView::forceViewPropagation() const
+{
+    ui->graphicsView->forceViewPropagation();
+}
+
 void ImageView::fitViewToScene()
 {
     ui->graphicsView->fitSceneInView();

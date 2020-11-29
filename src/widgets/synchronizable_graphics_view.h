@@ -22,6 +22,7 @@ public:
     explicit SynchronizableGraphicsView(QWidget* parent = nullptr);
 
     void synchronizeViews(SynchronizableGraphicsView const& other) const;
+    void forceViewPropagation() const;
 
 signals:
     void synchronizedViewChanged(View const& view) const;

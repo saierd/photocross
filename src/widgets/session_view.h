@@ -20,6 +20,8 @@ public:
     void setSession(Session* session);
 
 public slots:
+    void flipLayoutDirection();
+
     void fitToView();
 
 private:

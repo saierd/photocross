@@ -17,6 +17,11 @@ void SynchronizableGraphicsView::synchronizeViews(SynchronizableGraphicsView con
     connect(&other, &SynchronizableGraphicsView::synchronizedViewChanged, this, &SynchronizableGraphicsView::applyView);
 }
 
+void SynchronizableGraphicsView::forceViewPropagation() const
+{
+    emitSynchronizedViewChanged();
+}
+
 void SynchronizableGraphicsView::emitSynchronizedViewChanged() const
 {
     auto centerPoint = mapToScene(viewport()->rect().center());

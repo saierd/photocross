@@ -19,8 +19,11 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="handleWidth">
+      <number>8</number>
+     </property>
      <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="imagesLayout">
        <item>
         <widget class="ImageView" name="image2" native="true"/>
        </item>

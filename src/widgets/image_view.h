@@ -17,6 +17,7 @@ public:
     ~ImageView() override;
 
     void synchronizeViews(ImageView const& other) const;
+    void forceViewPropagation() const;
 
     void fitViewToScene();
 
