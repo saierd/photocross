@@ -32,7 +32,13 @@
        </item>
       </layout>
      </widget>
-     <widget class="ImageView" name="comparisonView" native="true"/>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <layout class="QHBoxLayout" name="comparisonLayout">
+       <item>
+        <widget class="ImageView" name="comparisonView" native="true"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
