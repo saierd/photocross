@@ -55,7 +55,7 @@
   </widget>
   <action name="actionFitToView">
    <property name="icon">
-    <iconset theme="zoom-fit-best">
+    <iconset theme="fit-to-page">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -64,7 +64,7 @@
   </action>
   <action name="actionFlipLayoutDirection">
    <property name="icon">
-    <iconset theme="object-rotate-right">
+    <iconset theme="flip-layout-direction">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">

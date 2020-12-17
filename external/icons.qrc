@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/icons/icons">
+        <file alias="actions/fit-to-page.svg">mdi/svg/fit-to-page-outline.svg</file>
+        <file alias="actions/flip-layout-direction.svg">mdi/svg/rotate-right-variant.svg</file>
+        <file>index.theme</file>
+    </qresource>
+</RCC>

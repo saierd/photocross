@@ -9,6 +9,7 @@ include(cmake/compiler_flags.cmake)
 
 set(SOURCE_DIRECTORY "src")
 set(SOURCE_FILES
+    external/icons.qrc
     src/image.h
     src/image_diff.cpp
     src/image_diff.h
@@ -30,7 +31,7 @@ set(SOURCE_FILES
     src/windows/main_window.ui)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-source_group(TREE "src")
+source_group(TREE "${SOURCE_DIRECTORY}")
 target_include_directories(${PROJECT_NAME} PRIVATE "${SOURCE_DIRECTORY}")
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)

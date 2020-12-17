@@ -5,6 +5,7 @@
 int main(int argc, char** argv)
 {
     QApplication application(argc, argv);
+    QIcon::setThemeName("icons");
 
     MainWindow mainWindow;
     mainWindow.show();
