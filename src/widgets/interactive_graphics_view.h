@@ -17,6 +17,7 @@ public slots:
     void fitSceneInView();
 
 signals:
+    void zoomChangedExplicitly();
     void viewChanged();
 
 protected:

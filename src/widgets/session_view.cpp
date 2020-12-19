@@ -12,8 +12,12 @@ SessionView::SessionView(QWidget* parent)
     ui->setupUi(this);
 
     ui->comparisonView->setCaption("Comparison View");
+    connect(ui->comparisonView, &ImageView::zoomChangedExplicitly, [this]() {
+        zoomChangedExplicity = true;
+    });
 
     connect(ui->splitter, &QSplitter::splitterMoved, [this]() {
+        adaptViewToWindow();
         ui->comparisonView->forceViewPropagation();
     });
 }
@@ -75,6 +79,7 @@ void SessionView::fitToView()
 
     if (smallestImageView != nullptr) {
         smallestImageView->fitViewToScene();
+        zoomChangedExplicity = false;
     }
 }
 
@@ -132,4 +137,20 @@ void SessionView::updateComparisonView()
         ui->comparisonView->addPixmap(session->getImages()[0].toGrayscalePixmap());
         ui->comparisonView->addPixmap(QPixmap::fromImage(session->comparisonImage()), 0.7);
     }
+}
+
+void SessionView::adaptViewToWindow()
+{
+    if (zoomChangedExplicity) {
+        // User changed the zoom level. Keep it and do not automatically fit the images.
+        return;
+    }
+
+    fitToView();
+}
+
+void SessionView::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+    adaptViewToWindow();
 }

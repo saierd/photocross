@@ -11,8 +11,9 @@ ImageView::ImageView(QWidget* parent)
     ui->setupUi(this);
 
     ui->fitToView->setDefaultAction(ui->actionFitToView);
-
     connect(ui->actionFitToView, &QAction::triggered, this, &ImageView::fitViewToScene);
+
+    connect(ui->graphicsView, &InteractiveGraphicsView::zoomChangedExplicitly, this, &ImageView::zoomChangedExplicitly);
 
     ui->graphicsView->setScene(&scene);
 }

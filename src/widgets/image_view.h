@@ -26,6 +26,9 @@ public:
     void clear();
     void addPixmap(QPixmap const& image, double opacity = 1.);
 
+signals:
+    void zoomChangedExplicitly();
+
 private:
     std::unique_ptr<Ui::ImageView> ui;
     QGraphicsScene scene;

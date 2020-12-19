@@ -30,8 +30,14 @@ private slots:
     void updateImages();
     void updateComparisonView();
 
+    void adaptViewToWindow();
+
+    void resizeEvent(QResizeEvent* event) override;
+
 private:
     std::unique_ptr<Ui::SessionView> ui;
     Session* session;
     std::vector<ImageView*> imageViews;
+
+    bool zoomChangedExplicity = false;
 };
