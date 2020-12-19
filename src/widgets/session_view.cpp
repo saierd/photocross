@@ -46,7 +46,36 @@ void SessionView::flipLayoutDirection()
 
 void SessionView::fitToView()
 {
-    // TODO: Fit in smallest image view.
+    if (session->getImages().empty()) {
+        return;
+    }
+
+    auto const& pivotImage = session->getImages()[0].image();
+    bool imageIsLandscape = pivotImage.width() >= pivotImage.height();
+
+    ImageView* smallestImageView = nullptr;
+
+    auto viewIsSmallerThanCurrentSmallest = [&](ImageView* view) -> bool {
+        if (imageIsLandscape) {
+            return view->width() < smallestImageView->width();
+        }
+        return view->height() < smallestImageView->height();
+    };
+
+    auto selectViewIfSmaller = [&](ImageView* view) {
+        if (smallestImageView == nullptr || viewIsSmallerThanCurrentSmallest(view)) {
+            smallestImageView = view;
+        }
+    };
+
+    for (auto const& view : imageViews) {
+        selectViewIfSmaller(view);
+    }
+    selectViewIfSmaller(ui->comparisonView);
+
+    if (smallestImageView != nullptr) {
+        smallestImageView->fitViewToScene();
+    }
 }
 
 void SessionView::updateImages()
