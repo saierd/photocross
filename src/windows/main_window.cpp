@@ -13,9 +13,13 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionFitToView, &QAction::triggered, ui->session, &SessionView::fitToView);
     connect(ui->actionFlipLayoutDirection, &QAction::triggered, ui->session, &SessionView::flipLayoutDirection);
 
-    std::vector<Image> images = {Image("test_data/1.png"), Image("test_data/2.png")};
-    session = std::make_unique<Session>(std::move(images));
+    session = std::make_unique<Session>();
     ui->session->setSession(session.get());
 }
 
 MainWindow::~MainWindow() = default;
+
+Session& MainWindow::getSession() &
+{
+    return *session;
+}

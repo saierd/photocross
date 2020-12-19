@@ -3,11 +3,13 @@
 #include <QWidget>
 
 #include <memory>
+#include <vector>
 
 namespace Ui {
 class SessionView;
 }
 
+class ImageView;
 class Session;
 
 class SessionView : public QWidget {
@@ -24,7 +26,12 @@ public slots:
 
     void fitToView();
 
+private slots:
+    void updateImages();
+    void updateComparisonView();
+
 private:
     std::unique_ptr<Ui::SessionView> ui;
     Session* session;
+    std::vector<ImageView*> imageViews;
 };

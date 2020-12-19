@@ -20,17 +20,10 @@
       <enum>Qt::Vertical</enum>
      </property>
      <property name="handleWidth">
-      <number>8</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QHBoxLayout" name="imagesLayout">
-       <item>
-        <widget class="ImageView" name="image2" native="true"/>
-       </item>
-       <item>
-        <widget class="ImageView" name="image1" native="true"/>
-       </item>
-      </layout>
+      <layout class="QHBoxLayout" name="imagesLayout"/>
      </widget>
      <widget class="QWidget" name="horizontalLayoutWidget">
       <layout class="QHBoxLayout" name="comparisonLayout">

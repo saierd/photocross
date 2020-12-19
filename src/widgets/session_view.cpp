@@ -1,6 +1,7 @@
 #include "session_view.h"
 
 #include "session.h"
+#include "widgets/image_view.h"
 
 #include "ui_session_view.h"
 
@@ -15,10 +16,6 @@ SessionView::SessionView(QWidget* parent)
     connect(ui->splitter, &QSplitter::splitterMoved, [this]() {
         ui->comparisonView->forceViewPropagation();
     });
-
-    ui->image1->synchronizeViews(*ui->image2);
-    ui->image1->synchronizeViews(*ui->comparisonView);
-    ui->image2->synchronizeViews(*ui->comparisonView);
 }
 
 SessionView::~SessionView() = default;
@@ -27,35 +24,8 @@ void SessionView::setSession(Session* _session)
 {
     session = _session;
 
-    auto updateImage1 = [this]() {
-        ui->image1->setCaption(session->image1().file());
-
-        ui->image1->clear();
-        ui->image1->addPixmap(session->image1().toPixmap());
-    };
-
-    auto updateImage2 = [this]() {
-        ui->image2->setCaption(session->image2().file());
-
-        ui->image2->clear();
-        ui->image2->addPixmap(session->image2().toPixmap());
-    };
-
-    auto updateComparisonView = [this]() {
-        ui->comparisonView->clear();
-        ui->comparisonView->addPixmap(session->image1().toGrayscalePixmap());
-        ui->comparisonView->addPixmap(QPixmap::fromImage(session->comparisonImage()), 0.7);
-    };
-
-    connect(session, &Session::image1Changed, updateImage1);
-    connect(session, &Session::image2Changed, updateImage2);
-
-    connect(session, &Session::image1Changed, updateComparisonView);
-    connect(session, &Session::image2Changed, updateComparisonView);
-
-    updateImage1();
-    updateImage2();
-    updateComparisonView();
+    connect(session, &Session::imagesChanged, this, &SessionView::updateImages);
+    updateImages();
 }
 
 void SessionView::flipLayoutDirection()
@@ -77,5 +47,60 @@ void SessionView::flipLayoutDirection()
 void SessionView::fitToView()
 {
     // TODO: Fit in smallest image view.
-    ui->image1->fitViewToScene();
+}
+
+void SessionView::updateImages()
+{
+    size_t numImages = session->getImages().size();
+    size_t previousNumImages = imageViews.size();
+
+    // Adapt the number of image widgets to the number of images.
+    if (!imageViews.empty()) {
+        for (size_t i = imageViews.size() - 1; i >= numImages; i--) {
+            delete ui->imagesLayout->takeAt(i);
+            imageViews.pop_back();
+        }
+    }
+    while (imageViews.size() < numImages) {
+        auto newImageView = std::make_unique<ImageView>();
+
+        for (auto const& existingImageView : imageViews) {
+            existingImageView->synchronizeViews(*newImageView);
+        }
+        ui->comparisonView->synchronizeViews(*newImageView);
+
+        imageViews.push_back(newImageView.get());
+        ui->imagesLayout->addWidget(newImageView.release());
+    }
+
+    for (size_t i = 0; i < numImages; i++) {
+        auto const& image = session->getImages()[i];
+        auto* imageView = imageViews[i];
+
+        imageView->setCaption(image.file());
+        imageView->clear();
+        imageView->addPixmap(image.toPixmap());
+    }
+
+    updateComparisonView();
+
+    if (previousNumImages == 0) {
+        // Initial load of images. Set up the layout of the view properly.
+
+        // Split space evenly between images and comparison view. This line will assign each widget a size of 1px and
+        // the rest of the available space will be distributed equally between them. Note that a size of 0 has a special
+        // meaning for this function and hides the widgets completely.
+        ui->splitter->setSizes({1, 1});
+
+        fitToView();
+    }
+}
+
+void SessionView::updateComparisonView()
+{
+    ui->comparisonView->clear();
+    if (!session->getImages().empty()) {
+        ui->comparisonView->addPixmap(session->getImages()[0].toGrayscalePixmap());
+        ui->comparisonView->addPixmap(QPixmap::fromImage(session->comparisonImage()), 0.7);
+    }
 }

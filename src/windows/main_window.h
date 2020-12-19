@@ -17,6 +17,8 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
+    Session& getSession() &;
+
 private:
     std::unique_ptr<Ui::MainWindow> ui;
     std::unique_ptr<Session> session;

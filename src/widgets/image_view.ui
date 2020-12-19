@@ -37,12 +37,20 @@
     </layout>
    </item>
    <item>
-    <widget class="SynchronizableGraphicsView" name="graphicsView"/>
+    <widget class="SynchronizableGraphicsView" name="graphicsView">
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOn</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOn</enum>
+     </property>
+    </widget>
    </item>
   </layout>
   <action name="actionFitToView">
    <property name="icon">
-    <iconset theme="fit-to-page"/>
+    <iconset theme="fit-to-page">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Fit to View</string>

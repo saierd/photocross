@@ -7,17 +7,26 @@ Session::Session(std::vector<Image> _images)
 {
 }
 
-Image const& Session::image1() const&
+void Session::loadImages(QStringList const& filenames)
 {
-    return images[0];
+    for (auto const& filename : filenames) {
+        images.emplace_back(filename);
+    }
+
+    emit(imagesChanged());
 }
 
-Image const& Session::image2() const&
+std::vector<Image> const& Session::getImages() const&
 {
-    return images[1];
+    return images;
 }
 
 QImage Session::comparisonImage() const
 {
+    if (images.size() < 2) {
+        return QImage();
+    }
+
+    // TODO: Handle more than 2 images.
     return imageDiff(images[0].image(), images[1].image());
 }
