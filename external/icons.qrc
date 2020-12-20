@@ -3,5 +3,7 @@
         <file alias="actions/fit-to-page.svg">mdi/svg/fit-to-page-outline.svg</file>
         <file alias="actions/flip-layout-direction.svg">mdi/svg/rotate-right-variant.svg</file>
         <file>index.theme</file>
+        <file alias="actions/zoom-out.svg">mdi/svg/magnify-minus-outline.svg</file>
+        <file alias="actions/zoom-in.svg">mdi/svg/magnify-plus-outline.svg</file>
     </qresource>
 </RCC>

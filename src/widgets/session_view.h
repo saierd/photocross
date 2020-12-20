@@ -30,6 +30,8 @@ signals:
 public slots:
     void flipLayoutDirection();
 
+    void zoomIn();
+    void zoomOut();
     void fitToView();
 
 private slots:

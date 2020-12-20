@@ -53,3 +53,13 @@ void ImageView::addPixmap(QPixmap const& image, double opacity)
     auto* item = scene.addPixmap(image);
     item->setOpacity(opacity);
 }
+
+void ImageView::zoomIn()
+{
+    ui->graphicsView->zoomIn();
+}
+
+void ImageView::zoomOut()
+{
+    ui->graphicsView->zoomOut();
+}

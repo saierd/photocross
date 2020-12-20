@@ -29,6 +29,10 @@ public:
 signals:
     void zoomChangedExplicitly();
 
+public slots:
+    void zoomIn();
+    void zoomOut();
+
 private:
     std::unique_ptr<Ui::ImageView> ui;
     QGraphicsScene scene;

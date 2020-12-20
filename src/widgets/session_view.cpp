@@ -63,6 +63,16 @@ void SessionView::flipLayoutDirection()
     ui->comparisonView->forceViewPropagation();
 }
 
+void SessionView::zoomIn()
+{
+    ui->comparisonView->zoomIn();
+}
+
+void SessionView::zoomOut()
+{
+    ui->comparisonView->zoomOut();
+}
+
 void SessionView::fitToView()
 {
     if (session->getImages().empty()) {
