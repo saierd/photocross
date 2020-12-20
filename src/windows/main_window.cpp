@@ -10,7 +10,10 @@ MainWindow::MainWindow(QWidget* parent)
     ui = std::make_unique<Ui::MainWindow>();
     ui->setupUi(this);
 
-    connect(ui->actionFitToView, &QAction::triggered, ui->session, &SessionView::fitToView);
+    connect(ui->actionAutoFitToView, &QAction::triggered, ui->session, &SessionView::fitToView);
+    connect(ui->session, &SessionView::autoFitInViewChanged, ui->actionAutoFitToView, &QAction::setChecked);
+    connect(ui->session, &SessionView::autoFitInViewChanged, ui->actionAutoFitToView, &QAction::setDisabled);
+
     connect(ui->actionFlipLayoutDirection, &QAction::triggered, ui->session, &SessionView::flipLayoutDirection);
 
     session = std::make_unique<Session>();

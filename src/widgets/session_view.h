@@ -21,6 +21,12 @@ public:
 
     void setSession(Session* session);
 
+    bool getAutoFitInView() const;
+    void setAutoFitInView(bool enable);
+
+signals:
+    void autoFitInViewChanged(bool autoFitInView);
+
 public slots:
     void flipLayoutDirection();
 
@@ -39,5 +45,5 @@ private:
     Session* session;
     std::vector<ImageView*> imageViews;
 
-    bool zoomChangedExplicity = false;
+    bool autoFitInView = true;
 };

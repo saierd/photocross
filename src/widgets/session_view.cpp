@@ -13,7 +13,7 @@ SessionView::SessionView(QWidget* parent)
 
     ui->comparisonView->setCaption("Comparison View");
     connect(ui->comparisonView, &ImageView::zoomChangedExplicitly, [this]() {
-        zoomChangedExplicity = true;
+        setAutoFitInView(false);
     });
 
     connect(ui->splitter, &QSplitter::splitterMoved, [this]() {
@@ -32,6 +32,17 @@ void SessionView::setSession(Session* _session)
     updateImages();
 }
 
+bool SessionView::getAutoFitInView() const
+{
+    return autoFitInView;
+}
+
+void SessionView::setAutoFitInView(bool enable)
+{
+    autoFitInView = enable;
+    emit(autoFitInViewChanged(autoFitInView));
+}
+
 void SessionView::flipLayoutDirection()
 {
     if (ui->splitter->orientation() == Qt::Horizontal) {
@@ -42,9 +53,13 @@ void SessionView::flipLayoutDirection()
         ui->imagesLayout->setDirection(QBoxLayout::TopToBottom);
     }
 
+    // Make Qt compute the new sizes of the image views.
+    QApplication::processEvents();
+
+    adaptViewToWindow();
+
     // Flipping the layout might change the center point visible in the image if the image does not fit the graphics
     // view. Force synchronization of the views so that they are all centered on the same point again.
-    QApplication::processEvents();
     ui->comparisonView->forceViewPropagation();
 }
 
@@ -79,7 +94,7 @@ void SessionView::fitToView()
 
     if (smallestImageView != nullptr) {
         smallestImageView->fitViewToScene();
-        zoomChangedExplicity = false;
+        setAutoFitInView(true);
     }
 }
 
@@ -102,6 +117,10 @@ void SessionView::updateImages()
             existingImageView->synchronizeViews(*newImageView);
         }
         ui->comparisonView->synchronizeViews(*newImageView);
+
+        connect(newImageView.get(), &ImageView::zoomChangedExplicitly, [this]() {
+            setAutoFitInView(false);
+        });
 
         imageViews.push_back(newImageView.get());
         ui->imagesLayout->addWidget(newImageView.release());
@@ -141,12 +160,9 @@ void SessionView::updateComparisonView()
 
 void SessionView::adaptViewToWindow()
 {
-    if (zoomChangedExplicity) {
-        // User changed the zoom level. Keep it and do not automatically fit the images.
-        return;
+    if (autoFitInView) {
+        fitToView();
     }
-
-    fitToView();
 }
 
 void SessionView::resizeEvent(QResizeEvent* event)
