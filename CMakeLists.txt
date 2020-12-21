@@ -10,6 +10,7 @@ include(cmake/compiler_flags.cmake)
 set(SOURCE_DIRECTORY "src")
 set(SOURCE_FILES
     external/icons.qrc
+    src/image.cpp
     src/image.h
     src/image_diff.cpp
     src/image_diff.h

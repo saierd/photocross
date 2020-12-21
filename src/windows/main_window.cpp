@@ -10,6 +10,17 @@ MainWindow::MainWindow(QWidget* parent)
     ui = std::make_unique<Ui::MainWindow>();
     ui->setupUi(this);
 
+    session = std::make_unique<Session>();
+    ui->session->setSession(session.get());
+
+    connect(ui->actionReload, &QAction::triggered, [this]() {
+        session->reload();
+    });
+
+    connect(ui->actionReloadWhenImageFileChanges, &QAction::toggled, session.get(), &Session::setWatchFiles);
+    ui->actionReloadWhenImageFileChanges->setChecked(session->getWatchFiles());
+    connect(session.get(), &Session::watchFilesChanged, ui->actionReloadWhenImageFileChanges, &QAction::setChecked);
+
     connect(ui->actionZoomIn, &QAction::triggered, ui->session, &SessionView::zoomIn);
     connect(ui->actionZoomOut, &QAction::triggered, ui->session, &SessionView::zoomOut);
 
@@ -18,9 +29,6 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->session, &SessionView::autoFitInViewChanged, ui->actionAutoFitToView, &QAction::setDisabled);
 
     connect(ui->actionFlipLayoutDirection, &QAction::triggered, ui->session, &SessionView::flipLayoutDirection);
-
-    session = std::make_unique<Session>();
-    ui->session->setSession(session.get());
 }
 
 MainWindow::~MainWindow() = default;

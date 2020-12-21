@@ -39,6 +39,14 @@
     <addaction name="separator"/>
     <addaction name="actionFlipLayoutDirection"/>
    </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionReload"/>
+    <addaction name="actionReloadWhenImageFileChanges"/>
+   </widget>
+   <addaction name="menuFile"/>
    <addaction name="menuView"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -51,6 +59,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionReloadWhenImageFileChanges"/>
+   <addaction name="separator"/>
    <addaction name="actionAutoFitToView"/>
    <addaction name="actionZoomIn"/>
    <addaction name="actionZoomOut"/>
@@ -89,7 +99,8 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset theme="zoom-in"/>
+    <iconset theme="zoom-in">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zoom In</string>
@@ -103,7 +114,8 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset theme="zoom-out"/>
+    <iconset theme="zoom-out">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zoom Out</string>
@@ -113,6 +125,39 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionReloadWhenImageFileChanges">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="auto-reload">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Reload When Image File Changes</string>
+   </property>
+   <property name="toolTip">
+    <string>Reload When Image File Changes</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F5</string>
+   </property>
+  </action>
+  <action name="actionReload">
+   <property name="icon">
+    <iconset theme="reload">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Reload</string>
+   </property>
+   <property name="toolTip">
+    <string>Reload</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>

@@ -5,5 +5,7 @@
         <file>index.theme</file>
         <file alias="actions/zoom-out.svg">mdi/svg/magnify-minus-outline.svg</file>
         <file alias="actions/zoom-in.svg">mdi/svg/magnify-plus-outline.svg</file>
+        <file alias="actions/reload.svg">mdi/svg/file-refresh-outline.svg</file>
+        <file alias="actions/auto-reload.svg">mdi/svg/autorenew.svg</file>
     </qresource>
 </RCC>

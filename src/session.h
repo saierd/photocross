@@ -2,22 +2,30 @@
 
 #include "image.h"
 
+#include <memory>
 #include <vector>
 
 class Session : public QObject {
     Q_OBJECT
 
 public:
-    explicit Session(std::vector<Image> _images = {});
-
     void loadImages(QStringList const& filenames);
 
-    std::vector<Image> const& getImages() const&;
+    bool getWatchFiles() const;
+    void setWatchFiles(bool enable);
+
+    std::vector<std::unique_ptr<Image>> const& getImages() const&;
     QImage comparisonImage() const;
 
 signals:
+    void watchFilesChanged(bool enabled) const;
     void imagesChanged() const;
 
+public slots:
+    void reload();
+
 private:
-    std::vector<Image> images;
+    std::vector<std::unique_ptr<Image>> images;
+
+    bool watchFiles = true;
 };

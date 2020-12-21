@@ -79,7 +79,7 @@ void SessionView::fitToView()
         return;
     }
 
-    auto const& pivotImage = session->getImages()[0].image();
+    auto const& pivotImage = session->getImages()[0]->image();
     bool imageIsLandscape = pivotImage.width() >= pivotImage.height();
 
     ImageView* smallestImageView = nullptr;
@@ -137,7 +137,7 @@ void SessionView::updateImages()
     }
 
     for (size_t i = 0; i < numImages; i++) {
-        auto const& image = session->getImages()[i];
+        auto const& image = *(session->getImages()[i]);
         auto* imageView = imageViews[i];
 
         imageView->setCaption(image.file());
@@ -163,7 +163,7 @@ void SessionView::updateComparisonView()
 {
     ui->comparisonView->clear();
     if (!session->getImages().empty()) {
-        ui->comparisonView->addPixmap(session->getImages()[0].toGrayscalePixmap());
+        ui->comparisonView->addPixmap(session->getImages()[0]->toGrayscalePixmap());
         ui->comparisonView->addPixmap(QPixmap::fromImage(session->comparisonImage()), 0.7);
     }
 }

@@ -1,37 +1,37 @@
 #pragma once
 
+#include <QFileSystemWatcher>
 #include <QImage>
 #include <QPixmap>
 
-class Image {
+class Image : public QObject {
+    Q_OBJECT
+
 public:
-    explicit Image(QString _filename)
-      : filename(std::move(_filename))
-      , imageData(filename)
-    {
-    }
+    explicit Image(QString _filename);
+    ~Image() override;
 
-    QString const& file() const&
-    {
-        return filename;
-    }
+    QString const& file() const&;
+    QImage const& image() const&;
 
-    QImage const& image() const&
-    {
-        return imageData;
-    }
+    QPixmap toPixmap() const;
+    QPixmap toGrayscalePixmap() const;
 
-    QPixmap toPixmap() const
-    {
-        return QPixmap::fromImage(imageData);
-    }
+    void setReloadWhenFileChanges(bool enable);
 
-    QPixmap toGrayscalePixmap() const
-    {
-        return QPixmap::fromImage(imageData.convertToFormat(QImage::Format_Grayscale8));
-    }
+signals:
+    void imageChanged() const;
+
+public slots:
+    void reload();
+
+private slots:
+    void imageFileChanged();
 
 private:
     QString filename;
     QImage imageData;
+
+    bool reloadWhenFileChanges = false;
+    QFileSystemWatcher fileWatcher;
 };
