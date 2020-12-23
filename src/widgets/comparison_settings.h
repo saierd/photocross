@@ -18,8 +18,11 @@ public:
     ~ComparisonSettings() override;
 
     ComparisonMode getComparisonMode() const;
+
     int getDifferenceTolerance() const;
     bool showMinorDifferences() const;
+
+    double getBlendPosition() const;
 
 signals:
     void settingsChanged() const;

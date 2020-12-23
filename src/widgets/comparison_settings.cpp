@@ -24,6 +24,8 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
         emit(settingsChanged());
     });
     connect(ui->showMinorDifferences, &QCheckBox::toggled, this, &ComparisonSettings::settingsChanged);
+
+    connect(ui->blendPosition, &QSlider::valueChanged, this, &ComparisonSettings::settingsChanged);
 }
 
 ComparisonSettings::~ComparisonSettings() = default;
@@ -47,4 +49,10 @@ int ComparisonSettings::getDifferenceTolerance() const
 bool ComparisonSettings::showMinorDifferences() const
 {
     return ui->showMinorDifferences->isChecked();
+}
+
+double ComparisonSettings::getBlendPosition() const
+{
+    return static_cast<double>(ui->blendPosition->value() - ui->blendPosition->minimum()) /
+           ui->blendPosition->maximum();
 }

@@ -174,7 +174,8 @@ void SessionView::updateComparisonView()
         return;
     }
 
-    if (settings.getComparisonMode() == ComparisonMode::HighlightDifferences) {
+    ComparisonMode comparisonMode = settings.getComparisonMode();
+    if (comparisonMode == ComparisonMode::HighlightDifferences) {
         QImage differenceImage;
         if (images.size() >= 2) {
             // TODO: Handle more than 2 images.
@@ -186,6 +187,14 @@ void SessionView::updateComparisonView()
 
         ui->comparisonView->addPixmap(images[0]->toGrayscalePixmap());
         ui->comparisonView->addPixmap(QPixmap::fromImage(differenceImage), 0.7);
+    } else if (comparisonMode == ComparisonMode::BlendImages) {
+        double blendPosition = settings.getBlendPosition();
+
+        // TODO: Handle more than 2 images.
+        ui->comparisonView->addPixmap(images[0]->toPixmap());
+        if (images.size() > 1) {
+            ui->comparisonView->addPixmap(images[1]->toPixmap(), blendPosition);
+        }
     }
 }
 
