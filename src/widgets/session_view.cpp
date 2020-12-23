@@ -1,5 +1,6 @@
 #include "session_view.h"
 
+#include "image_difference.h"
 #include "session.h"
 #include "widgets/image_view.h"
 
@@ -20,6 +21,8 @@ SessionView::SessionView(QWidget* parent)
         adaptViewToWindow();
         ui->comparisonView->forceViewPropagation();
     });
+
+    connect(ui->comparisonSettings, &ComparisonSettings::settingsChanged, this, &SessionView::updateComparisonView);
 }
 
 SessionView::~SessionView() = default;
@@ -48,9 +51,11 @@ void SessionView::flipLayoutDirection()
     if (ui->splitter->orientation() == Qt::Horizontal) {
         ui->splitter->setOrientation(Qt::Vertical);
         ui->imagesLayout->setDirection(QBoxLayout::LeftToRight);
+        ui->comparisonLayout->setDirection(QBoxLayout::LeftToRight);
     } else {
         ui->splitter->setOrientation(Qt::Horizontal);
         ui->imagesLayout->setDirection(QBoxLayout::TopToBottom);
+        ui->comparisonLayout->setDirection(QBoxLayout::TopToBottom);
     }
 
     // Make Qt compute the new sizes of the image views.
@@ -161,10 +166,26 @@ void SessionView::updateImages()
 
 void SessionView::updateComparisonView()
 {
+    auto const& images = session->getImages();
+    auto const& settings = *ui->comparisonSettings;
+
     ui->comparisonView->clear();
-    if (!session->getImages().empty()) {
-        ui->comparisonView->addPixmap(session->getImages()[0]->toGrayscalePixmap());
-        ui->comparisonView->addPixmap(QPixmap::fromImage(session->comparisonImage()), 0.7);
+    if (images.empty()) {
+        return;
+    }
+
+    if (settings.getComparisonMode() == ComparisonMode::HighlightDifferences) {
+        QImage differenceImage;
+        if (images.size() >= 2) {
+            // TODO: Handle more than 2 images.
+            differenceImage = computeDifferenceImage(images[0]->image(),
+                                                     images[1]->image(),
+                                                     settings.getDifferenceTolerance(),
+                                                     settings.showMinorDifferences());
+        }
+
+        ui->comparisonView->addPixmap(images[0]->toGrayscalePixmap());
+        ui->comparisonView->addPixmap(QPixmap::fromImage(differenceImage), 0.7);
     }
 }
 

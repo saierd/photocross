@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>191</height>
+    <width>537</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,9 +26,12 @@
       <layout class="QHBoxLayout" name="imagesLayout"/>
      </widget>
      <widget class="QWidget" name="horizontalLayoutWidget">
-      <layout class="QHBoxLayout" name="comparisonLayout">
+      <layout class="QHBoxLayout" name="comparisonLayout" stretch="1,0">
        <item>
         <widget class="ImageView" name="comparisonView" native="true"/>
+       </item>
+       <item>
+        <widget class="ComparisonSettings" name="comparisonSettings" native="true"/>
        </item>
       </layout>
      </widget>
@@ -41,6 +44,12 @@
    <class>ImageView</class>
    <extends>QWidget</extends>
    <header>widgets/image_view.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ComparisonSettings</class>
+   <extends>QWidget</extends>
+   <header>widgets/comparison_settings.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

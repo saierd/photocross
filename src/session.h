@@ -15,7 +15,6 @@ public:
     void setWatchFiles(bool enable);
 
     std::vector<std::unique_ptr<Image>> const& getImages() const&;
-    QImage comparisonImage() const;
 
 signals:
     void watchFilesChanged(bool enabled) const;

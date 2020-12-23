@@ -7,5 +7,7 @@
         <file alias="actions/zoom-in.svg">mdi/svg/magnify-plus-outline.svg</file>
         <file alias="actions/reload.svg">mdi/svg/file-refresh-outline.svg</file>
         <file alias="actions/auto-reload.svg">mdi/svg/autorenew.svg</file>
+        <file alias="actions/comparison-mode-differences.svg">mdi/svg/image-filter-black-white.svg</file>
+        <file alias="actions/comparison-mode-blend.svg">mdi/svg/vector-intersection.svg</file>
     </qresource>
 </RCC>

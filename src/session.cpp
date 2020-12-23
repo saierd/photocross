@@ -1,7 +1,5 @@
 #include "session.h"
 
-#include "image_diff.h"
-
 void Session::loadImages(QStringList const& filenames)
 {
     for (auto const& filename : filenames) {
@@ -32,16 +30,6 @@ void Session::setWatchFiles(bool enable)
 std::vector<std::unique_ptr<Image>> const& Session::getImages() const&
 {
     return images;
-}
-
-QImage Session::comparisonImage() const
-{
-    if (images.size() < 2) {
-        return QImage();
-    }
-
-    // TODO: Handle more than 2 images.
-    return imageDiff(images[0]->image(), images[1]->image());
 }
 
 void Session::reload()

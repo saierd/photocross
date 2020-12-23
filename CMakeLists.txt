@@ -12,11 +12,14 @@ set(SOURCE_FILES
     external/icons.qrc
     src/image.cpp
     src/image.h
-    src/image_diff.cpp
-    src/image_diff.h
+    src/image_difference.cpp
+    src/image_difference.h
     src/main.cpp
     src/session.cpp
     src/session.h
+    src/widgets/comparison_settings.cpp
+    src/widgets/comparison_settings.h
+    src/widgets/comparison_settings.ui
     src/widgets/image_view.cpp
     src/widgets/image_view.h
     src/widgets/image_view.ui
