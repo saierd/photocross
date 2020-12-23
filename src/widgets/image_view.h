@@ -23,6 +23,8 @@ public:
 
     void setCaption(QString const& caption);
 
+    QGraphicsScene& getScene() &;
+
     void clear();
     void addPixmap(QPixmap const& image, double opacity = 1.);
 

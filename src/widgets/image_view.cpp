@@ -43,6 +43,11 @@ void ImageView::setCaption(QString const& caption)
     ui->caption->setText(caption);
 }
 
+QGraphicsScene& ImageView::getScene() &
+{
+    return scene;
+}
+
 void ImageView::clear()
 {
     scene.clear();

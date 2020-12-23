@@ -4,6 +4,9 @@
 #include "session.h"
 #include "widgets/image_view.h"
 
+#include <QGraphicsColorizeEffect>
+#include <QGraphicsPixmapItem>
+
 #include "ui_session_view.h"
 
 SessionView::SessionView(QWidget* parent)
@@ -168,8 +171,9 @@ void SessionView::updateComparisonView()
 {
     auto const& images = session->getImages();
     auto const& settings = *ui->comparisonSettings;
+    auto& comparisonScene = ui->comparisonView->getScene();
 
-    ui->comparisonView->clear();
+    comparisonScene.clear();
     if (images.empty()) {
         return;
     }
@@ -187,14 +191,25 @@ void SessionView::updateComparisonView()
 
         ui->comparisonView->addPixmap(images[0]->toGrayscalePixmap());
         ui->comparisonView->addPixmap(QPixmap::fromImage(differenceImage), 0.7);
-    } else if (comparisonMode == ComparisonMode::BlendImages) {
+    } else if (comparisonMode == ComparisonMode::BlendImages && images.size() >= 2) {
         double blendPosition = settings.getBlendPosition();
 
-        // TODO: Handle more than 2 images.
-        ui->comparisonView->addPixmap(images[0]->toPixmap());
-        if (images.size() > 1) {
-            ui->comparisonView->addPixmap(images[1]->toPixmap(), blendPosition);
-        }
+        auto* firstImage = comparisonScene.addPixmap(images[0]->toPixmap());
+        auto* secondImage = comparisonScene.addPixmap(images[1]->toPixmap());
+        secondImage->setOpacity(blendPosition);
+
+        auto addColorFilter = [](QGraphicsPixmapItem* item, QColor const& color) {
+            if (!color.isValid()) {
+                return;
+            }
+
+            auto effect = std::make_unique<QGraphicsColorizeEffect>();
+            effect->setColor(color);
+            item->setGraphicsEffect(effect.release());
+        };
+
+        addColorFilter(firstImage, settings.blendImage1Color());
+        addColorFilter(secondImage, settings.blendImage2Color());
     }
 }
 

@@ -9,5 +9,6 @@
         <file alias="actions/auto-reload.svg">mdi/svg/autorenew.svg</file>
         <file alias="actions/comparison-mode-differences.svg">mdi/svg/image-filter-black-white.svg</file>
         <file alias="actions/comparison-mode-blend.svg">mdi/svg/vector-intersection.svg</file>
+        <file alias="actions/undo.svg">mdi/svg/undo.svg</file>
     </qresource>
 </RCC>

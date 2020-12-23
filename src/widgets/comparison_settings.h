@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QColor>
 #include <QWidget>
 
 #include <memory>
@@ -23,10 +24,16 @@ public:
     bool showMinorDifferences() const;
 
     double getBlendPosition() const;
+    QColor blendImage1Color() const;
+    QColor blendImage2Color() const;
 
 signals:
     void settingsChanged() const;
 
+private slots:
+    void updateBlendLabelColors();
+
 private:
     std::unique_ptr<Ui::ComparisonSettings> ui;
+    QPalette originalBlendLabelPalette;
 };
