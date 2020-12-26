@@ -43,15 +43,11 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
     connect(ui->comparisonMode, &QTabWidget::currentChanged, this, &ComparisonSettings::settingsChanged);
     connect(ui->comparisonMode, &QTabWidget::currentChanged, this, &ComparisonSettings::updateBlendTimerSettings);
 
-    connect(ui->differenceToleranceEnabled, &QCheckBox::toggled, [this]() {
+    connect(ui->differenceToleranceEnabled, &QGroupBox::toggled, [this]() {
         ui->differenceToleranceLabel->setNum(getDifferenceTolerance());
         emit(settingsChanged());
     });
-    connect(ui->differenceTolerance, &QSlider::valueChanged, [this](int value) {
-        if (value > 0) {
-            ui->differenceToleranceEnabled->setChecked(true);
-        }
-
+    connect(ui->differenceTolerance, &QSlider::valueChanged, [this]() {
         ui->differenceToleranceLabel->setNum(getDifferenceTolerance());
         emit(settingsChanged());
     });
