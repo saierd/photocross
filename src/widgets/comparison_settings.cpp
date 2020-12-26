@@ -1,9 +1,36 @@
 #include "comparison_settings.h"
 
+#include <chrono>
+#include <cmath>
+
 #include "ui_comparison_settings.h"
+
+using namespace std::chrono_literals;
 
 QColor const blendImage1Color(255, 0, 0);
 QColor const blendImage2Color(0, 0, 255);
+
+auto const minimumBlendInterval = 200ms;
+auto const maximumBlendInterval = 1500ms;
+auto const continuousBlendTimerInterval = 50ms;
+
+double relativeSliderPosition(QSlider const& slider)
+{
+    int min = slider.minimum();
+    int max = slider.maximum();
+    int value = slider.value();
+
+    return static_cast<double>(value - min) / (max - min);
+}
+
+void setRelativeSliderPosition(QSlider& slider, double position)
+{
+    int min = slider.minimum();
+    int max = slider.maximum();
+    int value = static_cast<int>(std::round(position * (max - min) + min));
+
+    slider.setValue(value);
+}
 
 ComparisonSettings::ComparisonSettings(QWidget* parent)
   : QWidget(parent)
@@ -14,6 +41,7 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
 
     ui->comparisonMode->setCurrentIndex(0);
     connect(ui->comparisonMode, &QTabWidget::currentChanged, this, &ComparisonSettings::settingsChanged);
+    connect(ui->comparisonMode, &QTabWidget::currentChanged, this, &ComparisonSettings::updateBlendTimerSettings);
 
     connect(ui->differenceToleranceEnabled, &QCheckBox::toggled, [this]() {
         ui->differenceToleranceLabel->setNum(getDifferenceTolerance());
@@ -29,15 +57,21 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
     });
     connect(ui->showMinorDifferences, &QCheckBox::toggled, this, &ComparisonSettings::settingsChanged);
 
-    connect(ui->resetBlendPosition, &QPushButton::clicked, [this]() {
-        ui->blendPosition->setValue(ui->blendPosition->maximum() / 2);
-    });
+    connect(ui->resetBlendPosition, &QPushButton::clicked, this, &ComparisonSettings::resetBlendPosition);
     connect(ui->blendPosition, &QSlider::valueChanged, this, &ComparisonSettings::settingsChanged);
     connect(ui->blendTrueColors, &QCheckBox::toggled, [this]() {
         updateBlendLabelColors();
         emit(settingsChanged());
     });
     updateBlendLabelColors();
+
+    connect(ui->resetBlendSpeed, &QPushButton::clicked, this, &ComparisonSettings::resetBlendSpeed);
+    connect(ui->blendSwitchAutomatically, &QGroupBox::toggled, this, &ComparisonSettings::updateBlendTimerSettings);
+    connect(ui->blendSwitchSpeed, &QSlider::valueChanged, this, &ComparisonSettings::updateBlendTimerSettings);
+    connect(ui->blendSwitchContinuous, &QCheckBox::toggled, this, &ComparisonSettings::updateBlendTimerSettings);
+    updateBlendTimerSettings();
+
+    connect(&blendTimer, &QTimer::timeout, this, &ComparisonSettings::onBlendTimerTimeout);
 }
 
 ComparisonSettings::~ComparisonSettings() = default;
@@ -65,8 +99,12 @@ bool ComparisonSettings::showMinorDifferences() const
 
 double ComparisonSettings::getBlendPosition() const
 {
-    return static_cast<double>(ui->blendPosition->value() - ui->blendPosition->minimum()) /
-           ui->blendPosition->maximum();
+    return relativeSliderPosition(*ui->blendPosition);
+}
+
+void ComparisonSettings::setBlendPosition(double position)
+{
+    setRelativeSliderPosition(*ui->blendPosition, position);
 }
 
 QColor ComparisonSettings::blendImage1Color() const
@@ -85,6 +123,11 @@ QColor ComparisonSettings::blendImage2Color() const
     return ::blendImage2Color;
 }
 
+void ComparisonSettings::resetBlendPosition()
+{
+    setBlendPosition(0.5);
+}
+
 void ComparisonSettings::updateBlendLabelColors()
 {
     QPalette leftPalette = originalBlendLabelPalette;
@@ -97,4 +140,86 @@ void ComparisonSettings::updateBlendLabelColors()
 
     ui->blendLeftLabel->setPalette(leftPalette);
     ui->blendRightLabel->setPalette(rightPalette);
+}
+
+void ComparisonSettings::resetBlendSpeed()
+{
+    setRelativeSliderPosition(*ui->blendSwitchSpeed, 0.5);
+}
+
+void ComparisonSettings::updateBlendTimerSettings()
+{
+    if (getComparisonMode() != ComparisonMode::BlendImages) {
+        blendTimer.stop();
+        return;
+    }
+
+    bool enableTimer = ui->blendSwitchAutomatically->isChecked();
+    ui->blendPosition->setDisabled(enableTimer);
+    ui->resetBlendPosition->setDisabled(enableTimer);
+
+    if (!enableTimer) {
+        if (blendTimer.isActive()) {
+            blendTimer.stop();
+            setBlendPosition(blendPositionBeforeAutomaticMode);
+        }
+        return;
+    }
+
+    bool continuousBlending = ui->blendSwitchContinuous->isChecked();
+
+    if (continuousBlending) {
+        blendTimer.setInterval(continuousBlendTimerInterval);
+    } else {
+        blendTimer.setInterval(currentBlendIntervalBetweenImages());
+    }
+
+    if (!blendTimer.isActive()) {
+        // Remember the current blending position. It will be restored when automatic mode gets deactivated.
+        blendPositionBeforeAutomaticMode = getBlendPosition();
+
+        // Always start at the same position in the cycle when activating automatic mode.
+        if (continuousBlending) {
+            setBlendPosition(0.5);
+        } else {
+            setBlendPosition(0);
+        }
+        currentBlendDirection = 1;
+
+        blendTimer.start();
+    }
+
+    if (!continuousBlending) {
+        // When switching from continuous to non-continuous blending, round the position to the nearest image
+        // immediately.
+        setBlendPosition(std::round(getBlendPosition() - currentBlendDirection));
+    }
+}
+
+void ComparisonSettings::onBlendTimerTimeout()
+{
+    double blendPositionIncrement = 1;
+    if (ui->blendSwitchContinuous->isChecked()) {
+        auto interval = currentBlendIntervalBetweenImages();
+        blendPositionIncrement = (1. * continuousBlendTimerInterval) / interval;
+    }
+
+    double const currentBlendPosition = getBlendPosition();
+    double newBlendPosition = currentBlendPosition + currentBlendDirection * blendPositionIncrement;
+    if (newBlendPosition <= 0.) {
+        newBlendPosition = 0.;
+        currentBlendDirection = 1;
+    } else if (newBlendPosition >= 1.) {
+        newBlendPosition = 1.;
+        currentBlendDirection = -1;
+    }
+
+    setBlendPosition(newBlendPosition);
+}
+
+std::chrono::milliseconds ComparisonSettings::currentBlendIntervalBetweenImages() const
+{
+    double relativeInterval = 1 - relativeSliderPosition(*ui->blendSwitchSpeed);
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        minimumBlendInterval + relativeInterval * (maximumBlendInterval - minimumBlendInterval));
 }
