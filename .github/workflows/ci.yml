@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 env:
   BUILD_TYPE: Release
+  QT_VERSION: "5.15.2"
 
 jobs:
   build:
@@ -20,13 +21,14 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ../Qt
-          key: ${{ runner.os }}-QtCache
+          key: ${{ runner.os }}-qt-${{ env.QT_VERSION }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          version: ${{ env.QT_VERSION }}
           setup-python: false
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Install clang-tidy
         run: sudo apt-get install clang-tidy
@@ -63,3 +65,51 @@ jobs:
         with:
           source: src
           clangFormatVersion: 11
+
+  clazy:
+    name: Check Clazy Warnings
+    runs-on: ubuntu-20.04
+
+    steps:
+      # Configure problem matchers for C++ build errors and warnings.
+      - name: Setup Problem Matchers
+        uses: Trass3r/setup-cpp@master
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-qt-${{ env.QT_VERSION }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ env.QT_VERSION }}
+          setup-python: false
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Install clazy
+        run: sudo apt-get install clazy
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: Configure CMake
+        working-directory: ${{runner.workspace}}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Generate Qt Sources
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --parallel 2 --target imgdiff_autogen
+
+      - name: Run clazy
+        working-directory: ${{runner.workspace}}/build
+        run: find . -name "*.cpp" | xargs clazy-standalone -p build/compile_commands.json
+        env:
+          CLAZY_CHECKS: level0,level1,old-style-connect,no-non-pod-global-static
