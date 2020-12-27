@@ -38,7 +38,7 @@ void Image::setReloadWhenFileChanges(bool enable)
 void Image::reload()
 {
     imageData = QImage(filename);
-    emit(imageChanged());
+    emit imageChanged();
 }
 
 void Image::imageFileChanged()

@@ -20,7 +20,7 @@ public:
     void setReloadWhenFileChanges(bool enable);
 
 signals:
-    void imageChanged() const;
+    void imageChanged();
 
 public slots:
     void reload();

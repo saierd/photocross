@@ -17,8 +17,8 @@ public:
     std::vector<std::unique_ptr<Image>> const& getImages() const&;
 
 signals:
-    void watchFilesChanged(bool enabled) const;
-    void imagesChanged() const;
+    void watchFilesChanged(bool enabled);
+    void imagesChanged();
 
 public slots:
     void reload();

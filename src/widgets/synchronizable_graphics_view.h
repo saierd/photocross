@@ -22,12 +22,12 @@ public:
     explicit SynchronizableGraphicsView(QWidget* parent = nullptr);
 
     void synchronizeViews(SynchronizableGraphicsView const& other) const;
-    void forceViewPropagation() const;
+    void forceViewPropagation();
 
 signals:
-    void synchronizedViewChanged(View const& view) const;
+    void synchronizedViewChanged(SynchronizableGraphicsView::View const& view);
 
 private slots:
-    void emitSynchronizedViewChanged() const;
-    void applyView(View const& view);
+    void emitSynchronizedViewChanged();
+    void applyView(SynchronizableGraphicsView::View const& view);
 };

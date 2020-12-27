@@ -9,7 +9,7 @@ void Session::loadImages(QStringList const& filenames)
         connect(images.back().get(), &Image::imageChanged, this, &Session::imagesChanged);
     }
 
-    emit(imagesChanged());
+    emit imagesChanged();
 }
 
 bool Session::getWatchFiles() const
@@ -24,7 +24,7 @@ void Session::setWatchFiles(bool enable)
         image->setReloadWhenFileChanges(watchFiles);
     }
 
-    emit(watchFilesChanged(enable));
+    emit watchFilesChanged(enable);
 }
 
 std::vector<std::unique_ptr<Image>> const& Session::getImages() const&
@@ -37,5 +37,5 @@ void Session::reload()
     for (auto& image : images) {
         image->reload();
     }
-    emit(imagesChanged());
+    emit imagesChanged();
 }

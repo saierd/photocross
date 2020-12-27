@@ -13,7 +13,7 @@ ImageView::ImageView(QWidget* parent)
     ui->fitToView->setDefaultAction(ui->actionFitToView);
     connect(ui->actionFitToView, &QAction::triggered, [this]() {
         fitViewToScene();
-        emit(zoomChangedExplicitly());
+        emit zoomChangedExplicitly();
     });
 
     connect(ui->graphicsView, &InteractiveGraphicsView::zoomChangedExplicitly, this, &ImageView::zoomChangedExplicitly);

@@ -45,11 +45,11 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
 
     connect(ui->differenceToleranceEnabled, &QGroupBox::toggled, [this]() {
         ui->differenceToleranceLabel->setNum(getDifferenceTolerance());
-        emit(settingsChanged());
+        emit settingsChanged();
     });
     connect(ui->differenceTolerance, &QSlider::valueChanged, [this]() {
         ui->differenceToleranceLabel->setNum(getDifferenceTolerance());
-        emit(settingsChanged());
+        emit settingsChanged();
     });
     connect(ui->showMinorDifferences, &QCheckBox::toggled, this, &ComparisonSettings::settingsChanged);
 
@@ -57,7 +57,7 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
     connect(ui->blendPosition, &QSlider::valueChanged, this, &ComparisonSettings::settingsChanged);
     connect(ui->blendTrueColors, &QCheckBox::toggled, [this]() {
         updateBlendLabelColors();
-        emit(settingsChanged());
+        emit settingsChanged();
     });
     updateBlendLabelColors();
 

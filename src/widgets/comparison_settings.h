@@ -31,7 +31,7 @@ public:
     QColor blendImage2Color() const;
 
 signals:
-    void settingsChanged() const;
+    void settingsChanged();
 
 private slots:
     void resetBlendPosition();

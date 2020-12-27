@@ -34,8 +34,8 @@ void InteractiveGraphicsView::zoom(int steps)
     double scaleFactor = std::pow(zoomFactor, steps);
     scale(scaleFactor, scaleFactor);
 
-    emit(zoomChangedExplicitly());
-    emit(viewChanged());
+    emit zoomChangedExplicitly();
+    emit viewChanged();
 }
 
 void InteractiveGraphicsView::zoomIn()
@@ -51,7 +51,7 @@ void InteractiveGraphicsView::zoomOut()
 void InteractiveGraphicsView::fitSceneInView()
 {
     fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
-    emit(viewChanged());
+    emit viewChanged();
 }
 
 void InteractiveGraphicsView::wheelEvent(QWheelEvent* event)

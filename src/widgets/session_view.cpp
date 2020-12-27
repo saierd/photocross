@@ -46,7 +46,7 @@ bool SessionView::getAutoFitInView() const
 void SessionView::setAutoFitInView(bool enable)
 {
     autoFitInView = enable;
-    emit(autoFitInViewChanged(autoFitInView));
+    emit autoFitInViewChanged(autoFitInView);
 }
 
 void SessionView::flipLayoutDirection()
