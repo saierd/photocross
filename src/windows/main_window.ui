@@ -36,6 +36,7 @@
     <addaction name="actionZoomIn"/>
     <addaction name="actionZoomOut"/>
     <addaction name="actionAutoFitToView"/>
+    <addaction name="actionFitComparisonImageToView"/>
     <addaction name="separator"/>
     <addaction name="actionFlipLayoutDirection"/>
    </widget>
@@ -158,6 +159,21 @@
    </property>
    <property name="shortcut">
     <string>F5</string>
+   </property>
+  </action>
+  <action name="actionFitComparisonImageToView">
+   <property name="icon">
+    <iconset theme="fit-to-page">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Fit Comparison Image to View</string>
+   </property>
+   <property name="toolTip">
+    <string>Fit Comparison Image to View</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+0</string>
    </property>
   </action>
  </widget>

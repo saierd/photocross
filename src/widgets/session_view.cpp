@@ -116,6 +116,12 @@ void SessionView::fitToView()
     }
 }
 
+void SessionView::fitComparisonImageToView()
+{
+    ui->comparisonView->fitViewToScene();
+    setAutoFitInView(false);
+}
+
 void SessionView::updateImages()
 {
     size_t numImages = session->getImages().size();

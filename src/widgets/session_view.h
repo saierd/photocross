@@ -33,6 +33,7 @@ public slots:
     void zoomIn();
     void zoomOut();
     void fitToView();
+    void fitComparisonImageToView();
 
 private slots:
     void updateImages();
