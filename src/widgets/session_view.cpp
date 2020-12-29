@@ -23,6 +23,9 @@ SessionView::SessionView(QWidget* parent)
     connect(ui->splitter, &QSplitter::splitterMoved, [this]() {
         adaptViewToWindow();
         ui->comparisonView->forceViewPropagation();
+
+        sourceImagesVisible = (ui->splitter->sizes()[0] > 0);
+        emit sourceImagesVisibleChanged(getSourceImagesVisible());
     });
 
     connect(ui->comparisonSettings, &ComparisonSettings::settingsChanged, this, &SessionView::updateComparisonView);
@@ -36,6 +39,26 @@ void SessionView::setSession(Session* _session)
 
     connect(session, &Session::imagesChanged, this, &SessionView::updateImages);
     updateImages();
+}
+
+bool SessionView::getSourceImagesVisible() const
+{
+    return sourceImagesVisible;
+}
+
+void SessionView::setSourceImagesVisible(bool enable)
+{
+    sourceImagesVisible = enable;
+
+    // QSplitter::setSizes interprets 0 as "hide the widget" and everything else as the minimum size of the widget. Any
+    // leftover available space after assigning the minimum size will be split evenly between images and comparison
+    // view.
+    int imageWidgetSize = enable ? 1 : 0;
+    ui->splitter->setSizes({imageWidgetSize, 1});
+
+    adaptViewToWindow();
+
+    emit sourceImagesVisibleChanged(getSourceImagesVisible());
 }
 
 bool SessionView::getAutoFitInView() const
@@ -105,8 +128,10 @@ void SessionView::fitToView()
         }
     };
 
-    for (auto const& view : imageViews) {
-        selectViewIfSmaller(view);
+    if (getSourceImagesVisible()) {
+        for (auto const& view : imageViews) {
+            selectViewIfSmaller(view);
+        }
     }
     selectViewIfSmaller(ui->comparisonView);
 
@@ -163,12 +188,7 @@ void SessionView::updateImages()
 
     if (previousNumImages == 0) {
         // Initial load of images. Set up the layout of the view properly.
-
-        // Split space evenly between images and comparison view. This line will assign each widget a size of 1px and
-        // the rest of the available space will be distributed equally between them. Note that a size of 0 has a special
-        // meaning for this function and hides the widgets completely.
-        ui->splitter->setSizes({1, 1});
-
+        setSourceImagesVisible(getSourceImagesVisible());
         fitToView();
     }
 }

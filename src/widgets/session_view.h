@@ -21,10 +21,14 @@ public:
 
     void setSession(Session* session);
 
+    bool getSourceImagesVisible() const;
+    void setSourceImagesVisible(bool enable);
+
     bool getAutoFitInView() const;
     void setAutoFitInView(bool enable);
 
 signals:
+    void sourceImagesVisibleChanged(bool sourceImagesVisible);
     void autoFitInViewChanged(bool autoFitInView);
 
 public slots:
@@ -48,5 +52,6 @@ private:
     Session* session;
     std::vector<ImageView*> imageViews;
 
+    bool sourceImagesVisible = true;
     bool autoFitInView = true;
 };

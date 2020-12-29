@@ -21,6 +21,10 @@ MainWindow::MainWindow(QWidget* parent)
     ui->actionReloadWhenImageFileChanges->setChecked(session->getWatchFiles());
     connect(session.get(), &Session::watchFilesChanged, ui->actionReloadWhenImageFileChanges, &QAction::setChecked);
 
+    connect(ui->actionShowSourceImages, &QAction::toggled, ui->session, &SessionView::setSourceImagesVisible);
+    ui->actionShowSourceImages->setChecked(ui->session->getSourceImagesVisible());
+    connect(ui->session, &SessionView::sourceImagesVisibleChanged, ui->actionShowSourceImages, &QAction::setChecked);
+
     connect(ui->actionZoomIn, &QAction::triggered, ui->session, &SessionView::zoomIn);
     connect(ui->actionZoomOut, &QAction::triggered, ui->session, &SessionView::zoomOut);
 
