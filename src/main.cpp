@@ -6,6 +6,8 @@
 int main(int argc, char** argv)
 {
     QApplication application(argc, argv);
+    QApplication::setWindowIcon(QIcon(":/icon.svg"));
+
     QIcon::setThemeName("icons");
 
     MainWindow mainWindow;
