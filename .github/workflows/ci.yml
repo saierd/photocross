@@ -106,7 +106,7 @@ jobs:
 
       - name: Generate Qt Sources
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --parallel 2 --target imgdiff_autogen
+        run: cmake --build . --parallel 2 --target slika_autogen
 
       - name: Run clazy
         working-directory: ${{runner.workspace}}/build

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(imgdiff CXX)
+project(slika CXX)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
