@@ -1,4 +1,5 @@
 set(CPACK_PACKAGE_VENDOR "Daniel Saier")
+set(CPACK_PACKAGE_VERSION "${project_version}")
 
 if(UNIX)
     set(CPACK_GENERATOR "DEB")

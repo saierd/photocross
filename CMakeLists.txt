@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
+include(cmake/version.cmake)
+
 project(
     slika
-    VERSION 0.1
     DESCRIPTION "Image Comparison Tool"
     HOMEPAGE_URL "https://github.com/saierd/slika"
     LANGUAGES CXX)
