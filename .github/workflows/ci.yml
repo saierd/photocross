@@ -52,6 +52,18 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config $BUILD_TYPE --parallel 2
 
+      - name: Package
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        run: cpack
+
+      - name: Archive Package
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: ${{runner.workspace}}/build/*.deb
+          if-no-files-found: error
+
   clang-format:
     name: Check Code Formatting
     runs-on: ubuntu-20.04

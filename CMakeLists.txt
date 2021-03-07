@@ -1,11 +1,17 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(slika CXX)
+project(
+    slika
+    VERSION 0.1
+    DESCRIPTION "Image Comparison Tool"
+    HOMEPAGE_URL "https://github.com/saierd/slika"
+    LANGUAGES CXX)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 include(cmake/clang_tidy.cmake)
 include(cmake/compiler_flags.cmake)
+include(cmake/package.cmake)
 
 set(SOURCE_DIRECTORY "src")
 set(SOURCE_FILES
@@ -43,3 +49,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     AUTOMOC ON
     AUTOUIC ON
     AUTORCC ON)
+
+install(TARGETS ${PROJECT_NAME})
