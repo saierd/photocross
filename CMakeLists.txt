@@ -8,14 +8,18 @@ project(
     HOMEPAGE_URL "https://github.com/saierd/slika"
     LANGUAGES CXX)
 
+# Dependencies.
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
+include(cmake/nautilus_extension.cmake)
 
 include(cmake/clang_tidy.cmake)
 include(cmake/compiler_flags.cmake)
 include(cmake/package.cmake)
 
-set(SOURCE_DIRECTORY "src")
-set(SOURCE_FILES
+add_subdirectory(file_manager_integrations)
+
+set(source_directory "src")
+set(source_files
     external/icons.qrc
     src/image.cpp
     src/image.h
@@ -41,9 +45,9 @@ set(SOURCE_FILES
     src/windows/main_window.h
     src/windows/main_window.ui)
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-source_group(TREE "${SOURCE_DIRECTORY}")
-target_include_directories(${PROJECT_NAME} PRIVATE "${SOURCE_DIRECTORY}")
+add_executable(${PROJECT_NAME} ${source_files})
+source_group(TREE "${source_directory}")
+target_include_directories(${PROJECT_NAME} PRIVATE "${source_directory}")
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES
