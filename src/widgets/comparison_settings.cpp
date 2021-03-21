@@ -10,8 +10,8 @@ using namespace std::chrono_literals;
 QColor const blendImage1Color(255, 0, 0);
 QColor const blendImage2Color(0, 0, 255);
 
-auto const minimumBlendInterval = 200ms;
-auto const maximumBlendInterval = 1500ms;
+auto const minimumBlendInterval = 100ms;
+auto const maximumBlendInterval = 1000ms;
 auto const continuousBlendTimerInterval = 50ms;
 
 double relativeSliderPosition(QSlider const& slider)
