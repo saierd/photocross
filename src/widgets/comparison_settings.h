@@ -20,6 +20,8 @@ public:
     explicit ComparisonSettings(QWidget* parent = nullptr);
     ~ComparisonSettings() override;
 
+    void setNumberOfImages(size_t _numberOfImages);
+
     ComparisonMode getComparisonMode() const;
 
     int getDifferenceTolerance() const;
@@ -47,6 +49,8 @@ private:
 
     std::unique_ptr<Ui::ComparisonSettings> ui;
     QPalette originalBlendLabelPalette;
+
+    size_t numberOfImages = 1;
 
     QTimer blendTimer;
     int currentBlendDirection = 1;

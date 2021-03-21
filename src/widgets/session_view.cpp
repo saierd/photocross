@@ -7,6 +7,8 @@
 #include <QGraphicsColorizeEffect>
 #include <QGraphicsPixmapItem>
 
+#include <cmath>
+
 #include "ui_session_view.h"
 
 SessionView::SessionView(QWidget* parent)
@@ -152,6 +154,8 @@ void SessionView::updateImages()
     size_t numImages = session->getImages().size();
     size_t previousNumImages = imageViews.size();
 
+    ui->comparisonSettings->setNumberOfImages(numImages);
+
     // Adapt the number of image widgets to the number of images.
     if (!imageViews.empty()) {
         for (size_t i = imageViews.size() - 1; i >= numImages; i--) {
@@ -193,6 +197,17 @@ void SessionView::updateImages()
     }
 }
 
+void addColorFilter(QGraphicsPixmapItem* item, QColor const& color)
+{
+    if (!color.isValid()) {
+        return;
+    }
+
+    auto effect = std::make_unique<QGraphicsColorizeEffect>();
+    effect->setColor(color);
+    item->setGraphicsEffect(effect.release());
+}
+
 void SessionView::updateComparisonView()
 {
     auto const& images = session->getImages();
@@ -208,9 +223,13 @@ void SessionView::updateComparisonView()
     if (comparisonMode == ComparisonMode::HighlightDifferences) {
         QImage differenceImage;
         if (images.size() >= 2) {
-            // TODO: Handle more than 2 images.
-            differenceImage = computeDifferenceImage(images[0]->image(),
-                                                     images[1]->image(),
+            std::vector<QImage const*> imagesToCompare;
+            imagesToCompare.reserve(images.size());
+            for (auto const& image : images) {
+                imagesToCompare.push_back(&image->image());
+            }
+
+            differenceImage = computeDifferenceImage(imagesToCompare,
                                                      settings.getDifferenceTolerance(),
                                                      settings.showMinorDifferences());
         }
@@ -218,24 +237,25 @@ void SessionView::updateComparisonView()
         ui->comparisonView->addPixmap(images[0]->toGrayscalePixmap());
         ui->comparisonView->addPixmap(QPixmap::fromImage(differenceImage), 0.7);
     } else if (comparisonMode == ComparisonMode::BlendImages && images.size() >= 2) {
-        double blendPosition = settings.getBlendPosition();
+        double const sequenceBlendPosition = settings.getBlendPosition() * static_cast<double>(images.size() - 1);
 
-        auto* firstImage = comparisonScene.addPixmap(images[0]->toPixmap());
-        auto* secondImage = comparisonScene.addPixmap(images[1]->toPixmap());
+        auto firstImageIndex = static_cast<size_t>(std::floor(sequenceBlendPosition));
+        firstImageIndex = std::min(firstImageIndex, images.size() - 2);
+
+        double const blendPosition = sequenceBlendPosition - firstImageIndex;
+
+        auto* firstImage = comparisonScene.addPixmap(images[firstImageIndex]->toPixmap());
+        auto* secondImage = comparisonScene.addPixmap(images[firstImageIndex + 1]->toPixmap());
         secondImage->setOpacity(blendPosition);
 
-        auto addColorFilter = [](QGraphicsPixmapItem* item, QColor const& color) {
-            if (!color.isValid()) {
-                return;
-            }
+        QColor firstImageColor = settings.blendImage1Color();
+        QColor secondImageColor = settings.blendImage2Color();
+        if (firstImageIndex % 2 != 0) {
+            std::swap(firstImageColor, secondImageColor);
+        }
 
-            auto effect = std::make_unique<QGraphicsColorizeEffect>();
-            effect->setColor(color);
-            item->setGraphicsEffect(effect.release());
-        };
-
-        addColorFilter(firstImage, settings.blendImage1Color());
-        addColorFilter(secondImage, settings.blendImage2Color());
+        addColorFilter(firstImage, firstImageColor);
+        addColorFilter(secondImage, secondImageColor);
     }
 }
 

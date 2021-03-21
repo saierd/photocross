@@ -72,6 +72,15 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
 
 ComparisonSettings::~ComparisonSettings() = default;
 
+void ComparisonSettings::setNumberOfImages(size_t _numberOfImages)
+{
+    numberOfImages = _numberOfImages;
+
+    bool showBlendLabels = (numberOfImages == 1);
+    ui->blendLeftLabel->setVisible(showBlendLabels);
+    ui->blendRightLabel->setVisible(showBlendLabels);
+}
+
 ComparisonMode ComparisonSettings::getComparisonMode() const
 {
     if (ui->comparisonMode->currentWidget() == ui->comparisonModeHighlightDifferences) {
@@ -194,7 +203,7 @@ void ComparisonSettings::updateBlendTimerSettings()
 
 void ComparisonSettings::onBlendTimerTimeout()
 {
-    double blendPositionIncrement = 1;
+    double blendPositionIncrement = 1. / static_cast<double>(numberOfImages - 1);
     if (ui->blendSwitchContinuous->isChecked()) {
         auto interval = currentBlendIntervalBetweenImages();
         blendPositionIncrement = (1. * continuousBlendTimerInterval) / interval;
