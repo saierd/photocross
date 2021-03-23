@@ -2,6 +2,7 @@
 
 #include "image_difference.h"
 #include "session.h"
+#include "widgets/empty_image.h"
 #include "widgets/image_view.h"
 
 #include <QGraphicsColorizeEffect>
@@ -31,6 +32,10 @@ SessionView::SessionView(QWidget* parent)
     });
 
     connect(ui->comparisonSettings, &ComparisonSettings::settingsChanged, this, &SessionView::updateComparisonView);
+
+    connect(ui->emptyImage, &EmptyImage::imagesDropped, [this](QStringList const& files) {
+        session->loadImages(files);
+    });
 }
 
 SessionView::~SessionView() = default;
@@ -52,10 +57,14 @@ void SessionView::setSourceImagesVisible(bool enable)
 {
     sourceImagesVisible = enable;
 
+    // Forcibly display the source images if there are not enough images to show the comparison view yet. The source
+    // image view will also include the placeholder where images can be drag and dropped to.
+    bool showSourceImages = sourceImagesVisible || (imageViews.size() < 2);
+
     // QSplitter::setSizes interprets 0 as "hide the widget" and everything else as the minimum size of the widget. Any
     // leftover available space after assigning the minimum size will be split evenly between images and comparison
     // view.
-    int imageWidgetSize = enable ? 1 : 0;
+    int imageWidgetSize = showSourceImages ? 1 : 0;
     ui->splitter->setSizes({imageWidgetSize, 1});
 
     adaptViewToWindow();
@@ -188,10 +197,13 @@ void SessionView::updateImages()
         imageView->addPixmap(image.toPixmap());
     }
 
+    ui->emptyImage->setVisible(numImages < 2);
+
     updateComparisonView();
 
-    if (previousNumImages == 0) {
+    if (numImages > 0 && previousNumImages < 2) {
         // Initial load of images. Set up the layout of the view properly.
+        QApplication::processEvents();
         setSourceImagesVisible(getSourceImagesVisible());
         fitToView();
     }
@@ -215,7 +227,12 @@ void SessionView::updateComparisonView()
     auto& comparisonScene = ui->comparisonView->getScene();
 
     comparisonScene.clear();
-    if (images.empty()) {
+
+    bool const comparisonVisible = (images.size() >= 2);
+    ui->comparisonView->setVisible(comparisonVisible);
+    ui->comparisonSettings->setVisible(comparisonVisible);
+
+    if (!comparisonVisible) {
         return;
     }
 
