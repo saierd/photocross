@@ -2,6 +2,8 @@
 
 #include "session.h"
 
+#include <QFileDialog>
+
 #include "ui_main_window.h"
 
 MainWindow::MainWindow(QWidget* parent)
@@ -12,6 +14,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     session = std::make_unique<Session>();
     ui->session->setSession(session.get());
+
+    connect(ui->actionOpenImages, &QAction::triggered, this, &MainWindow::openImages);
 
     connect(ui->actionReload, &QAction::triggered, [this]() {
         session->reload();
@@ -44,4 +48,10 @@ MainWindow::~MainWindow() = default;
 Session& MainWindow::getSession() &
 {
     return *session;
+}
+
+void MainWindow::openImages()
+{
+    auto files = QFileDialog::getOpenFileNames(this, "Open Images...", {}, "Image (*.jpg *.jpeg *.png *.bmp)");
+    getSession().loadImages(files);
 }

@@ -17,6 +17,7 @@
         <file alias="triangle-wave.svg">mdi/svg/triangle-wave.svg</file>
         <file alias="tolerance.svg">mdi/svg/approximately-equal.svg</file>
         <file alias="image.svg">mdi/svg/image-outline.svg</file>
+        <file alias="document-open.svg">mdi/svg/folder-open-outline.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>

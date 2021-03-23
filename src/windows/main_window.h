@@ -19,6 +19,9 @@ public:
 
     Session& getSession() &;
 
+private slots:
+    void openImages();
+
 private:
     std::unique_ptr<Ui::MainWindow> ui;
     std::unique_ptr<Session> session;

@@ -45,6 +45,8 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionOpenImages"/>
+    <addaction name="separator"/>
     <addaction name="actionReload"/>
     <addaction name="actionReloadWhenImageFileChanges"/>
    </widget>
@@ -197,6 +199,21 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionOpenImages">
+   <property name="icon">
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Open Images...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Images...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>
