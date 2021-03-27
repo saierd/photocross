@@ -11,6 +11,14 @@ if(UNIX)
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/package/debian/postinst"
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/package/debian/prerm")
     set(CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION ON)
+
+    install(
+        FILES "${CMAKE_CURRENT_SOURCE_DIR}/external/icon/icon.svg"
+        DESTINATION "share/pixmaps"
+        RENAME "slika.svg")
+    install(
+        FILES "${CMAKE_CURRENT_SOURCE_DIR}/cmake/package/slika.desktop"
+        DESTINATION "share/applications")
 endif()
 
 include(CPack)
