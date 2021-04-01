@@ -21,6 +21,8 @@ add_subdirectory(file_manager_integrations)
 set(source_directory "src")
 set(source_files
     external/icons.qrc
+    src/file_helpers.cpp
+    src/file_helpers.h
     src/image.cpp
     src/image.h
     src/image_difference.cpp

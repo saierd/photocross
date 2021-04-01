@@ -1,8 +1,7 @@
 #include "main_window.h"
 
+#include "file_helpers.h"
 #include "session.h"
-
-#include <QFileDialog>
 
 #include "ui_main_window.h"
 
@@ -52,6 +51,8 @@ Session& MainWindow::getSession() &
 
 void MainWindow::openImages()
 {
-    auto files = QFileDialog::getOpenFileNames(this, "Open Images...", {}, "Image (*.jpg *.jpeg *.png *.bmp)");
-    getSession().loadImages(files);
+    auto files = selectImageFiles(this);
+    if (!files.empty()) {
+        getSession().loadImages(files);
+    }
 }

@@ -1,8 +1,9 @@
 #include "empty_image.h"
 
+#include "file_helpers.h"
+
 #include <QDragEnterEvent>
 #include <QMimeData>
-#include <QMimeDatabase>
 #include <QPainter>
 
 #include "ui_empty_image.h"
@@ -32,11 +33,6 @@ EmptyImage::EmptyImage(QWidget* parent)
 }
 
 EmptyImage::~EmptyImage() = default;
-
-bool isImageFile(QString const& file)
-{
-    return QMimeDatabase().mimeTypeForFile(file).name().startsWith("image/");
-}
 
 QStringList extractImageFiles(QDropEvent* event)
 {
