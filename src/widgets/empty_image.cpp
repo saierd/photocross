@@ -1,9 +1,5 @@
 #include "empty_image.h"
 
-#include "file_helpers.h"
-
-#include <QDragEnterEvent>
-#include <QMimeData>
 #include <QPainter>
 
 #include "ui_empty_image.h"
@@ -20,7 +16,7 @@ void colorizePixmap(QPixmap& pixmap, QColor const& color)
 }
 
 EmptyImage::EmptyImage(QWidget* parent)
-  : QWidget(parent)
+  : ImageDropWidget(parent)
 {
     ui = std::make_unique<Ui::EmptyImage>();
     ui->setupUi(this);
@@ -33,32 +29,3 @@ EmptyImage::EmptyImage(QWidget* parent)
 }
 
 EmptyImage::~EmptyImage() = default;
-
-QStringList extractImageFiles(QDropEvent* event)
-{
-    if (!event->mimeData()->hasUrls()) {
-        return {};
-    }
-
-    QStringList files;
-    for (auto const& url : event->mimeData()->urls()) {
-        QString file = url.toLocalFile();
-        if (!file.isEmpty() && isImageFile(file)) {
-            files.push_back(file);
-        }
-    }
-
-    return files;
-}
-
-void EmptyImage::dragEnterEvent(QDragEnterEvent* event)
-{
-    if (!extractImageFiles(event).empty()) {
-        event->acceptProposedAction();
-    }
-}
-
-void EmptyImage::dropEvent(QDropEvent* event)
-{
-    emit imagesDropped(extractImageFiles(event));
-}

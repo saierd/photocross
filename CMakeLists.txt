@@ -36,6 +36,8 @@ set(source_files
     src/widgets/empty_image.cpp
     src/widgets/empty_image.h
     src/widgets/empty_image.ui
+    src/widgets/image_drop_widget.cpp
+    src/widgets/image_drop_widget.h
     src/widgets/image_view.cpp
     src/widgets/image_view.h
     src/widgets/image_view.ui
