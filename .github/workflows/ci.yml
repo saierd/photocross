@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 env:
   BUILD_TYPE: Release
-  QT_VERSION: "5.15.2"
 
 jobs:
   build:
@@ -16,26 +15,12 @@ jobs:
       - name: Setup Problem Matchers
         uses: Trass3r/setup-cpp@master
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt
-          key: ${{ runner.os }}-qt-${{ env.QT_VERSION }}
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ env.QT_VERSION }}
-          setup-python: false
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
       - name: Install clang-tidy
         run: sudo apt-get install clang-tidy
         if: runner.os == 'Linux'
 
       - name: Install Dependencies
-        run: sudo apt-get install libnautilus-extension-dev
+        run: sudo apt-get install libnautilus-extension-dev qt5-default
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -90,25 +75,11 @@ jobs:
       - name: Setup Problem Matchers
         uses: Trass3r/setup-cpp@master
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt
-          key: ${{ runner.os }}-qt-${{ env.QT_VERSION }}
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ env.QT_VERSION }}
-          setup-python: false
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
       - name: Install clazy
         run: sudo apt-get install clazy
 
       - name: Install Dependencies
-        run: sudo apt-get install libnautilus-extension-dev
+        run: sudo apt-get install libnautilus-extension-dev qt5-default
 
       - name: Checkout Repository
         uses: actions/checkout@v2
