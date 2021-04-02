@@ -9,22 +9,29 @@ class Session : public QObject {
     Q_OBJECT
 
 public:
-    void loadImages(QStringList const& filenames);
+    using ImageHandle = std::shared_ptr<Image>;
+    using Images = std::vector<ImageHandle>;
 
     bool getWatchFiles() const;
     void setWatchFiles(bool enable);
 
-    std::vector<std::unique_ptr<Image>> const& getImages() const&;
+    std::vector<ImageHandle> const& getImages() const&;
 
 signals:
     void watchFilesChanged(bool enabled);
     void imagesChanged();
 
 public slots:
+    void loadImages(QStringList const& files);
+    void replaceImage(Session::ImageHandle const& image, QStringList const& files);
+    void closeImage(Session::ImageHandle const& image);
+
     void reload();
 
 private:
-    std::vector<std::unique_ptr<Image>> images;
+    void insertImages(Images::const_iterator position, Images const& newImages);
+
+    Images images;
 
     bool watchFiles = true;
 };

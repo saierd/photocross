@@ -48,6 +48,8 @@ set(source_files
     src/widgets/session_view.cpp
     src/widgets/session_view.h
     src/widgets/session_view.ui
+    src/widgets/source_image_view.cpp
+    src/widgets/source_image_view.h
     src/widgets/synchronizable_graphics_view.cpp
     src/widgets/synchronizable_graphics_view.h
     src/windows/main_window.cpp

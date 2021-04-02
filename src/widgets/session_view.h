@@ -9,7 +9,7 @@ namespace Ui {
 class SessionView;
 }
 
-class ImageView;
+class SourceImageView;
 class Session;
 
 class SessionView : public QWidget {
@@ -40,6 +40,7 @@ public slots:
     void fitComparisonImageToView();
 
 private slots:
+    void adjustNumberOfImageViews(size_t numImages);
     void updateImages();
     void updateComparisonView();
 
@@ -50,7 +51,7 @@ private slots:
 private:
     std::unique_ptr<Ui::SessionView> ui;
     Session* session;
-    std::vector<ImageView*> imageViews;
+    std::vector<SourceImageView*> imageViews;
 
     bool sourceImagesVisible = true;
     bool autoFitInView = true;

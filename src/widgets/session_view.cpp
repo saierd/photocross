@@ -1,7 +1,7 @@
 #include "session_view.h"
 
 #include "session.h"
-#include "widgets/image_view.h"
+#include "widgets/source_image_view.h"
 
 #include "ui_session_view.h"
 
@@ -136,7 +136,9 @@ void SessionView::fitToView()
             selectViewIfSmaller(view);
         }
     }
-    selectViewIfSmaller(ui->comparisonView);
+    if (ui->comparisonView->isVisible()) {
+        selectViewIfSmaller(ui->comparisonView);
+    }
 
     if (smallestImageView != nullptr) {
         smallestImageView->fitViewToScene();
@@ -150,22 +152,19 @@ void SessionView::fitComparisonImageToView()
     setAutoFitInView(false);
 }
 
-void SessionView::updateImages()
+void SessionView::adjustNumberOfImageViews(size_t numImages)
 {
-    size_t numImages = session->getImages().size();
-    size_t previousNumImages = imageViews.size();
-
-    ui->comparisonSettings->setNumberOfImages(numImages);
-
-    // Adapt the number of image widgets to the number of images.
     if (!imageViews.empty()) {
-        for (size_t i = imageViews.size() - 1; i >= numImages; i--) {
-            delete ui->imagesLayout->takeAt(i);
+        while (imageViews.size() > numImages) {
+            auto* item = ui->imagesLayout->takeAt(static_cast<int>(imageViews.size()) - 1);
+            item->widget()->deleteLater();
+            delete item;
+
             imageViews.pop_back();
         }
     }
     while (imageViews.size() < numImages) {
-        auto newImageView = std::make_unique<ImageView>();
+        auto newImageView = std::make_unique<SourceImageView>();
 
         for (auto const& existingImageView : imageViews) {
             existingImageView->synchronizeViews(*newImageView);
@@ -179,14 +178,19 @@ void SessionView::updateImages()
         imageViews.push_back(newImageView.get());
         ui->imagesLayout->addWidget(newImageView.release());
     }
+}
+
+void SessionView::updateImages()
+{
+    size_t numImages = session->getImages().size();
+    size_t previousNumImages = imageViews.size();
+
+    ui->comparisonSettings->setNumberOfImages(numImages);
+    adjustNumberOfImageViews(numImages);
 
     for (size_t i = 0; i < numImages; i++) {
-        auto const& image = *(session->getImages()[i]);
-        auto* imageView = imageViews[i];
-
-        imageView->setCaption(image.file());
-        imageView->clear();
-        imageView->addPixmap(image.toPixmap());
+        auto const& image = session->getImages()[i];
+        imageViews[i]->setImage(image);
     }
 
     ui->emptyImage->setVisible(numImages < 2);
@@ -213,6 +217,7 @@ void SessionView::updateComparisonView()
     ui->comparisonSettings->setVisible(comparisonVisible);
 
     if (!comparisonVisible) {
+        setSourceImagesVisible(getSourceImagesVisible());
         return;
     }
 

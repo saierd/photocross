@@ -40,6 +40,12 @@
      <item>
       <widget class="QToolButton" name="fitToView"/>
      </item>
+     <item>
+      <widget class="QToolButton" name="replaceImage"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="closeImage"/>
+     </item>
     </layout>
    </item>
    <item>
@@ -63,6 +69,30 @@
    </property>
    <property name="toolTip">
     <string>Fit to View</string>
+   </property>
+  </action>
+  <action name="actionCloseImage">
+   <property name="icon">
+    <iconset theme="close">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Close Image</string>
+   </property>
+   <property name="toolTip">
+    <string>Close Image</string>
+   </property>
+  </action>
+  <action name="actionReplaceImage">
+   <property name="icon">
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Replace Image</string>
+   </property>
+   <property name="toolTip">
+    <string>Replace Image</string>
    </property>
   </action>
  </widget>

@@ -16,6 +16,8 @@ public:
     explicit ImageView(QWidget* parent = nullptr);
     ~ImageView() override;
 
+    void setModifiable(bool enable = true);
+
     void synchronizeViews(ImageView const& other) const;
     void forceViewPropagation() const;
 
@@ -29,6 +31,9 @@ public:
     void addPixmap(QPixmap const& image, double opacity = 1.);
 
 signals:
+    void imageClosed();
+    void imageReplaced(QStringList const& files);
+
     void zoomChangedExplicitly();
 
 public slots:
@@ -38,4 +43,6 @@ public slots:
 private:
     std::unique_ptr<Ui::ImageView> ui;
     QGraphicsScene scene;
+
+    bool modifiable = false;
 };

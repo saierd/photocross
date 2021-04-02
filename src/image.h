@@ -3,6 +3,7 @@
 #include <QFileSystemWatcher>
 #include <QImage>
 #include <QPixmap>
+#include <QStringList>
 
 class Image : public QObject {
     Q_OBJECT
@@ -21,6 +22,8 @@ public:
 
 signals:
     void imageChanged();
+    void imageClosed();
+    void imageReplaced(QStringList const& files);
 
 public slots:
     void reload();
