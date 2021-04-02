@@ -53,7 +53,7 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
     });
     connect(ui->showMinorDifferences, &QCheckBox::toggled, this, &ComparisonSettings::settingsChanged);
 
-    connect(ui->resetBlendPosition, &QPushButton::clicked, this, &ComparisonSettings::resetBlendPosition);
+    connect(ui->resetBlendPosition, &QToolButton::clicked, this, &ComparisonSettings::resetBlendPosition);
     connect(ui->blendPosition, &QSlider::valueChanged, this, &ComparisonSettings::settingsChanged);
     connect(ui->blendTrueColors, &QCheckBox::toggled, [this]() {
         updateBlendLabelColors();
@@ -61,7 +61,7 @@ ComparisonSettings::ComparisonSettings(QWidget* parent)
     });
     updateBlendLabelColors();
 
-    connect(ui->resetBlendSpeed, &QPushButton::clicked, this, &ComparisonSettings::resetBlendSpeed);
+    connect(ui->resetBlendSpeed, &QToolButton::clicked, this, &ComparisonSettings::resetBlendSpeed);
     connect(ui->blendSwitchAutomatically, &QGroupBox::toggled, this, &ComparisonSettings::updateBlendTimerSettings);
     connect(ui->blendSwitchSpeed, &QSlider::valueChanged, this, &ComparisonSettings::updateBlendTimerSettings);
     connect(ui->blendSwitchContinuous, &QCheckBox::toggled, this, &ComparisonSettings::updateBlendTimerSettings);

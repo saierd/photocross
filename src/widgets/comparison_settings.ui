@@ -177,17 +177,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="3">
-           <widget class="QPushButton" name="resetBlendSpeed">
-            <property name="toolTip">
-             <string>Reset Speed</string>
-            </property>
-            <property name="icon">
-             <iconset theme="undo">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="1" colspan="3">
            <widget class="QCheckBox" name="blendSwitchContinuous">
             <property name="text">
@@ -240,18 +229,18 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="3">
+           <widget class="QToolButton" name="resetBlendSpeed">
+            <property name="toolTip">
+             <string>Reset Speed</string>
+            </property>
+            <property name="icon">
+             <iconset theme="undo">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+           </widget>
+          </item>
          </layout>
-        </widget>
-       </item>
-       <item row="0" column="4">
-        <widget class="QPushButton" name="resetBlendPosition">
-         <property name="toolTip">
-          <string>Reset Blending Position</string>
-         </property>
-         <property name="icon">
-          <iconset theme="undo">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
         </widget>
        </item>
        <item row="0" column="0">
@@ -383,6 +372,17 @@
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QToolButton" name="resetBlendPosition">
+         <property name="toolTip">
+          <string>Reset Blending Position</string>
+         </property>
+         <property name="icon">
+          <iconset theme="undo">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
