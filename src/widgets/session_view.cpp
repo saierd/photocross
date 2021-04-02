@@ -1,14 +1,7 @@
 #include "session_view.h"
 
-#include "image_difference.h"
 #include "session.h"
-#include "widgets/empty_image.h"
 #include "widgets/image_view.h"
-
-#include <QGraphicsColorizeEffect>
-#include <QGraphicsPixmapItem>
-
-#include <cmath>
 
 #include "ui_session_view.h"
 
@@ -18,7 +11,6 @@ SessionView::SessionView(QWidget* parent)
     ui = std::make_unique<Ui::SessionView>();
     ui->setupUi(this);
 
-    ui->comparisonView->setCaption("Comparison View");
     connect(ui->comparisonView, &ImageView::zoomChangedExplicitly, [this]() {
         setAutoFitInView(false);
     });
@@ -209,24 +201,12 @@ void SessionView::updateImages()
     }
 }
 
-void addColorFilter(QGraphicsPixmapItem* item, QColor const& color)
-{
-    if (!color.isValid()) {
-        return;
-    }
-
-    auto effect = std::make_unique<QGraphicsColorizeEffect>();
-    effect->setColor(color);
-    item->setGraphicsEffect(effect.release());
-}
-
 void SessionView::updateComparisonView()
 {
     auto const& images = session->getImages();
     auto const& settings = *ui->comparisonSettings;
-    auto& comparisonScene = ui->comparisonView->getScene();
 
-    comparisonScene.clear();
+    ui->comparisonView->clear();
 
     bool const comparisonVisible = (images.size() >= 2);
     ui->comparisonView->setVisible(comparisonVisible);
@@ -236,44 +216,7 @@ void SessionView::updateComparisonView()
         return;
     }
 
-    ComparisonMode comparisonMode = settings.getComparisonMode();
-    if (comparisonMode == ComparisonMode::HighlightDifferences) {
-        QImage differenceImage;
-        if (images.size() >= 2) {
-            std::vector<QImage const*> imagesToCompare;
-            imagesToCompare.reserve(images.size());
-            for (auto const& image : images) {
-                imagesToCompare.push_back(&image->image());
-            }
-
-            differenceImage = computeDifferenceImage(imagesToCompare,
-                                                     settings.getDifferenceTolerance(),
-                                                     settings.showMinorDifferences());
-        }
-
-        ui->comparisonView->addPixmap(images[0]->toGrayscalePixmap());
-        ui->comparisonView->addPixmap(QPixmap::fromImage(differenceImage), 0.7);
-    } else if (comparisonMode == ComparisonMode::BlendImages && images.size() >= 2) {
-        double const sequenceBlendPosition = settings.getBlendPosition() * static_cast<double>(images.size() - 1);
-
-        auto firstImageIndex = static_cast<size_t>(std::floor(sequenceBlendPosition));
-        firstImageIndex = std::min(firstImageIndex, images.size() - 2);
-
-        double const blendPosition = sequenceBlendPosition - firstImageIndex;
-
-        auto* firstImage = comparisonScene.addPixmap(images[firstImageIndex]->toPixmap());
-        auto* secondImage = comparisonScene.addPixmap(images[firstImageIndex + 1]->toPixmap());
-        secondImage->setOpacity(blendPosition);
-
-        QColor firstImageColor = settings.blendImage1Color();
-        QColor secondImageColor = settings.blendImage2Color();
-        if (firstImageIndex % 2 != 0) {
-            std::swap(firstImageColor, secondImageColor);
-        }
-
-        addColorFilter(firstImage, firstImageColor);
-        addColorFilter(secondImage, secondImageColor);
-    }
+    ui->comparisonView->update(*session, settings);
 }
 
 void SessionView::adaptViewToWindow()

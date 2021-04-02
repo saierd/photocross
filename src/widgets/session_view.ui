@@ -42,7 +42,7 @@
      <widget class="QWidget" name="horizontalLayoutWidget">
       <layout class="QHBoxLayout" name="comparisonLayout" stretch="1,0">
        <item>
-        <widget class="ImageView" name="comparisonView" native="true"/>
+        <widget class="ComparisonView" name="comparisonView" native="true"/>
        </item>
        <item>
         <widget class="ComparisonSettings" name="comparisonSettings" native="true"/>
@@ -55,12 +55,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ImageView</class>
-   <extends>QWidget</extends>
-   <header>widgets/image_view.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ComparisonSettings</class>
    <extends>QWidget</extends>
    <header>widgets/comparison_settings.h</header>
@@ -70,6 +64,12 @@
    <class>EmptyImage</class>
    <extends>QWidget</extends>
    <header>widgets/empty_image.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ComparisonView</class>
+   <extends>QWidget</extends>
+   <header>widgets/comparison_view.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

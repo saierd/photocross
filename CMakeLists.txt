@@ -33,6 +33,8 @@ set(source_files
     src/widgets/comparison_settings.cpp
     src/widgets/comparison_settings.h
     src/widgets/comparison_settings.ui
+    src/widgets/comparison_view.cpp
+    src/widgets/comparison_view.h
     src/widgets/empty_image.cpp
     src/widgets/empty_image.h
     src/widgets/empty_image.ui
