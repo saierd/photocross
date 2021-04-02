@@ -1,5 +1,7 @@
 #pragma once
 
+#include "image_drop_widget.h"
+
 #include <QGraphicsScene>
 #include <QWidget>
 
@@ -9,7 +11,7 @@ namespace Ui {
 class ImageView;
 }
 
-class ImageView : public QWidget {
+class ImageView : public ImageDropWidget {
     Q_OBJECT
 
 public:

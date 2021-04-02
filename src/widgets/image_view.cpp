@@ -7,7 +7,7 @@
 #include "ui_image_view.h"
 
 ImageView::ImageView(QWidget* parent)
-  : QWidget(parent)
+  : ImageDropWidget(parent)
 {
     ui = std::make_unique<Ui::ImageView>();
     ui->setupUi(this);
@@ -37,6 +37,12 @@ ImageView::ImageView(QWidget* parent)
         }
     });
 
+    connect(this, &ImageDropWidget::imagesDropped, [this](QStringList const& files) {
+        if (modifiable) {
+            emit imageReplaced(files);
+        }
+    });
+
     connect(ui->graphicsView, &InteractiveGraphicsView::zoomChangedExplicitly, this, &ImageView::zoomChangedExplicitly);
 
     setModifiable(false);
@@ -50,6 +56,7 @@ void ImageView::setModifiable(bool enable)
     modifiable = enable;
     ui->replaceImage->setVisible(modifiable);
     ui->closeImage->setVisible(modifiable);
+    setAcceptDrops(modifiable);
 }
 
 void ImageView::synchronizeViews(ImageView const& other) const
