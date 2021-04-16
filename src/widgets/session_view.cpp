@@ -203,6 +203,10 @@ void SessionView::updateImages()
         setSourceImagesVisible(getSourceImagesVisible());
         fitToView();
     }
+
+    // Adapt view to window in case the number of image views (and the available space for each of them) changed.
+    QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    adaptViewToWindow();
 }
 
 void SessionView::updateComparisonView()
