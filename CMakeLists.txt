@@ -10,6 +10,7 @@ project(
 
 # Dependencies.
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(X11 REQUIRED)
 include(cmake/nautilus_extension.cmake)
 
 include(cmake/clang_tidy.cmake)
@@ -21,6 +22,8 @@ add_subdirectory(file_manager_integrations)
 set(source_directory "src")
 set(source_files
     external/icons.qrc
+    src/command_line.h
+    src/command_line.cpp
     src/file_helpers.cpp
     src/file_helpers.h
     src/image.cpp
@@ -28,6 +31,10 @@ set(source_files
     src/image_difference.cpp
     src/image_difference.h
     src/main.cpp
+    src/screenshot.cpp
+    src/screenshot.h
+    src/screenshot_file_manager.cpp
+    src/screenshot_file_manager.h
     src/session.cpp
     src/session.h
     src/widgets/comparison_settings.cpp
@@ -60,7 +67,7 @@ add_executable(${PROJECT_NAME} ${source_files})
 source_group(TREE "${source_directory}")
 target_include_directories(${PROJECT_NAME} PRIVATE "${source_directory}")
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets X11::xcb)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     AUTOMOC ON
     AUTOUIC ON

@@ -1,3 +1,6 @@
+#include "command_line.h"
+#include "screenshot.h"
+#include "screenshot_file_manager.h"
 #include "session.h"
 #include "windows/main_window.h"
 
@@ -10,17 +13,32 @@ int main(int argc, char** argv)
 
     QIcon::setThemeName("icons");
 
-    MainWindow mainWindow;
+    auto options = parseCommandLineOptions(application);
+    QStringList filesToOpen = options.files;
 
-    if (argc > 1) {
-        QStringList filenames;
-        for (int i = 1; i < argc; i++) {
-            filenames.push_back(QString(argv[i]));
+    if (options.clearScreenshots || options.takeScreenshot || options.takeDesktopScreenshot) {
+        ScreenshotFileManager screenshotFiles;
+
+        if (options.clearScreenshots) {
+            screenshotFiles.removeFiles();
         }
 
-        mainWindow.getSession().loadImages(filenames);
+        if (options.takeScreenshot) {
+            screenshotFiles.addImage(takeScreenshotOfActiveWindow());
+        } else if (options.takeDesktopScreenshot) {
+            screenshotFiles.addImage(takeScreenshot());
+        }
+
+        filesToOpen << screenshotFiles.getFiles();
+        if (filesToOpen.size() < 2) {
+            // Not enough screenshots collected for comparison yet.
+            return 0;
+        }
     }
 
+    MainWindow mainWindow;
+    mainWindow.getSession().loadImages(filesToOpen);
     mainWindow.show();
+
     return QApplication::exec();
 }
