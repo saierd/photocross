@@ -11,9 +11,7 @@ SessionView::SessionView(QWidget* parent)
     ui = std::make_unique<Ui::SessionView>();
     ui->setupUi(this);
 
-    connect(ui->comparisonView, &ImageView::zoomChangedExplicitly, [this]() {
-        setAutoFitInView(false);
-    });
+    initializeImageView(*ui->comparisonView);
 
     connect(ui->splitter, &QSplitter::splitterMoved, [this]() {
         adaptViewToWindow();
@@ -165,15 +163,12 @@ void SessionView::adjustNumberOfImageViews(size_t numImages)
     }
     while (imageViews.size() < numImages) {
         auto newImageView = std::make_unique<SourceImageView>();
+        initializeImageView(*newImageView);
 
         for (auto const& existingImageView : imageViews) {
             existingImageView->synchronizeViews(*newImageView);
         }
         ui->comparisonView->synchronizeViews(*newImageView);
-
-        connect(newImageView.get(), &ImageView::zoomChangedExplicitly, [this]() {
-            setAutoFitInView(false);
-        });
 
         imageViews.push_back(newImageView.get());
         ui->imagesLayout->addWidget(newImageView.release());
@@ -239,4 +234,11 @@ void SessionView::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
     adaptViewToWindow();
+}
+
+void SessionView::initializeImageView(ImageView& imageView)
+{
+    connect(&imageView, &ImageView::zoomChangedExplicitly, [this]() {
+        setAutoFitInView(false);
+    });
 }

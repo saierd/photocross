@@ -9,6 +9,7 @@ namespace Ui {
 class SessionView;
 }
 
+class ImageView;
 class SourceImageView;
 class Session;
 
@@ -47,6 +48,9 @@ private slots:
     void adaptViewToWindow();
 
     void resizeEvent(QResizeEvent* event) override;
+
+private:
+    void initializeImageView(ImageView& imageView);
 
 private:
     std::unique_ptr<Ui::SessionView> ui;
