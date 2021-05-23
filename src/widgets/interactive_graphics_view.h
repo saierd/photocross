@@ -20,6 +20,9 @@ signals:
     void zoomChangedExplicitly();
     void viewChanged();
 
+    void mouseLeft();
+
 protected:
     void wheelEvent(QWheelEvent* event) override;
+    void leaveEvent(QEvent* event) override;
 };

@@ -1,7 +1,12 @@
 #include "session_view.h"
 
 #include "session.h"
+#include "widgets/mouse_indicator.h"
 #include "widgets/source_image_view.h"
+
+#include <QGraphicsItem>
+#include <QGraphicsView>
+#include <QScopeGuard>
 
 #include "ui_session_view.h"
 
@@ -60,6 +65,19 @@ void SessionView::setSourceImagesVisible(bool enable)
     adaptViewToWindow();
 
     emit sourceImagesVisibleChanged(getSourceImagesVisible());
+}
+
+bool SessionView::getMouseIndicatorsVisible() const
+{
+    return mouseIndicatorsVisible;
+}
+
+void SessionView::setMouseIndicatorsVisible(bool enable)
+{
+    mouseIndicatorsVisible = enable;
+    updateMouseIndicators();
+
+    emit mouseIndicatorsVisibleChanged(getMouseIndicatorsVisible());
 }
 
 bool SessionView::getAutoFitInView() const
@@ -152,6 +170,9 @@ void SessionView::fitComparisonImageToView()
 
 void SessionView::adjustNumberOfImageViews(size_t numImages)
 {
+    // Clear mouse indicators to avoid dangling pointers to items in deleted image views.
+    removeMouseIndicatorsFromScenes();
+
     if (!imageViews.empty()) {
         while (imageViews.size() > numImages) {
             auto* item = ui->imagesLayout->takeAt(static_cast<int>(imageViews.size()) - 1);
@@ -177,6 +198,10 @@ void SessionView::adjustNumberOfImageViews(size_t numImages)
 
 void SessionView::updateImages()
 {
+    // Clear mouse indicators before changing images. Note that we do not need to restore them in this method, since the
+    // updateComparisonView method will do that for us.
+    removeMouseIndicatorsFromScenes();
+
     size_t numImages = session->getImages().size();
     size_t previousNumImages = imageViews.size();
 
@@ -206,6 +231,11 @@ void SessionView::updateImages()
 
 void SessionView::updateComparisonView()
 {
+    removeMouseIndicatorsFromScenes();
+    auto restoreMouseIndicators = qScopeGuard([this]() {
+        updateMouseIndicators();
+    });
+
     auto const& images = session->getImages();
     auto const& settings = *ui->comparisonSettings;
 
@@ -221,6 +251,75 @@ void SessionView::updateComparisonView()
     }
 
     ui->comparisonView->update(*session, settings);
+}
+
+void SessionView::clearMouseIndicators()
+{
+    lastMouseIndicatorPosition.reset();
+    updateMouseIndicators();
+}
+
+void SessionView::removeMouseIndicatorsFromScenes()
+{
+    for (auto* item : mouseIndicatorItems) {
+        auto* scene = item->scene();
+        scene->removeItem(item);
+        // Redraw the scene where the indicator was to remove it from the screen.
+        scene->update(item->sceneTransform().mapRect(item->boundingRect()));
+        delete item;
+    }
+    mouseIndicatorItems.clear();
+}
+
+void SessionView::updateMouseIndicators()
+{
+    if (lastMouseIndicatorPosition) {
+        updateMouseIndicators(*lastMouseIndicatorPosition);
+    } else {
+        removeMouseIndicatorsFromScenes();
+    }
+}
+
+void SessionView::updateMouseIndicators(MouseIndicatorPosition const& position)
+{
+    removeMouseIndicatorsFromScenes();
+
+    if (!mouseIndicatorsVisible) {
+        return;
+    }
+
+    auto addMouseIndicator = [&](QGraphicsView& view) {
+        if (view.scene() == position.hoveredScene) {
+            return;
+        }
+
+        int const scenePixelSize = (view.mapFromScene(QPoint(1, 0)) - view.mapFromScene(QPoint(0, 0))).x();
+        if (scenePixelSize < 3) {
+            // Image view is zoomed out far and the mouse indicator would be very small and difficult to see. Do not
+            // draw it until the image is zoomed in more.
+            return;
+        }
+
+        auto mouseIndicator = std::make_unique<MouseIndicatorGraphicsItem>();
+
+        QPointF hoveredPixel = (position.sceneCoordinates + QPointF(0.5, 0.5)).toPoint() - QPointF(0.5, 0.5);
+        mouseIndicator->setPos(hoveredPixel);
+
+        // Only add the indicator if it is not outside of the displayed image. Otherwise it would extend the bounding
+        // box of the scene and change the scrolling behavior of the graphics view.
+        auto mouseIndicatorRect = mouseIndicator->boundingRect().translated(hoveredPixel);
+        if (view.scene()->sceneRect().contains(mouseIndicatorRect)) {
+            mouseIndicatorItems.push_back(mouseIndicator.get());
+            view.scene()->addItem(mouseIndicator.release());
+        }
+    };
+
+    for (auto const& imageView : imageViews) {
+        addMouseIndicator(imageView->getGraphicsView());
+    }
+    addMouseIndicator(ui->comparisonView->getGraphicsView());
+
+    lastMouseIndicatorPosition = position;
 }
 
 void SessionView::adaptViewToWindow()
@@ -241,4 +340,9 @@ void SessionView::initializeImageView(ImageView& imageView)
     connect(&imageView, &ImageView::zoomChangedExplicitly, [this]() {
         setAutoFitInView(false);
     });
+    connect(&imageView.getScene(),
+            &ImageViewScene::mouseMoved,
+            this,
+            qOverload<MouseIndicatorPosition const&>(&SessionView::updateMouseIndicators));
+    connect(&imageView.getScene(), &ImageViewScene::mouseLeft, this, &SessionView::clearMouseIndicators);
 }

@@ -50,8 +50,12 @@ set(source_files
     src/widgets/image_view.cpp
     src/widgets/image_view.h
     src/widgets/image_view.ui
+    src/widgets/image_view_scene.cpp
+    src/widgets/image_view_scene.h
     src/widgets/interactive_graphics_view.cpp
     src/widgets/interactive_graphics_view.h
+    src/widgets/mouse_indicator.cpp
+    src/widgets/mouse_indicator.h
     src/widgets/session_view.cpp
     src/widgets/session_view.h
     src/widgets/session_view.ui

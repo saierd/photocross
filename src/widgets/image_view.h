@@ -1,8 +1,8 @@
 #pragma once
 
 #include "image_drop_widget.h"
+#include "image_view_scene.h"
 
-#include <QGraphicsScene>
 #include <QWidget>
 
 #include <memory>
@@ -10,6 +10,8 @@
 namespace Ui {
 class ImageView;
 }
+
+class QGraphicsView;
 
 class ImageView : public ImageDropWidget {
     Q_OBJECT
@@ -27,7 +29,8 @@ public:
 
     void setCaption(QString const& caption);
 
-    QGraphicsScene& getScene() &;
+    ImageViewScene& getScene() &;
+    QGraphicsView& getGraphicsView() &;
 
     void clear();
     void addPixmap(QPixmap const& image, double opacity = 1.);
@@ -44,7 +47,7 @@ public slots:
 
 private:
     std::unique_ptr<Ui::ImageView> ui;
-    QGraphicsScene scene;
+    ImageViewScene scene;
 
     bool modifiable = false;
 };

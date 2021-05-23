@@ -62,3 +62,9 @@ void InteractiveGraphicsView::wheelEvent(QWheelEvent* event)
         zoomOut();
     }
 }
+
+void InteractiveGraphicsView::leaveEvent(QEvent* event)
+{
+    QGraphicsView::leaveEvent(event);
+    emit mouseLeft();
+}

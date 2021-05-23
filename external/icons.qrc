@@ -19,6 +19,7 @@
         <file alias="image.svg">mdi/svg/image-outline.svg</file>
         <file alias="document-open.svg">mdi/svg/folder-open-outline.svg</file>
         <file alias="close.svg">mdi/svg/close.svg</file>
+        <file alias="target.svg">mdi/svg/target-variant.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>

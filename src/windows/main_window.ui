@@ -39,6 +39,7 @@
     <addaction name="actionZoomOut"/>
     <addaction name="separator"/>
     <addaction name="actionShowSourceImages"/>
+    <addaction name="actionShowMouseIndicators"/>
     <addaction name="actionFlipLayoutDirection"/>
    </widget>
    <widget class="QMenu" name="menuFile">
@@ -70,6 +71,7 @@
    <addaction name="actionZoomOut"/>
    <addaction name="separator"/>
    <addaction name="actionShowSourceImages"/>
+   <addaction name="actionShowMouseIndicators"/>
    <addaction name="actionFlipLayoutDirection"/>
   </widget>
   <action name="actionAutoFitToView">
@@ -214,6 +216,24 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionShowMouseIndicators">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="target">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Show Mouse Indicators</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Mouse Indicators</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
    </property>
   </action>
  </widget>

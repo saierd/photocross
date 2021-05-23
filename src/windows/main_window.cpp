@@ -28,6 +28,13 @@ MainWindow::MainWindow(QWidget* parent)
     ui->actionShowSourceImages->setChecked(ui->session->getSourceImagesVisible());
     connect(ui->session, &SessionView::sourceImagesVisibleChanged, ui->actionShowSourceImages, &QAction::setChecked);
 
+    connect(ui->actionShowMouseIndicators, &QAction::toggled, ui->session, &SessionView::setMouseIndicatorsVisible);
+    ui->actionShowMouseIndicators->setChecked(ui->session->getMouseIndicatorsVisible());
+    connect(ui->session,
+            &SessionView::mouseIndicatorsVisibleChanged,
+            ui->actionShowMouseIndicators,
+            &QAction::setChecked);
+
     connect(ui->actionZoomIn, &QAction::triggered, ui->session, &SessionView::zoomIn);
     connect(ui->actionZoomOut, &QAction::triggered, ui->session, &SessionView::zoomOut);
 

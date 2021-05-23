@@ -44,8 +44,10 @@ ImageView::ImageView(QWidget* parent)
     });
 
     connect(ui->graphicsView, &InteractiveGraphicsView::zoomChangedExplicitly, this, &ImageView::zoomChangedExplicitly);
+    connect(ui->graphicsView, &InteractiveGraphicsView::mouseLeft, &scene, &ImageViewScene::mouseLeft);
 
     setModifiable(false);
+    ui->graphicsView->setMouseTracking(true);
     ui->graphicsView->setScene(&scene);
 }
 
@@ -79,9 +81,14 @@ void ImageView::setCaption(QString const& caption)
     ui->caption->setText(caption);
 }
 
-QGraphicsScene& ImageView::getScene() &
+ImageViewScene& ImageView::getScene() &
 {
     return scene;
+}
+
+QGraphicsView& ImageView::getGraphicsView() &
+{
+    return *ui->graphicsView;
 }
 
 void ImageView::clear()
