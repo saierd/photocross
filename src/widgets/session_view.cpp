@@ -91,9 +91,17 @@ void SessionView::setAutoFitInView(bool enable)
     emit autoFitInViewChanged(autoFitInView);
 }
 
+bool SessionView::getLayoutIsHorizontal() const
+{
+    // The splitter's layout is the inverse of what we call the layout, since e.g. the list of source images is layed
+    // out perpendicular to the splitter itself.
+    return ui->splitter->orientation() != Qt::Horizontal;
+}
+
 void SessionView::flipLayoutDirection()
 {
-    if (ui->splitter->orientation() == Qt::Horizontal) {
+    bool newLayoutHorizontal = !getLayoutIsHorizontal();
+    if (newLayoutHorizontal) {
         ui->splitter->setOrientation(Qt::Vertical);
         ui->imagesLayout->setDirection(QBoxLayout::LeftToRight);
         ui->comparisonLayout->setDirection(QBoxLayout::LeftToRight);
@@ -111,6 +119,8 @@ void SessionView::flipLayoutDirection()
     // Flipping the layout might change the center point visible in the image if the image does not fit the graphics
     // view. Force synchronization of the views so that they are all centered on the same point again.
     ui->comparisonView->forceViewPropagation();
+
+    emit layoutDirectionChanged(newLayoutHorizontal);
 }
 
 void SessionView::zoomIn()

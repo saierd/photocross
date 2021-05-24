@@ -96,7 +96,7 @@
   </action>
   <action name="actionFlipLayoutDirection">
    <property name="icon">
-    <iconset theme="flip-layout-direction">
+    <iconset theme="rotate-to-vertical">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">

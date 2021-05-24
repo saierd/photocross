@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->session, &SessionView::autoFitInViewChanged, ui->actionAutoFitToView, &QAction::setDisabled);
 
     connect(ui->actionFlipLayoutDirection, &QAction::triggered, ui->session, &SessionView::flipLayoutDirection);
+    updateLayoutDirection(ui->session->getLayoutIsHorizontal());
+    connect(ui->session, &SessionView::layoutDirectionChanged, this, &MainWindow::updateLayoutDirection);
 }
 
 MainWindow::~MainWindow() = default;
@@ -65,5 +67,14 @@ void MainWindow::openImages()
     auto files = selectImageFiles(this);
     if (!files.empty()) {
         getSession().loadImages(files);
+    }
+}
+
+void MainWindow::updateLayoutDirection(bool layoutIsHorizontal)
+{
+    if (layoutIsHorizontal) {
+        ui->actionFlipLayoutDirection->setIcon(QIcon::fromTheme("rotate-to-vertical"));
+    } else {
+        ui->actionFlipLayoutDirection->setIcon(QIcon::fromTheme("rotate-to-horizontal"));
     }
 }

@@ -22,6 +22,8 @@ public:
 private slots:
     void openImages();
 
+    void updateLayoutDirection(bool layoutIsHorizontal);
+
 private:
     std::unique_ptr<Ui::MainWindow> ui;
     std::unique_ptr<Session> session;

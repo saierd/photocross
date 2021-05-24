@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/icons/icons">
         <file alias="fit-to-page.svg">mdi/svg/fit-to-page-outline.svg</file>
-        <file alias="flip-layout-direction.svg">mdi/svg/rotate-right-variant.svg</file>
+        <file alias="rotate-to-vertical.svg">mdi/svg/rotate-right-variant.svg</file>
         <file>index.theme</file>
         <file alias="zoom-out.svg">mdi/svg/magnify-minus-outline.svg</file>
         <file alias="zoom-in.svg">mdi/svg/magnify-plus-outline.svg</file>
@@ -21,6 +21,7 @@
         <file alias="close.svg">mdi/svg/close.svg</file>
         <file alias="target.svg">mdi/svg/target-variant.svg</file>
         <file alias="exit.svg">mdi/svg/exit-to-app.svg</file>
+        <file alias="rotate-to-horizontal.svg">custom_icons/rotate-to-horizontal.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>

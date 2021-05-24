@@ -35,10 +35,13 @@ public:
     bool getAutoFitInView() const;
     void setAutoFitInView(bool enable);
 
+    bool getLayoutIsHorizontal() const;
+
 signals:
     void sourceImagesVisibleChanged(bool sourceImagesVisible);
     void mouseIndicatorsVisibleChanged(bool mouseIndicatorsVisible);
     void autoFitInViewChanged(bool autoFitInView);
+    void layoutDirectionChanged(bool layoutIsHorizontal);
 
 public slots:
     void flipLayoutDirection();
