@@ -16,6 +16,10 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->actionOpenImages, &QAction::triggered, this, &MainWindow::openImages);
 
+    connect(ui->actionExit, &QAction::triggered, []() {
+        QCoreApplication::quit();
+    });
+
     connect(ui->actionReload, &QAction::triggered, [this]() {
         session->reload();
     });
