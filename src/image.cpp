@@ -27,7 +27,13 @@ QPixmap Image::toPixmap() const
 
 QPixmap Image::toGrayscalePixmap() const
 {
-    return QPixmap::fromImage(imageData.convertToFormat(QImage::Format_Grayscale8));
+    QImage grayscale = imageData.convertToFormat(QImage::Format_Grayscale8);
+    if (imageData.hasAlphaChannel()) {
+        // Preserve alpha channel in the grayscale image.
+        grayscale.setAlphaChannel(imageData.convertToFormat(QImage::Format_Alpha8));
+    }
+
+    return QPixmap::fromImage(grayscale);
 }
 
 void Image::setReloadWhenFileChanges(bool enable)
