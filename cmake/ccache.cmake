@@ -1,0 +1,5 @@
+find_program(ccache_executable ccache)
+if (ccache_executable)
+    message(STATUS "Using ccache '${ccache_executable}'")
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${ccache_executable}")
+endif()

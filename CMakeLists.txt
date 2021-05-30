@@ -13,6 +13,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(X11 REQUIRED)
 include(cmake/nautilus_extension.cmake)
 
+include(cmake/ccache.cmake)
 include(cmake/clang_tidy.cmake)
 include(cmake/compiler_flags.cmake)
 include(cmake/package.cmake)
