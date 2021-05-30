@@ -8,7 +8,7 @@ project(
     HOMEPAGE_URL "https://github.com/saierd/slika"
     LANGUAGES CXX)
 
-# Dependencies.
+# Search for dependencies.
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(X11 REQUIRED)
 include(cmake/nautilus_extension.cmake)
@@ -19,8 +19,7 @@ include(cmake/package.cmake)
 
 add_subdirectory(file_manager_integrations)
 
-set(source_directory "src")
-set(source_files
+add_executable(${PROJECT_NAME}
     external/icons.qrc
     src/command_line.h
     src/command_line.cpp
@@ -66,10 +65,8 @@ set(source_files
     src/windows/main_window.cpp
     src/windows/main_window.h
     src/windows/main_window.ui)
-
-add_executable(${PROJECT_NAME} ${source_files})
-source_group(TREE "${source_directory}")
-target_include_directories(${PROJECT_NAME} PRIVATE "${source_directory}")
+source_group(TREE "src")
+target_include_directories(${PROJECT_NAME} PRIVATE "src")
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets X11::xcb)
 set_target_properties(${PROJECT_NAME} PROPERTIES
