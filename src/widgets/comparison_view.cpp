@@ -61,6 +61,7 @@ void ComparisonView::update(Session const& session, ComparisonSettings const& se
         double const blendPosition = sequenceBlendPosition - firstImageIndex;
 
         auto* firstImage = getScene().addPixmap(images[firstImageIndex]->toPixmap());
+        firstImage->setOpacity(1 - blendPosition);
         auto* secondImage = getScene().addPixmap(images[firstImageIndex + 1]->toPixmap());
         secondImage->setOpacity(blendPosition);
 
