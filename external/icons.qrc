@@ -22,6 +22,10 @@
         <file alias="target.svg">mdi/svg/target-variant.svg</file>
         <file alias="exit.svg">mdi/svg/exit-to-app.svg</file>
         <file alias="rotate-to-horizontal.svg">custom_icons/rotate-to-horizontal.svg</file>
+        <file alias="rotate-left.svg">mdi/svg/rotate-left.svg</file>
+        <file alias="rotate-right.svg">mdi/svg/rotate-right.svg</file>
+        <file alias="reset-rotation.svg">mdi/svg/arrow-up-drop-circle-outline.svg</file>
+        <file alias="edit.svg">mdi/svg/pencil-outline.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>

@@ -178,6 +178,22 @@ void SessionView::fitComparisonImageToView()
     setAutoFitInView(false);
 }
 
+void SessionView::rotateImagesLeft()
+{
+    for (auto const& image : session->getImages()) {
+        image->rotateLeft();
+    }
+    adaptViewToWindow();
+}
+
+void SessionView::rotateImagesRight()
+{
+    for (auto const& image : session->getImages()) {
+        image->rotateRight();
+    }
+    adaptViewToWindow();
+}
+
 void SessionView::adjustNumberOfImageViews(size_t numImages)
 {
     // Clear mouse indicators to avoid dangling pointers to items in deleted image views.

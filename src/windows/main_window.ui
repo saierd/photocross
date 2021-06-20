@@ -38,6 +38,9 @@
     <addaction name="actionZoomIn"/>
     <addaction name="actionZoomOut"/>
     <addaction name="separator"/>
+    <addaction name="actionRotateImagesLeft"/>
+    <addaction name="actionRotateImagesRight"/>
+    <addaction name="separator"/>
     <addaction name="actionShowSourceImages"/>
     <addaction name="actionShowMouseIndicators"/>
     <addaction name="actionFlipLayoutDirection"/>
@@ -251,6 +254,29 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionRotateImagesLeft">
+   <property name="icon">
+    <iconset theme="rotate-left"/>
+   </property>
+   <property name="text">
+    <string>Rotate Images Left</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate Images Left</string>
+   </property>
+  </action>
+  <action name="actionRotateImagesRight">
+   <property name="icon">
+    <iconset theme="rotate-right">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate Images Right</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate Images Right</string>
    </property>
   </action>
  </widget>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ImageEditMenu</class>
+ <widget class="QWidget" name="ImageEditMenu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>104</width>
+    <height>43</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolButton" name="rotateLeftButton"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="resetRotationButton"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="rotateRightButton"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+  <action name="actionRotateLeft">
+   <property name="icon">
+    <iconset theme="rotate-left">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate Left</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate Left</string>
+   </property>
+  </action>
+  <action name="actionRotateRight">
+   <property name="icon">
+    <iconset theme="rotate-right">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate Right</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate Right</string>
+   </property>
+  </action>
+  <action name="actionResetRotation">
+   <property name="icon">
+    <iconset theme="reset-rotation">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Reset Rotation</string>
+   </property>
+   <property name="toolTip">
+    <string>Reset Rotation</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

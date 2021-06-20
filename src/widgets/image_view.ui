@@ -41,6 +41,19 @@
       <widget class="QToolButton" name="fitToView"/>
      </item>
      <item>
+      <widget class="QToolButton" name="editImage">
+       <property name="toolTip">
+        <string>Edit Image</string>
+       </property>
+       <property name="icon">
+        <iconset theme="edit"/>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="replaceImage"/>
      </item>
      <item>

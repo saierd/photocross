@@ -34,10 +34,10 @@ void ComparisonView::update(Session const& session, ComparisonSettings const& se
     if (comparisonMode == ComparisonMode::HighlightDifferences) {
         QImage differenceImage;
         if (images.size() >= 2) {
-            std::vector<QImage const*> imagesToCompare;
+            std::vector<QImage> imagesToCompare;
             imagesToCompare.reserve(images.size());
             for (auto const& image : images) {
-                imagesToCompare.push_back(&image->image());
+                imagesToCompare.push_back(image->image());
             }
 
             differenceImage = computeDifferenceImage(imagesToCompare,

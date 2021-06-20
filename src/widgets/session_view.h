@@ -51,6 +51,9 @@ public slots:
     void fitToView();
     void fitComparisonImageToView();
 
+    void rotateImagesLeft();
+    void rotateImagesRight();
+
 private:
     using MouseIndicatorPosition = ImageViewScene::MouseMovedInfo;
 

@@ -47,6 +47,9 @@ add_executable(${PROJECT_NAME}
     src/widgets/empty_image.ui
     src/widgets/image_drop_widget.cpp
     src/widgets/image_drop_widget.h
+    src/widgets/image_edit_menu.cpp
+    src/widgets/image_edit_menu.h
+    src/widgets/image_edit_menu.ui
     src/widgets/image_view.cpp
     src/widgets/image_view.h
     src/widgets/image_view.ui

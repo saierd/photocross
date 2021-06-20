@@ -1,6 +1,7 @@
 #include "image_view.h"
 
 #include "file_helpers.h"
+#include "image_edit_menu.h"
 
 #include <QGraphicsPixmapItem>
 
@@ -17,6 +18,12 @@ ImageView::ImageView(QWidget* parent)
         fitViewToScene();
         emit zoomChangedExplicitly();
     });
+
+    auto* editMenu = new ImageEditMenuAction(this);
+    connect(editMenu, &ImageEditMenuAction::resetRotation, this, &ImageView::resetRotation);
+    connect(editMenu, &ImageEditMenuAction::rotateLeft, this, &ImageView::rotateLeft);
+    connect(editMenu, &ImageEditMenuAction::rotateRight, this, &ImageView::rotateRight);
+    ui->editImage->addAction(editMenu);
 
     ui->closeImage->setDefaultAction(ui->actionCloseImage);
     connect(ui->actionCloseImage, &QAction::triggered, [this]() {
@@ -56,6 +63,7 @@ ImageView::~ImageView() = default;
 void ImageView::setModifiable(bool enable)
 {
     modifiable = enable;
+    ui->editImage->setVisible(modifiable);
     ui->replaceImage->setVisible(modifiable);
     ui->closeImage->setVisible(modifiable);
     setAcceptDrops(modifiable);

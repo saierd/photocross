@@ -8,29 +8,33 @@ Image::Image(QString _filename)
     connect(&fileWatcher, &QFileSystemWatcher::fileChanged, this, &Image::imageFileChanged);
 }
 
-Image::~Image() = default;
-
 QString const& Image::file() const&
 {
     return filename;
 }
 
-QImage const& Image::image() const&
+QImage Image::image() const&
 {
-    return imageData;
+    if (rotation == 0) {
+        return imageData;
+    }
+
+    // Note that rotation by positive angles is clockwise here since Qt widget coordinates have their y axis downwards.
+    return imageData.transformed(QMatrix().rotate(rotation * -90));
 }
 
 QPixmap Image::toPixmap() const
 {
-    return QPixmap::fromImage(imageData);
+    return QPixmap::fromImage(image());
 }
 
 QPixmap Image::toGrayscalePixmap() const
 {
-    QImage grayscale = imageData.convertToFormat(QImage::Format_Grayscale8);
-    if (imageData.hasAlphaChannel()) {
+    QImage originalImage = image();
+    QImage grayscale = originalImage.convertToFormat(QImage::Format_Grayscale8);
+    if (originalImage.hasAlphaChannel()) {
         // Preserve alpha channel in the grayscale image.
-        grayscale.setAlphaChannel(imageData.convertToFormat(QImage::Format_Alpha8));
+        grayscale.setAlphaChannel(originalImage.convertToFormat(QImage::Format_Alpha8));
     }
 
     return QPixmap::fromImage(grayscale);
@@ -44,6 +48,28 @@ void Image::setReloadWhenFileChanges(bool enable)
 void Image::reload()
 {
     imageData = QImage(filename);
+    emit imageChanged();
+}
+
+void Image::resetRotation()
+{
+    if (rotation == 0) {
+        return;
+    }
+
+    rotation = 0;
+    emit imageChanged();
+}
+
+void Image::rotateLeft()
+{
+    rotation = (rotation + 1) % 4;
+    emit imageChanged();
+}
+
+void Image::rotateRight()
+{
+    rotation = (rotation - 1) % 4;
     emit imageChanged();
 }
 

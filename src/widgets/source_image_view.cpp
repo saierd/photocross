@@ -5,6 +5,21 @@ SourceImageView::SourceImageView(QWidget* parent)
 {
     setModifiable();
 
+    connect(this, &ImageView::resetRotation, [this]() {
+        if (image) {
+            image->resetRotation();
+        }
+    });
+    connect(this, &ImageView::rotateLeft, [this]() {
+        if (image) {
+            image->rotateLeft();
+        }
+    });
+    connect(this, &ImageView::rotateRight, [this]() {
+        if (image) {
+            image->rotateRight();
+        }
+    });
     connect(this, &ImageView::imageClosed, [this]() {
         if (image) {
             emit image->imageClosed();

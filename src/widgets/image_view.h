@@ -36,6 +36,10 @@ public:
     void addPixmap(QPixmap const& image, double opacity = 1.);
 
 signals:
+    void resetRotation();
+    void rotateLeft();
+    void rotateRight();
+
     void imageClosed();
     void imageReplaced(QStringList const& files);
 

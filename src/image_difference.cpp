@@ -17,13 +17,13 @@ int pixelDifference(QRgb pixel1, QRgb pixel2)
     return std::max(std::max(std::max(r, g), b), a);
 }
 
-QImage computeDifferenceImage(std::vector<QImage const*> images, int tolerance, bool showMinorDifferences)
+QImage computeDifferenceImage(std::vector<QImage> const& images, int tolerance, bool showMinorDifferences)
 {
     if (images.empty()) {
         return {};
     }
 
-    QSize size = images[0]->size();
+    QSize size = images[0].size();
 
     QImage diff(size, QImage::Format_ARGB32);
     diff.fill(qRgba(255, 255, 255, 0));
@@ -33,8 +33,8 @@ QImage computeDifferenceImage(std::vector<QImage const*> images, int tolerance, 
             int maxDifference = 0;
             for (size_t i = 1; i < images.size(); i++) {
                 for (size_t j = 0; j < i; j++) {
-                    QRgb pixel1 = images[i]->pixel(x, y);
-                    QRgb pixel2 = images[j]->pixel(x, y);
+                    QRgb pixel1 = images[i].pixel(x, y);
+                    QRgb pixel2 = images[j].pixel(x, y);
                     maxDifference = std::max(maxDifference, pixelDifference(pixel1, pixel2));
                 }
             }

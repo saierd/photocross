@@ -50,6 +50,9 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->session, &SessionView::autoFitInViewChanged, ui->actionAutoFitToView, &QAction::setChecked);
     connect(ui->session, &SessionView::autoFitInViewChanged, ui->actionAutoFitToView, &QAction::setDisabled);
 
+    connect(ui->actionRotateImagesLeft, &QAction::triggered, ui->session, &SessionView::rotateImagesLeft);
+    connect(ui->actionRotateImagesRight, &QAction::triggered, ui->session, &SessionView::rotateImagesRight);
+
     connect(ui->actionFlipLayoutDirection, &QAction::triggered, ui->session, &SessionView::flipLayoutDirection);
     updateLayoutDirection(ui->session->getLayoutIsHorizontal());
     connect(ui->session, &SessionView::layoutDirectionChanged, this, &MainWindow::updateLayoutDirection);
