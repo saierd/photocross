@@ -45,6 +45,9 @@ public slots:
     void zoomIn();
     void zoomOut();
 
+protected:
+    void updateSceneRect();
+
 private:
     std::unique_ptr<Ui::ImageView> ui;
     ImageViewScene scene;

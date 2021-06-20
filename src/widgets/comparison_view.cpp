@@ -15,11 +15,6 @@ ComparisonView::ComparisonView(QWidget* parent)
     setCaption("Comparison View");
 }
 
-void ComparisonView::clear()
-{
-    getScene().clear();
-}
-
 void addColorFilter(QGraphicsPixmapItem* item, QColor const& color)
 {
     if (!color.isValid()) {
@@ -74,4 +69,6 @@ void ComparisonView::update(Session const& session, ComparisonSettings const& se
         addColorFilter(firstImage, firstImageColor);
         addColorFilter(secondImage, secondImageColor);
     }
+
+    updateSceneRect();
 }

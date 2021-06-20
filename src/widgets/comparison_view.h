@@ -9,6 +9,5 @@ class ComparisonView : public ImageView {
 public:
     explicit ComparisonView(QWidget* parent = nullptr);
 
-    void clear();
     void update(Session const& session, ComparisonSettings const& settings);
 };

@@ -94,12 +94,14 @@ QGraphicsView& ImageView::getGraphicsView() &
 void ImageView::clear()
 {
     scene.clear();
+    scene.setSceneRect({});
 }
 
 void ImageView::addPixmap(QPixmap const& image, double opacity)
 {
     auto* item = scene.addPixmap(image);
     item->setOpacity(opacity);
+    updateSceneRect();
 }
 
 void ImageView::zoomIn()
@@ -110,4 +112,9 @@ void ImageView::zoomIn()
 void ImageView::zoomOut()
 {
     ui->graphicsView->zoomOut();
+}
+
+void ImageView::updateSceneRect()
+{
+    scene.setSceneRect(scene.itemsBoundingRect());
 }
