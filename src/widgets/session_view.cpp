@@ -8,6 +8,10 @@
 #include <QGraphicsView>
 #include <QScopeGuard>
 
+#include <algorithm>
+#include <cmath>
+#include <vector>
+
 #include "ui_session_view.h"
 
 SessionView::SessionView(QWidget* parent)
@@ -133,41 +137,36 @@ void SessionView::zoomOut()
     ui->comparisonView->zoomOut();
 }
 
+double computeSceneToViewSizeRatio(ImageView const* view)
+{
+    return std::max(view->getScene().sceneRect().width() / view->width(),
+                    view->getScene().sceneRect().height() / view->height());
+}
+
+ImageView* selectTightestImageView(std::vector<ImageView*> views)
+{
+    return *std::max_element(views.begin(), views.end(), [](ImageView const* a, ImageView const* b) {
+        return computeSceneToViewSizeRatio(a) < computeSceneToViewSizeRatio(b);
+    });
+}
+
 void SessionView::fitToView()
 {
     if (session->getImages().empty()) {
         return;
     }
 
-    auto const& pivotImage = session->getImages()[0]->image();
-    bool imageIsLandscape = pivotImage.width() >= pivotImage.height();
-
-    ImageView* smallestImageView = nullptr;
-
-    auto viewIsSmallerThanCurrentSmallest = [&](ImageView* view) -> bool {
-        if (imageIsLandscape) {
-            return view->width() < smallestImageView->width();
-        }
-        return view->height() < smallestImageView->height();
-    };
-
-    auto selectViewIfSmaller = [&](ImageView* view) {
-        if (smallestImageView == nullptr || viewIsSmallerThanCurrentSmallest(view)) {
-            smallestImageView = view;
-        }
-    };
-
+    std::vector<ImageView*> views;
     if (getSourceImagesVisible()) {
-        for (auto const& view : imageViews) {
-            selectViewIfSmaller(view);
-        }
+        std::copy(imageViews.begin(), imageViews.end(), std::back_inserter(views));
     }
     if (ui->comparisonView->isVisible()) {
-        selectViewIfSmaller(ui->comparisonView);
+        views.push_back(ui->comparisonView);
     }
 
-    if (smallestImageView != nullptr) {
-        smallestImageView->fitViewToScene();
+    if (!views.empty()) {
+        auto* tightestImageView = selectTightestImageView(views);
+        tightestImageView->fitViewToScene();
         setAutoFitInView(true);
     }
 }

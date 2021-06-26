@@ -30,6 +30,7 @@ public:
     void setCaption(QString const& caption);
 
     ImageViewScene& getScene() &;
+    ImageViewScene const& getScene() const&;
     QGraphicsView& getGraphicsView() &;
 
     void clear();

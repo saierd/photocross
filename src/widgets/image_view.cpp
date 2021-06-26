@@ -94,6 +94,11 @@ ImageViewScene& ImageView::getScene() &
     return scene;
 }
 
+ImageViewScene const& ImageView::getScene() const&
+{
+    return scene;
+}
+
 QGraphicsView& ImageView::getGraphicsView() &
 {
     return *ui->graphicsView;
