@@ -1,6 +1,7 @@
 #include "image_difference.h"
 
 #include <cmath>
+#include <limits>
 
 int pixelDifference(int pixel1, int pixel2)
 {
@@ -23,13 +24,22 @@ QImage computeDifferenceImage(std::vector<QImage> const& images, int tolerance, 
         return {};
     }
 
-    QSize size = images[0].size();
+    QRgb const noDifferenceColor = qRgba(255, 255, 255, 0);
+    QRgb const differenceColor = qRgb(255, 0, 0);
+    QRgb const minorDifferenceColor = qRgb(0, 0, 255);
 
-    QImage diff(size, QImage::Format_ARGB32);
-    diff.fill(qRgba(255, 255, 255, 0));
+    QSize totalSize;
+    QSize commonSize(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
+    for (auto const& image : images) {
+        totalSize = totalSize.expandedTo(image.size());
+        commonSize = commonSize.boundedTo(image.size());
+    }
 
-    for (int y = 0; y < size.height(); y++) {
-        for (int x = 0; x < size.width(); x++) {
+    QImage diff(totalSize, QImage::Format_ARGB32);
+    diff.fill(noDifferenceColor);
+
+    for (int y = 0; y < commonSize.height(); y++) {
+        for (int x = 0; x < commonSize.width(); x++) {
             int maxDifference = 0;
             for (size_t i = 1; i < images.size(); i++) {
                 for (size_t j = 0; j < i; j++) {
@@ -40,10 +50,22 @@ QImage computeDifferenceImage(std::vector<QImage> const& images, int tolerance, 
             }
 
             if (maxDifference > tolerance) {
-                diff.setPixel(x, y, qRgb(255, 0, 0));
+                diff.setPixel(x, y, differenceColor);
             } else if (showMinorDifferences && maxDifference != 0) {
-                diff.setPixel(x, y, qRgb(0, 0, 255));
+                diff.setPixel(x, y, minorDifferenceColor);
             }
+        }
+
+        // Fill right slice that is not contained in all images.
+        for (int x = commonSize.width(); x < totalSize.width(); x++) {
+            diff.setPixel(x, y, differenceColor);
+        }
+    }
+
+    // Fill bottom slice that is not contained in all images.
+    for (int y = commonSize.height(); y < totalSize.height(); y++) {
+        for (int x = 0; x < totalSize.width(); x++) {
+            diff.setPixel(x, y, differenceColor);
         }
     }
 
