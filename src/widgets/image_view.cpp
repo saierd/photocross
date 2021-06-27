@@ -1,6 +1,7 @@
 #include "image_view.h"
 
 #include "file_helpers.h"
+#include "image.h"
 #include "image_edit_menu.h"
 
 #include <QGraphicsPixmapItem>
@@ -19,54 +20,55 @@ ImageView::ImageView(QWidget* parent)
         emit zoomChangedExplicitly();
     });
 
-    auto* editMenu = new ImageEditMenuAction(this);
-    connect(editMenu, &ImageEditMenuAction::resetRotation, this, &ImageView::resetRotation);
-    connect(editMenu, &ImageEditMenuAction::rotateLeft, this, &ImageView::rotateLeft);
-    connect(editMenu, &ImageEditMenuAction::rotateRight, this, &ImageView::rotateRight);
+    editMenu = new ImageEditMenuAction(this);
     ui->editImage->addAction(editMenu);
 
     ui->closeImage->setDefaultAction(ui->actionCloseImage);
     connect(ui->actionCloseImage, &QAction::triggered, [this]() {
-        if (modifiable) {
-            emit imageClosed();
+        if (modifiable && imageToModify != nullptr) {
+            emit imageToModify->imageClosed();
         }
     });
 
     ui->replaceImage->setDefaultAction(ui->actionReplaceImage);
     connect(ui->actionReplaceImage, &QAction::triggered, [this]() {
-        if (!modifiable) {
+        if (!modifiable || imageToModify == nullptr) {
             return;
         }
 
         auto files = selectImageFiles(this);
         if (!files.empty()) {
-            emit imageReplaced(files);
+            emit imageToModify->imageReplaced(files);
         }
     });
 
     connect(this, &ImageDropWidget::imagesDropped, [this](QStringList const& files) {
-        if (modifiable) {
-            emit imageReplaced(files);
+        if (modifiable && imageToModify != nullptr) {
+            emit imageToModify->imageReplaced(files);
         }
     });
 
     connect(ui->graphicsView, &InteractiveGraphicsView::zoomChangedExplicitly, this, &ImageView::zoomChangedExplicitly);
     connect(ui->graphicsView, &InteractiveGraphicsView::mouseLeft, &scene, &ImageViewScene::mouseLeft);
 
-    setModifiable(false);
+    setNotModifiable();
     ui->graphicsView->setMouseTracking(true);
     ui->graphicsView->setScene(&scene);
 }
 
 ImageView::~ImageView() = default;
 
-void ImageView::setModifiable(bool enable)
+void ImageView::setNotModifiable()
 {
-    modifiable = enable;
-    ui->editImage->setVisible(modifiable);
-    ui->replaceImage->setVisible(modifiable);
-    ui->closeImage->setVisible(modifiable);
-    setAcceptDrops(modifiable);
+    imageToModify = nullptr;
+    setModifiable(false);
+}
+
+void ImageView::setModifiable(Image* image)
+{
+    imageToModify = image;
+    editMenu->setImage(image);
+    setModifiable(true);
 }
 
 void ImageView::synchronizeViews(ImageView const& other) const
@@ -130,4 +132,13 @@ void ImageView::zoomOut()
 void ImageView::updateSceneRect()
 {
     scene.setSceneRect(scene.itemsBoundingRect());
+}
+
+void ImageView::setModifiable(bool enable)
+{
+    modifiable = enable;
+    ui->editImage->setVisible(enable);
+    ui->replaceImage->setVisible(enable);
+    ui->closeImage->setVisible(enable);
+    setAcceptDrops(enable);
 }

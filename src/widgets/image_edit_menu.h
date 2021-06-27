@@ -8,17 +8,14 @@ namespace Ui {
 class ImageEditMenu;
 }
 
+class Image;
+
 class ImageEditMenu : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ImageEditMenu(QWidget* parent = nullptr);
+    explicit ImageEditMenu(Image* image, QWidget* parent = nullptr);
     ~ImageEditMenu() override;
-
-signals:
-    void resetRotation();
-    void rotateLeft();
-    void rotateRight();
 
 private:
     std::unique_ptr<Ui::ImageEditMenu> ui;
@@ -30,11 +27,11 @@ class ImageEditMenuAction : public QWidgetAction {
 public:
     explicit ImageEditMenuAction(QWidget* parent = nullptr);
 
-signals:
-    void resetRotation();
-    void rotateLeft();
-    void rotateRight();
+    void setImage(Image* _image);
 
 protected:
     QWidget* createWidget(QWidget* parent) override;
+
+private:
+    Image* image;
 };

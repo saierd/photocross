@@ -9,8 +9,6 @@ class SourceImageView : public ImageView {
     Q_OBJECT
 
 public:
-    explicit SourceImageView(QWidget* parent = nullptr);
-
     void setImage(std::shared_ptr<Image> newImage);
 
 private:

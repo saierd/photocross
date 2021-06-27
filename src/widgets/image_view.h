@@ -12,6 +12,8 @@ class ImageView;
 }
 
 class QGraphicsView;
+class Image;
+class ImageEditMenuAction;
 
 class ImageView : public ImageDropWidget {
     Q_OBJECT
@@ -20,7 +22,8 @@ public:
     explicit ImageView(QWidget* parent = nullptr);
     ~ImageView() override;
 
-    void setModifiable(bool enable = true);
+    void setNotModifiable();
+    void setModifiable(Image* image);
 
     void synchronizeViews(ImageView const& other) const;
     void forceViewPropagation() const;
@@ -37,13 +40,6 @@ public:
     void addPixmap(QPixmap const& image, double opacity = 1.);
 
 signals:
-    void resetRotation();
-    void rotateLeft();
-    void rotateRight();
-
-    void imageClosed();
-    void imageReplaced(QStringList const& files);
-
     void zoomChangedExplicitly();
 
 public slots:
@@ -54,8 +50,14 @@ protected:
     void updateSceneRect();
 
 private:
+    void setModifiable(bool enable);
+
+private:
     std::unique_ptr<Ui::ImageView> ui;
     ImageViewScene scene;
 
+    ImageEditMenuAction* editMenu = nullptr;
+
     bool modifiable = false;
+    Image* imageToModify = nullptr;
 };
