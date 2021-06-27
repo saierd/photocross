@@ -26,6 +26,8 @@
         <file alias="rotate-right.svg">mdi/svg/rotate-right.svg</file>
         <file alias="reset-rotation.svg">mdi/svg/arrow-up-drop-circle-outline.svg</file>
         <file alias="edit.svg">mdi/svg/pencil-outline.svg</file>
+        <file alias="move-horizontal.svg">mdi/svg/arrow-left-right.svg</file>
+        <file alias="move-vertical.svg">mdi/svg/arrow-up-down.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>

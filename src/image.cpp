@@ -1,5 +1,7 @@
 #include "image.h"
 
+#include "image_helpers.h"
+
 Image::Image(QString _filename)
   : filename(std::move(_filename))
   , imageData(filename)
@@ -15,12 +17,16 @@ QString const& Image::file() const&
 
 QImage Image::image() const&
 {
-    if (rotation == 0) {
-        return imageData;
+    QImage rotated;
+    if (rotation != 0) {
+        // Note that rotation by positive angles is clockwise here since Qt widget coordinates have their y axis
+        // downwards.
+        rotated = imageData.transformed(QMatrix().rotate(rotation * -90));
+    } else {
+        rotated = imageData;
     }
 
-    // Note that rotation by positive angles is clockwise here since Qt widget coordinates have their y axis downwards.
-    return imageData.transformed(QMatrix().rotate(rotation * -90));
+    return addTransparentOffset(rotated, offset);
 }
 
 QPixmap Image::toPixmap() const
@@ -43,6 +49,17 @@ QPixmap Image::toGrayscalePixmap() const
 void Image::setReloadWhenFileChanges(bool enable)
 {
     reloadWhenFileChanges = enable;
+}
+
+QPoint Image::getOffset() const
+{
+    return offset;
+}
+
+void Image::setOffset(QPoint const& _offset)
+{
+    offset = _offset;
+    emit imageChanged();
 }
 
 void Image::reload()

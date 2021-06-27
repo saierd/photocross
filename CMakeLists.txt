@@ -30,6 +30,8 @@ add_executable(${PROJECT_NAME}
     src/image.h
     src/image_difference.cpp
     src/image_difference.h
+    src/image_helpers.cpp
+    src/image_helpers.h
     src/main.cpp
     src/screenshot.cpp
     src/screenshot.h

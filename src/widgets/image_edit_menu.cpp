@@ -30,9 +30,33 @@ ImageEditMenu::ImageEditMenu(Image* image, QWidget* parent)
             image->rotateRight();
         }
     });
+
+    ui->xOffset->setValue(image->getOffset().x());
+    ui->yOffset->setValue(image->getOffset().y());
+
+    connect(ui->xOffset, QOverload<int>::of(&QSpinBox::valueChanged), [image, this]() {
+        image->setOffset(getOffset());
+    });
+
+    connect(ui->resetXOffset, &QToolButton::clicked, [this]() {
+        ui->xOffset->setValue(0);
+    });
+
+    connect(ui->yOffset, QOverload<int>::of(&QSpinBox::valueChanged), [image, this]() {
+        image->setOffset(getOffset());
+    });
+
+    connect(ui->resetYOffset, &QToolButton::clicked, [this]() {
+        ui->yOffset->setValue(0);
+    });
 }
 
 ImageEditMenu::~ImageEditMenu() = default;
+
+QPoint ImageEditMenu::getOffset() const
+{
+    return QPoint(ui->xOffset->value(), ui->yOffset->value());
+}
 
 ImageEditMenuAction::ImageEditMenuAction(QWidget* parent)
   : QWidgetAction(parent)

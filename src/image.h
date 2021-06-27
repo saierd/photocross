@@ -19,6 +19,9 @@ public:
 
     void setReloadWhenFileChanges(bool enable);
 
+    QPoint getOffset() const;
+    void setOffset(QPoint const& _offset);
+
 signals:
     void imageChanged();
     void imageClosed();
@@ -37,6 +40,8 @@ private slots:
 private:
     QString filename;
     QImage imageData;
+
+    QPoint offset;
 
     int rotation = 0;  // Rotation in 90° degree steps.
 

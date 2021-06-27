@@ -17,6 +17,8 @@ public:
     explicit ImageEditMenu(Image* image, QWidget* parent = nullptr);
     ~ImageEditMenu() override;
 
+    QPoint getOffset() const;
+
 private:
     std::unique_ptr<Ui::ImageEditMenu> ui;
 };
@@ -28,6 +30,8 @@ public:
     explicit ImageEditMenuAction(QWidget* parent = nullptr);
 
     void setImage(Image* _image);
+
+    void offsetChanged(QPoint const& offset);
 
 protected:
     QWidget* createWidget(QWidget* parent) override;
