@@ -22,10 +22,19 @@ void SynchronizableGraphicsView::forceViewPropagation()
     emitSynchronizedViewChanged();
 }
 
+void SynchronizableGraphicsView::rememberView()
+{
+    rememberedView = currentView();
+}
+
+void SynchronizableGraphicsView::restoreView()
+{
+    applyView(rememberedView);
+}
+
 void SynchronizableGraphicsView::emitSynchronizedViewChanged()
 {
-    auto centerPoint = mapToScene(viewport()->rect().center());
-    emit synchronizedViewChanged({transform(), centerPoint});
+    emit synchronizedViewChanged(currentView());
 }
 
 void SynchronizableGraphicsView::applyView(View const& view)
@@ -35,4 +44,10 @@ void SynchronizableGraphicsView::applyView(View const& view)
 
     setTransform(view.transform);
     centerOn(view.centeredScenePoint);
+}
+
+SynchronizableGraphicsView::View SynchronizableGraphicsView::currentView() const
+{
+    auto centerPoint = mapToScene(viewport()->rect().center());
+    return {transform(), centerPoint};
 }

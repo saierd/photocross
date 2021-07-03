@@ -28,6 +28,11 @@ void addColorFilter(QGraphicsPixmapItem* item, QColor const& color)
 
 void ComparisonView::update(Session const& session, ComparisonSettings const& settings)
 {
+    // Clearing the scene will reset the view position. Store the current view settings and restore it after the update.
+    rememberView();
+
+    clear();
+
     auto const& images = session.getImages();
 
     ComparisonMode comparisonMode = settings.getComparisonMode();
@@ -71,4 +76,7 @@ void ComparisonView::update(Session const& session, ComparisonSettings const& se
     }
 
     updateSceneRect();
+
+    restoreView();
+    forceViewPropagation();
 }

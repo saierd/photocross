@@ -27,6 +27,8 @@ public:
 
     void synchronizeViews(ImageView const& other) const;
     void forceViewPropagation() const;
+    void rememberView();
+    void restoreView();
 
     void fitViewToScene();
 

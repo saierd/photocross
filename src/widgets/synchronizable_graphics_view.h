@@ -24,10 +24,19 @@ public:
     void synchronizeViews(SynchronizableGraphicsView const& other) const;
     void forceViewPropagation();
 
+    void rememberView();
+    void restoreView();
+
 signals:
     void synchronizedViewChanged(SynchronizableGraphicsView::View const& view);
 
 private slots:
     void emitSynchronizedViewChanged();
     void applyView(SynchronizableGraphicsView::View const& view);
+
+private:
+    View currentView() const;
+
+private:
+    View rememberedView;
 };

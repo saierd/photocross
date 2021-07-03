@@ -264,8 +264,6 @@ void SessionView::updateComparisonView()
     auto const& images = session->getImages();
     auto const& settings = *ui->comparisonSettings;
 
-    ui->comparisonView->clear();
-
     bool const comparisonVisible = (images.size() >= 2);
     ui->comparisonView->setVisible(comparisonVisible);
     ui->comparisonSettings->setVisible(comparisonVisible);

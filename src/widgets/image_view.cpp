@@ -81,6 +81,16 @@ void ImageView::forceViewPropagation() const
     ui->graphicsView->forceViewPropagation();
 }
 
+void ImageView::rememberView()
+{
+    ui->graphicsView->rememberView();
+}
+
+void ImageView::restoreView()
+{
+    ui->graphicsView->restoreView();
+}
+
 void ImageView::fitViewToScene()
 {
     ui->graphicsView->fitSceneInView();
