@@ -48,6 +48,19 @@ void SynchronizableGraphicsView::applyView(View const& view)
 
 SynchronizableGraphicsView::View SynchronizableGraphicsView::currentView() const
 {
-    auto centerPoint = mapToScene(viewport()->rect().center());
+    // Compute the center of the viewport rect. We must not round this point to integer coordinates to avoid rounding
+    // when the viewport has an odd size. This could otherwise lead to systematic shifting of the view when propagating
+    // views repeatedly.
+    QRect viewportRect = viewport()->rect();
+    QSizeF viewportSize(viewportRect.size());
+    QPointF viewportCenter =
+        QPointF(viewportRect.topLeft()) + QPointF(viewportSize.width(), viewportSize.height()) / 2.;
+
+    // Transform the viewport center to scene coordinates. Note that we use the QPainterPath overload of mapToScene,
+    // because it is the only one that does not use rounded integer coordinates.
+    QPainterPath path;
+    path.moveTo(viewportCenter);
+    QPointF centerPoint = mapToScene(path).currentPosition();
+
     return {transform(), centerPoint};
 }
