@@ -15,17 +15,6 @@ ComparisonView::ComparisonView(QWidget* parent)
     setCaption("Comparison View");
 }
 
-void addColorFilter(QGraphicsPixmapItem* item, QColor const& color)
-{
-    if (!color.isValid()) {
-        return;
-    }
-
-    auto effect = std::make_unique<QGraphicsColorizeEffect>();
-    effect->setColor(color);
-    item->setGraphicsEffect(effect.release());
-}
-
 void ComparisonView::update(Session const& session, ComparisonSettings const& settings)
 {
     // Clearing the scene will reset the view position. Store the current view settings and restore it after the update.
@@ -60,19 +49,16 @@ void ComparisonView::update(Session const& session, ComparisonSettings const& se
 
         double const blendPosition = sequenceBlendPosition - firstImageIndex;
 
-        auto* firstImage = getScene().addPixmap(images[firstImageIndex]->toPixmap());
-        firstImage->setOpacity(1 - blendPosition);
-        auto* secondImage = getScene().addPixmap(images[firstImageIndex + 1]->toPixmap());
-        secondImage->setOpacity(blendPosition);
-
         QColor firstImageColor = settings.blendImage1Color();
         QColor secondImageColor = settings.blendImage2Color();
         if (firstImageIndex % 2 != 0) {
             std::swap(firstImageColor, secondImageColor);
         }
 
-        addColorFilter(firstImage, firstImageColor);
-        addColorFilter(secondImage, secondImageColor);
+        auto* firstImage = getScene().addPixmap(images[firstImageIndex]->toColorizedPixmap(firstImageColor));
+        firstImage->setOpacity(1 - blendPosition);
+        auto* secondImage = getScene().addPixmap(images[firstImageIndex + 1]->toColorizedPixmap(secondImageColor));
+        secondImage->setOpacity(blendPosition);
     }
 
     updateSceneRect();

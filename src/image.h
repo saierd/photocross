@@ -13,9 +13,11 @@ public:
 
     QString const& file() const&;
     QImage image() const&;
+    QImage toGrayscaleImage() const;
 
     QPixmap toPixmap() const;
     QPixmap toGrayscalePixmap() const;
+    QPixmap toColorizedPixmap(QColor const& color) const;
 
     void setReloadWhenFileChanges(bool enable);
 

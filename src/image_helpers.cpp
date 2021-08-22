@@ -16,3 +16,23 @@ QImage addTransparentOffset(QImage const& image, QPoint const& offset)
 
     return newImage;
 }
+
+QImage colorizeGrayscaleImage(QImage const& image, QColor const& color)
+{
+    if (!color.isValid()) {
+        return image;
+    }
+
+    QImage target = image.convertToFormat(QImage::Format_ARGB32);
+
+    QPainter painter(&target);
+    painter.setCompositionMode(QPainter::CompositionMode_Screen);
+    painter.fillRect(image.rect(), color);
+    painter.end();
+
+    if (image.hasAlphaChannel()) {
+        target.setAlphaChannel(image.alphaChannel());
+    }
+
+    return target;
+}

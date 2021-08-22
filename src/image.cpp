@@ -29,12 +29,7 @@ QImage Image::image() const&
     return addTransparentOffset(rotated, offset);
 }
 
-QPixmap Image::toPixmap() const
-{
-    return QPixmap::fromImage(image());
-}
-
-QPixmap Image::toGrayscalePixmap() const
+QImage Image::toGrayscaleImage() const
 {
     QImage originalImage = image();
     QImage grayscale = originalImage.convertToFormat(QImage::Format_Grayscale8);
@@ -43,7 +38,22 @@ QPixmap Image::toGrayscalePixmap() const
         grayscale.setAlphaChannel(originalImage.convertToFormat(QImage::Format_Alpha8));
     }
 
-    return QPixmap::fromImage(grayscale);
+    return grayscale;
+}
+
+QPixmap Image::toPixmap() const
+{
+    return QPixmap::fromImage(image());
+}
+
+QPixmap Image::toGrayscalePixmap() const
+{
+    return QPixmap::fromImage(toGrayscaleImage());
+}
+
+QPixmap Image::toColorizedPixmap(QColor const& color) const
+{
+    return QPixmap::fromImage(colorizeGrayscaleImage(toGrayscaleImage(), color));
 }
 
 void Image::setReloadWhenFileChanges(bool enable)
