@@ -24,6 +24,7 @@ signals:
     void zoomOutLimitReached();
     void viewChanged();
 
+    void mouseClicked(QPoint const& scenePosition);
     void mouseLeft();
 
 protected:
@@ -40,4 +41,6 @@ private:
     bool cursorOverridden = false;
     QCursor cursor;
     QCursor previousCursor;
+
+    bool didDragSinceLastMousePress = false;
 };

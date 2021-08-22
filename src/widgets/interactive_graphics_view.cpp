@@ -14,8 +14,14 @@ InteractiveGraphicsView::InteractiveGraphicsView(QWidget* parent)
 {
     setDragMode(QGraphicsView::ScrollHandDrag);
 
-    connect(horizontalScrollBar(), &QScrollBar::valueChanged, this, &InteractiveGraphicsView::viewChanged);
-    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, &InteractiveGraphicsView::viewChanged);
+    connect(horizontalScrollBar(), &QScrollBar::valueChanged, this, [this]() {
+        didDragSinceLastMousePress = true;
+        emit viewChanged();
+    });
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this]() {
+        didDragSinceLastMousePress = true;
+        emit viewChanged();
+    });
 }
 
 void InteractiveGraphicsView::zoom(int steps)
@@ -118,12 +124,18 @@ void InteractiveGraphicsView::mousePressEvent(QMouseEvent* event)
 {
     QGraphicsView::mousePressEvent(event);
     applyOverriddenCursor();
+
+    didDragSinceLastMousePress = false;
 }
 
 void InteractiveGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QGraphicsView::mouseReleaseEvent(event);
     applyOverriddenCursor();
+
+    if (!didDragSinceLastMousePress) {
+        emit mouseClicked(mapToScene(event->pos()).toPoint());
+    }
 }
 
 void InteractiveGraphicsView::applyOverriddenCursor()
