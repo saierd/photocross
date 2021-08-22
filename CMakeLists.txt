@@ -22,8 +22,10 @@ add_subdirectory(file_manager_integrations)
 
 add_executable(${PROJECT_NAME}
     external/icons.qrc
-    src/command_line.h
+    src/busy_dialog.cpp
+    src/busy_dialog.h
     src/command_line.cpp
+    src/command_line.h
     src/debounce.h
     src/file_helpers.cpp
     src/file_helpers.h

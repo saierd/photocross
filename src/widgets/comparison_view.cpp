@@ -1,5 +1,6 @@
 #include "comparison_view.h"
 
+#include "busy_dialog.h"
 #include "comparison_settings.h"
 #include "image_difference.h"
 #include "session.h"
@@ -92,12 +93,19 @@ ComparisonView::ComparisonView(QWidget* parent)
 
 void ComparisonView::update(Session const& session, ComparisonSettings const& settings)
 {
+    ComparisonViewLayers layers;
+    runWithBusyDialog(
+        "Updating Comparison View...",
+        [&]() {
+            layers = computeComparisonLayers(session.getImages(), settings);
+        },
+        this);
+
     // Clearing the scene will reset the view position. Store the current view settings and restore it after the update.
     rememberView();
 
     clear();
-
-    for (auto const& layer : computeComparisonLayers(session.getImages(), settings)) {
+    for (auto const& layer : layers) {
         addPixmap(layer.pixmap, layer.opacity);
     }
 
