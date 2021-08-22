@@ -5,11 +5,14 @@
 #include <QPixmap>
 #include <QStringList>
 
+#include <memory>
+
 class Image : public QObject {
     Q_OBJECT
 
 public:
     explicit Image(QString _filename);
+    ~Image() override;
 
     QString const& file() const&;
     QImage image() const&;
@@ -49,4 +52,7 @@ private:
 
     bool reloadWhenFileChanges = false;
     QFileSystemWatcher fileWatcher;
+
+    struct Cache;
+    std::unique_ptr<Cache> cache;
 };
