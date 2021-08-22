@@ -227,6 +227,11 @@ void SessionView::updateImages()
     // updateComparisonView method will do that for us.
     removeMouseIndicatorsFromScenes();
 
+    // Update the comparison view first. We do this before updating the images, because it usually takes longer and
+    // might show a progress dialog while it runs. Changes of the source images should not be reflected in the UI yet
+    // while this runs.
+    updateComparisonView();
+
     size_t numImages = session->getImages().size();
     size_t previousNumImages = imageViews.size();
 
@@ -239,8 +244,6 @@ void SessionView::updateImages()
     }
 
     ui->emptyImage->setVisible(numImages < 2);
-
-    updateComparisonView();
 
     if (numImages > 0 && previousNumImages < 2) {
         // Initial load of images. Set up the layout of the view properly.
