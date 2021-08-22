@@ -1,5 +1,6 @@
 #include "image_edit_menu.h"
 
+#include "debounce.h"
 #include "image.h"
 
 #include "ui_image_edit_menu.h"
@@ -34,18 +35,18 @@ ImageEditMenu::ImageEditMenu(Image* image, QWidget* parent)
     ui->xOffset->setValue(image->getOffset().x());
     ui->yOffset->setValue(image->getOffset().y());
 
-    connect(ui->xOffset, QOverload<int>::of(&QSpinBox::valueChanged), [image, this]() {
-        image->setOffset(getOffset());
-    });
+    auto updateOffset = debounceSlot(
+        [image, this]() {
+            image->setOffset(getOffset());
+        },
+        500ms);
 
+    connect(ui->xOffset, QOverload<int>::of(&QSpinBox::valueChanged), updateOffset);
     connect(ui->resetXOffset, &QToolButton::clicked, [this]() {
         ui->xOffset->setValue(0);
     });
 
-    connect(ui->yOffset, QOverload<int>::of(&QSpinBox::valueChanged), [image, this]() {
-        image->setOffset(getOffset());
-    });
-
+    connect(ui->yOffset, QOverload<int>::of(&QSpinBox::valueChanged), updateOffset);
     connect(ui->resetYOffset, &QToolButton::clicked, [this]() {
         ui->yOffset->setValue(0);
     });

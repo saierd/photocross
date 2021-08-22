@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
     external/icons.qrc
     src/command_line.h
     src/command_line.cpp
+    src/debounce.h
     src/file_helpers.cpp
     src/file_helpers.h
     src/image.cpp
