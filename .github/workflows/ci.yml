@@ -16,11 +16,15 @@ jobs:
         uses: Trass3r/setup-cpp@master
 
       - name: Install clang-tidy
-        run: sudo apt-get install clang-tidy
+        run: |
+          sudo apt-get update
+          sudo apt-get install clang-tidy
         if: runner.os == 'Linux'
 
       - name: Install Dependencies
-        run: sudo apt-get install libnautilus-extension-dev qt5-default
+        run: |
+          sudo apt-get update
+          sudo apt-get install libnautilus-extension-dev qt5-default
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -76,10 +80,14 @@ jobs:
         uses: Trass3r/setup-cpp@master
 
       - name: Install clazy
-        run: sudo apt-get install clazy
+        run: |
+          sudo apt-get update
+          sudo apt-get install clazy
 
       - name: Install Dependencies
-        run: sudo apt-get install libnautilus-extension-dev qt5-default
+        run: |
+          sudo apt-get update
+          sudo apt-get install libnautilus-extension-dev qt5-default
 
       - name: Checkout Repository
         uses: actions/checkout@v2
