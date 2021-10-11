@@ -361,6 +361,12 @@ void SessionView::resizeEvent(QResizeEvent* event)
     adaptViewToWindow();
 }
 
+void SessionView::showEvent(QShowEvent* event)
+{
+    QWidget::showEvent(event);
+    adaptViewToWindow();
+}
+
 void SessionView::initializeImageView(ImageView& imageView)
 {
     connect(&imageView, &ImageView::zoomChangedExplicitly, [this]() {

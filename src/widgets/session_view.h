@@ -70,6 +70,7 @@ private slots:
     void adaptViewToWindow();
 
     void resizeEvent(QResizeEvent* event) override;
+    void showEvent(QShowEvent* event) override;
 
 private:
     void initializeImageView(ImageView& imageView);
