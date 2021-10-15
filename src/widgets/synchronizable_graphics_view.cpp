@@ -30,6 +30,7 @@ void SynchronizableGraphicsView::rememberView()
 void SynchronizableGraphicsView::restoreView()
 {
     applyView(rememberedView);
+    forceViewPropagation();
 }
 
 void SynchronizableGraphicsView::emitSynchronizedViewChanged()

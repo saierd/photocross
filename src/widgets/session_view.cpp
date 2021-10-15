@@ -223,6 +223,8 @@ void SessionView::adjustNumberOfImageViews(size_t numImages)
 
 void SessionView::updateImages()
 {
+    ui->comparisonView->rememberView();
+
     // Clear mouse indicators before changing images. Note that we do not need to restore them in this method, since the
     // updateComparisonView method will do that for us.
     removeMouseIndicatorsFromScenes();
@@ -251,6 +253,8 @@ void SessionView::updateImages()
         setSourceImagesVisible(getSourceImagesVisible());
         fitToView();
     }
+
+    ui->comparisonView->restoreView();
 
     // Adapt view to window in case the number of image views (and the available space for each of them) changed.
     QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
