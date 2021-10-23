@@ -100,6 +100,10 @@ QPixmap Image::toGrayscalePixmap() const
 
 QPixmap Image::toColorizedPixmap(QColor const& color) const
 {
+    if (!color.isValid()) {
+        return toPixmap();
+    }
+
     if (!cache->colorizedPixmap.isNull() && cache->colorizedPixmapColor == color) {
         return cache->colorizedPixmap;
     }
