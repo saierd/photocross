@@ -92,10 +92,10 @@ QPixmap Image::toPixmap() const
 
 QPixmap Image::toGrayscalePixmap() const
 {
-    if (cache->pixmap.isNull()) {
-        cache->pixmap = QPixmap::fromImage(toGrayscaleImage());
+    if (cache->grayscalePixmap.isNull()) {
+        cache->grayscalePixmap = QPixmap::fromImage(toGrayscaleImage());
     }
-    return cache->pixmap;
+    return cache->grayscalePixmap;
 }
 
 QPixmap Image::toColorizedPixmap(QColor const& color) const
