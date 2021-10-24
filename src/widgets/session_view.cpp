@@ -263,8 +263,12 @@ void SessionView::updateImages()
 
 void SessionView::updateComparisonView()
 {
+    // Block mouse indicator updates while we update the view in case there is a mouse move event. We will restore the
+    // previous mouse indicator position at the end of this function.
+    mouseIndicatorUpdateBlocked = true;
     removeMouseIndicatorsFromScenes();
     auto restoreMouseIndicators = qScopeGuard([this]() {
+        mouseIndicatorUpdateBlocked = false;
         updateMouseIndicators();
     });
 
@@ -303,6 +307,10 @@ void SessionView::removeMouseIndicatorsFromScenes()
 
 void SessionView::updateMouseIndicators()
 {
+    if (mouseIndicatorUpdateBlocked) {
+        return;
+    }
+
     if (lastMouseIndicatorPosition) {
         updateMouseIndicators(*lastMouseIndicatorPosition);
     } else {
@@ -312,6 +320,15 @@ void SessionView::updateMouseIndicators()
 
 void SessionView::updateMouseIndicators(MouseIndicatorPosition const& position)
 {
+    if (mouseIndicatorUpdateBlocked) {
+        // Update is blocked for now. We still remember the new position so that the position is up to date when we
+        // restore the mouse indicators later.
+        if (lastMouseIndicatorPosition) {
+            lastMouseIndicatorPosition = position;
+        }
+        return;
+    }
+
     removeMouseIndicatorsFromScenes();
 
     if (!mouseIndicatorsVisible) {

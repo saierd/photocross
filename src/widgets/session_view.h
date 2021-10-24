@@ -85,5 +85,6 @@ private:
 
     bool sourceImagesVisible = true;
     bool mouseIndicatorsVisible = true;
+    bool mouseIndicatorUpdateBlocked = false;
     bool autoFitInView = true;
 };
