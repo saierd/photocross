@@ -76,7 +76,7 @@ void ComparisonSettings::setNumberOfImages(size_t _numberOfImages)
 {
     numberOfImages = _numberOfImages;
 
-    bool showBlendLabels = (numberOfImages == 1);
+    bool showBlendLabels = (numberOfImages <= 2);
     ui->blendLeftLabel->setVisible(showBlendLabels);
     ui->blendRightLabel->setVisible(showBlendLabels);
 }
