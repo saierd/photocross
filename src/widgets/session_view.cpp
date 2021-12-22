@@ -242,7 +242,7 @@ void SessionView::updateImages()
 
     for (size_t i = 0; i < numImages; i++) {
         auto const& image = session->getImages()[i];
-        imageViews[i]->setImage(image);
+        imageViews[i]->setImage(image, session->getImages());
     }
 
     ui->emptyImage->setVisible(numImages < 2);

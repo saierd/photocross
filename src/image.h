@@ -15,6 +15,8 @@ public:
     ~Image() override;
 
     QString const& file() const;
+    QSize size() const;
+
     QImage image() const;
     QImage toGrayscaleImage() const;
 

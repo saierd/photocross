@@ -46,6 +46,11 @@ QString const& Image::file() const
     return filename;
 }
 
+QSize Image::size() const
+{
+    return imageData.size();
+}
+
 QImage Image::image() const
 {
     if (!cache->image.isNull()) {
