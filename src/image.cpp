@@ -2,6 +2,8 @@
 
 #include "image_helpers.h"
 
+#include <QFileInfo>
+
 struct Image::Cache {
     QImage image;
     QImage grayscale;
@@ -44,6 +46,11 @@ Image::~Image() = default;
 QString const& Image::file() const
 {
     return filename;
+}
+
+QString Image::canonicalFilename() const
+{
+    return QFileInfo(filename).canonicalFilePath();
 }
 
 QSize Image::size() const

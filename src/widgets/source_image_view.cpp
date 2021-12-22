@@ -1,5 +1,7 @@
 #include "source_image_view.h"
 
+#include "string_helpers.h"
+
 namespace {
 
 QString highlight(QString const& string)
@@ -35,6 +37,21 @@ QString formatImageSize(Image const& image, std::vector<std::shared_ptr<Image>> 
     return QString("%1 × %2 pixels").arg(widthString, heightString);
 }
 
+QString commonFilenamePrefix(std::vector<std::shared_ptr<Image>> const& allImages)
+{
+    QString prefix = allImages[0]->file();
+    for (auto const& image : allImages) {
+        prefix = commonPrefix(prefix, image->file());
+    }
+
+    return prefix;
+}
+
+QString simplifyFilename(QString const& filename, std::vector<std::shared_ptr<Image>> const& allImages)
+{
+    return filename.right(filename.size() - commonFilenamePrefix(allImages).size());
+}
+
 }  // namespace
 
 void SourceImageView::setImage(std::shared_ptr<Image> newImage, std::vector<std::shared_ptr<Image>> const& allImages)
@@ -42,7 +59,11 @@ void SourceImageView::setImage(std::shared_ptr<Image> newImage, std::vector<std:
     image = std::move(newImage);
     setModifiable(image.get());
 
-    setCaption(image->file() + " (" + formatImageSize(*image, allImages) + ")");
+    QString filename = image->file();
+    QString caption = simplifyFilename(filename, allImages) + " (" + formatImageSize(*image, allImages) + ")";
+    QString tooltip = image->canonicalFilename();
+
+    setCaption(caption, tooltip);
 
     clear();
     addPixmap(image->toPixmap());

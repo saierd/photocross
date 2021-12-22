@@ -42,6 +42,8 @@ add_executable(${PROJECT_NAME}
     src/screenshot_file_manager.h
     src/session.cpp
     src/session.h
+    src/string_helpers.cpp
+    src/string_helpers.h
     src/widgets/comparison_settings.cpp
     src/widgets/comparison_settings.h
     src/widgets/comparison_settings.ui

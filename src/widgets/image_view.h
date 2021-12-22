@@ -32,7 +32,7 @@ public:
 
     void fitViewToScene();
 
-    void setCaption(QString const& caption);
+    void setCaption(QString const& caption, QString const& tooltip = "");
 
     ImageViewScene& getScene();
     ImageViewScene const& getScene() const;

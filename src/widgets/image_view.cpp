@@ -96,9 +96,12 @@ void ImageView::fitViewToScene()
     ui->graphicsView->fitSceneInView();
 }
 
-void ImageView::setCaption(QString const& caption)
+void ImageView::setCaption(QString const& caption, QString const& tooltip)
 {
     ui->caption->setText(caption);
+    if (!tooltip.isEmpty()) {
+        ui->caption->setToolTip(tooltip);
+    }
 }
 
 ImageViewScene& ImageView::getScene()
