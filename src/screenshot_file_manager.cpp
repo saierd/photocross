@@ -21,7 +21,7 @@ ScreenshotFileManager::ScreenshotFileManager()
     }
 }
 
-QStringList const& ScreenshotFileManager::getFiles() const&
+QStringList const& ScreenshotFileManager::getFiles() const
 {
     return files;
 }

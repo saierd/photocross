@@ -8,7 +8,7 @@ class ScreenshotFileManager {
 public:
     ScreenshotFileManager();
 
-    QStringList const& getFiles() const&;
+    QStringList const& getFiles() const;
 
     void removeFiles();
     void addImage(QPixmap const& image);

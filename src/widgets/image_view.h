@@ -34,9 +34,9 @@ public:
 
     void setCaption(QString const& caption);
 
-    ImageViewScene& getScene() &;
-    ImageViewScene const& getScene() const&;
-    QGraphicsView& getGraphicsView() &;
+    ImageViewScene& getScene();
+    ImageViewScene const& getScene() const;
+    QGraphicsView& getGraphicsView();
 
     void clear();
     void addPixmap(QPixmap const& image, double opacity = 1.);

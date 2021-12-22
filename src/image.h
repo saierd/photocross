@@ -14,8 +14,8 @@ public:
     explicit Image(QString _filename);
     ~Image() override;
 
-    QString const& file() const&;
-    QImage image() const&;
+    QString const& file() const;
+    QImage image() const;
     QImage toGrayscaleImage() const;
 
     QPixmap toPixmap() const;

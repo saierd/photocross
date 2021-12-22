@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() = default;
 
-Session& MainWindow::getSession() &
+Session& MainWindow::getSession()
 {
     return *session;
 }

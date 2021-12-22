@@ -17,7 +17,7 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
-    Session& getSession() &;
+    Session& getSession();
 
 private slots:
     void openImages();

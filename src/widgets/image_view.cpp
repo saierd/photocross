@@ -101,17 +101,17 @@ void ImageView::setCaption(QString const& caption)
     ui->caption->setText(caption);
 }
 
-ImageViewScene& ImageView::getScene() &
+ImageViewScene& ImageView::getScene()
 {
     return scene;
 }
 
-ImageViewScene const& ImageView::getScene() const&
+ImageViewScene const& ImageView::getScene() const
 {
     return scene;
 }
 
-QGraphicsView& ImageView::getGraphicsView() &
+QGraphicsView& ImageView::getGraphicsView()
 {
     return *ui->graphicsView;
 }

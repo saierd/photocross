@@ -41,12 +41,12 @@ Image::Image(QString _filename)
 
 Image::~Image() = default;
 
-QString const& Image::file() const&
+QString const& Image::file() const
 {
     return filename;
 }
 
-QImage Image::image() const&
+QImage Image::image() const
 {
     if (!cache->image.isNull()) {
         return cache->image;

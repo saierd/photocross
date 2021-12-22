@@ -15,7 +15,7 @@ void Session::setWatchFiles(bool enable)
     emit watchFilesChanged(enable);
 }
 
-std::vector<Session::ImageHandle> const& Session::getImages() const&
+std::vector<Session::ImageHandle> const& Session::getImages() const
 {
     return images;
 }
