@@ -1,6 +1,7 @@
 #include "source_images.h"
 
 #include "session.h"
+#include "single_direction_scroll_area.h"
 #include "utility/drag_drop.h"
 
 #include <QApplication>
@@ -13,8 +14,23 @@ SourceImages::SourceImages(QWidget* parent)
   : QWidget(parent)
   , layout(QBoxLayout::LeftToRight)
 {
-    setLayout(&layout);
+    auto* rootLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+    rootLayout->setMargin(0);
+    setLayout(rootLayout);
+
+    auto* scrollArea = new SingleDirectionScrollArea(this);
+    scrollArea->setOrientation(Qt::Horizontal);
+
+    // TODO: Frame of scroll bar is incomplete
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setFrameShadow(QFrame::Plain);
+
+    QWidget* dummyWidget = new QWidget(this);
+    dummyWidget->setLayout(&layout);
     layout.setMargin(0);
+
+    rootLayout->addWidget(scrollArea);
+    scrollArea->setWidget(dummyWidget);
 
     layout.addWidget(&emptyImage);
     updateEmptyImage();
