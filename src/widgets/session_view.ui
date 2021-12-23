@@ -22,22 +22,50 @@
      <property name="handleWidth">
       <number>6</number>
      </property>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QHBoxLayout" name="imagesContainer">
-       <item>
-        <layout class="QHBoxLayout" name="imagesLayout"/>
-       </item>
-       <item>
-        <widget class="EmptyImage" name="emptyImage" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-      </layout>
+     <widget class="SingleDirectionScrollArea" name="imagesScrollArea">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <widget class="QWidget" name="imagesContainer">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>519</width>
+         <height>184</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="imagesLayout"/>
+        </item>
+        <item>
+         <widget class="EmptyImage" name="emptyImage" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
      <widget class="QWidget" name="horizontalLayoutWidget">
       <layout class="QHBoxLayout" name="comparisonLayout" stretch="1,0">
@@ -70,6 +98,12 @@
    <class>ComparisonView</class>
    <extends>QWidget</extends>
    <header>widgets/comparison_view.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SingleDirectionScrollArea</class>
+   <extends>QScrollArea</extends>
+   <header>widgets/single_direction_scroll_area.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
