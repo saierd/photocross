@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME}
     src/busy_dialog.h
     src/command_line.cpp
     src/command_line.h
+    src/comparison_view_layers.cpp
+    src/comparison_view_layers.h
     src/debounce.h
     src/file_helpers.cpp
     src/file_helpers.h
