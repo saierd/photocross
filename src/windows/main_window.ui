@@ -77,7 +77,6 @@
    <addaction name="separator"/>
    <addaction name="actionShowSourceImages"/>
    <addaction name="actionShowMouseIndicators"/>
-   <addaction name="actionFlipLayoutDirection"/>
   </widget>
   <action name="actionAutoFitToView">
    <property name="checkable">
