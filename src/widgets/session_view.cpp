@@ -26,7 +26,7 @@ SessionView::SessionView(QWidget* parent)
         adaptViewToWindow();
         ui->comparisonView->forceViewPropagation();
 
-        sourceImagesVisible = (ui->splitter->sizes()[0] > 0);
+        sourceImagesVisible = (ui->splitter->sizes().at(0) > 0);
         emit sourceImagesVisibleChanged(getSourceImagesVisible());
     });
 

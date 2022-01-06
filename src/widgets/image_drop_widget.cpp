@@ -18,7 +18,8 @@ QStringList extractImageFiles(QDropEvent* event)
     }
 
     QStringList files;
-    for (auto const& url : event->mimeData()->urls()) {
+    auto const urls = event->mimeData()->urls();
+    for (auto const& url : urls) {
         QString file = url.toLocalFile();
         if (!file.isEmpty() && isImageFile(file)) {
             files.push_back(file);

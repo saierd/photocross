@@ -16,7 +16,8 @@ ScreenshotFileManager::ScreenshotFileManager()
     QString const nameFilter = temporaryFilePrefix() + "*.png";
     QDir::Filters filter = QDir::Files | QDir::Readable | QDir::CaseSensitive;
 
-    for (auto const& entry : QDir::temp().entryInfoList({nameFilter}, filter)) {
+    auto const entries = QDir::temp().entryInfoList({nameFilter}, filter);
+    for (auto const& entry : entries) {
         files.push_back(entry.absoluteFilePath());
     }
 }
@@ -28,7 +29,7 @@ QStringList const& ScreenshotFileManager::getFiles() const
 
 void ScreenshotFileManager::removeFiles()
 {
-    for (auto const& file : files) {
+    for (auto const& file : qAsConst(files)) {
         QFile::remove(file);
     }
     files.clear();

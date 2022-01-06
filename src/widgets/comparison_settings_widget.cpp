@@ -24,7 +24,7 @@ ComparisonSettingsWidget::ComparisonSettingsWidget(QWidget* parent)
     connect(this, &ComparisonSettingsWidget::modeChanged, this, &ComparisonSettingsWidget::settingsChanged);
 
     connect(ui->differenceToleranceEnabled, &QGroupBox::toggled, this, &ComparisonSettingsWidget::settingsChanged);
-    connect(ui->differenceTolerance, &QSlider::valueChanged, [this]() {
+    connect(ui->differenceTolerance, &QSlider::valueChanged, this, [this]() {
         ui->differenceToleranceLabel->setNum(getComparisonSettings().highlightDifferences.tolerance);
         emit settingsChanged();
     });

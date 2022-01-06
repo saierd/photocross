@@ -77,13 +77,13 @@ void Session::insertImages(Images::const_iterator position, Images const& newIma
 
         std::weak_ptr<Image> imageReference = image;
 
-        connect(image.get(), &Image::imageClosed, [this, imageReference]() {
+        connect(image.get(), &Image::imageClosed, this, [this, imageReference]() {
             if (auto imageHandle = imageReference.lock()) {
                 closeImage(imageHandle);
             }
         });
 
-        connect(image.get(), &Image::imageReplaced, [this, imageReference](QStringList const& files) {
+        connect(image.get(), &Image::imageReplaced, this, [this, imageReference](QStringList const& files) {
             if (auto imageHandle = imageReference.lock()) {
                 replaceImage(imageHandle, files);
             }
