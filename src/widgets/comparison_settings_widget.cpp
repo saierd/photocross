@@ -15,6 +15,8 @@ ComparisonSettingsWidget::ComparisonSettingsWidget(QWidget* parent)
     reset();
     updateMode();
 
+    connect(ui->reset, &QToolButton::clicked, this, &ComparisonSettingsWidget::reset);
+
     connect(ui->modeHighlightDifferences, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
     connect(ui->modeBlendImagesFalseColors, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
     connect(ui->modeBlendImagesTrueColors, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);

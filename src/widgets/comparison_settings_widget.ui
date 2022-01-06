@@ -39,6 +39,27 @@
     <number>0</number>
    </property>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Comparison Settings</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="reset">
+       <property name="toolTip">
+        <string>Reset Comparison Settings</string>
+       </property>
+       <property name="icon">
+        <iconset theme="undo"/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QToolButton" name="modeHighlightDifferences">
