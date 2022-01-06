@@ -6,7 +6,7 @@
 
 #include <vector>
 
-class ComparisonSettings;
+struct ComparisonSettings;
 
 struct ComparisonViewLayer {
     QPixmap pixmap;
@@ -15,5 +15,6 @@ struct ComparisonViewLayer {
 
 using ComparisonViewLayers = std::vector<ComparisonViewLayer>;
 
-ComparisonViewLayers computeComparisonViewLayers(std::vector<Session::ImageHandle> const& images,
-                                                 ComparisonSettings const& settings);
+ComparisonViewLayers computeComparisonViewLayers(Session::Images const& images,
+                                                 ComparisonSettings const& settings,
+                                                 double animationStep = 0.);

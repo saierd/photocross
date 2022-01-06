@@ -30,7 +30,10 @@ SessionView::SessionView(QWidget* parent)
         emit sourceImagesVisibleChanged(getSourceImagesVisible());
     });
 
-    connect(ui->comparisonSettings, &ComparisonSettings::settingsChanged, this, &SessionView::updateComparisonView);
+    connect(ui->comparisonSettings,
+            &ComparisonSettingsWidget::settingsChanged,
+            this,
+            &SessionView::updateComparisonView);
 
     connect(ui->emptyImage, &EmptyImage::imagesDropped, [this](QStringList const& files) {
         session->loadImages(files);
@@ -273,7 +276,7 @@ void SessionView::updateComparisonView()
     });
 
     auto const& images = session->getImages();
-    auto const& settings = *ui->comparisonSettings;
+    auto settings = ui->comparisonSettings->getComparisonSettings();
 
     bool const comparisonVisible = (images.size() >= 2);
     ui->comparisonView->setVisible(comparisonVisible);

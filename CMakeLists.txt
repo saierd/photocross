@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME}
     src/busy_dialog.h
     src/command_line.cpp
     src/command_line.h
+    src/comparison_settings.cpp
+    src/comparison_settings.h
     src/comparison_view_layers.cpp
     src/comparison_view_layers.h
     src/debounce.h
@@ -44,11 +46,15 @@ add_executable(${PROJECT_NAME}
     src/screenshot_file_manager.h
     src/session.cpp
     src/session.h
+    src/slider_helpers.cpp
+    src/slider_helpers.h
     src/string_helpers.cpp
     src/string_helpers.h
-    src/widgets/comparison_settings.cpp
-    src/widgets/comparison_settings.h
-    src/widgets/comparison_settings.ui
+    src/time_helpers.cpp
+    src/time_helpers.h
+    src/widgets/comparison_settings_widget.cpp
+    src/widgets/comparison_settings_widget.h
+    src/widgets/comparison_settings_widget.ui
     src/widgets/comparison_view.cpp
     src/widgets/comparison_view.h
     src/widgets/empty_image.cpp

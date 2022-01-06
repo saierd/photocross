@@ -12,7 +12,6 @@
         <file alias="undo.svg">mdi/svg/undo.svg</file>
         <file alias="color.svg">mdi/svg/invert-colors.svg</file>
         <file alias="clock-speed.svg">mdi/svg/clock-fast.svg</file>
-        <file alias="timer.svg">mdi/svg/timer-outline.svg</file>
         <file alias="linear.svg">mdi/svg/blur-linear.svg</file>
         <file alias="triangle-wave.svg">mdi/svg/triangle-wave.svg</file>
         <file alias="tolerance.svg">mdi/svg/approximately-equal.svg</file>
@@ -28,6 +27,7 @@
         <file alias="edit.svg">mdi/svg/pencil-outline.svg</file>
         <file alias="move-horizontal.svg">mdi/svg/arrow-left-right.svg</file>
         <file alias="move-vertical.svg">mdi/svg/arrow-up-down.svg</file>
+        <file alias="animation.svg">mdi/svg/animation-play-outline.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>

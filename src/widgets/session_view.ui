@@ -45,7 +45,7 @@
         <widget class="ComparisonView" name="comparisonView" native="true"/>
        </item>
        <item>
-        <widget class="ComparisonSettings" name="comparisonSettings" native="true"/>
+        <widget class="ComparisonSettingsWidget" name="comparisonSettings" native="true"/>
        </item>
       </layout>
      </widget>
@@ -55,9 +55,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ComparisonSettings</class>
+   <class>ComparisonSettingsWidget</class>
    <extends>QWidget</extends>
-   <header>widgets/comparison_settings.h</header>
+   <header>widgets/comparison_settings_widget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

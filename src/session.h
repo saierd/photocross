@@ -15,7 +15,7 @@ public:
     bool getWatchFiles() const;
     void setWatchFiles(bool enable);
 
-    std::vector<ImageHandle> const& getImages() const;
+    Images const& getImages() const;
 
 signals:
     void watchFilesChanged(bool enabled);

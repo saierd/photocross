@@ -3,20 +3,52 @@
 #include "busy_dialog.h"
 #include "comparison_view_layers.h"
 #include "session.h"
+#include "time_helpers.h"
+
+auto constexpr continuousBlendTimerInterval = 50ms;
 
 ComparisonView::ComparisonView(QWidget* parent)
   : ImageView(parent)
 {
     setCaption("Comparison View");
+
+    connect(&animationUpdateTimer, &QTimer::timeout, this, &ComparisonView::animationUpdate);
 }
 
-void ComparisonView::update(Session const& session, ComparisonSettings const& settings)
+void ComparisonView::update(Session const& session, ComparisonSettings const& _settings)
 {
+    images = session.getImages();
+    settings = _settings;
+    update();
+
+    if (settings.mode != ComparisonMode::BlendImagesAnimated) {
+        if (animationUpdateTimer.isActive()) {
+            animationUpdateTimer.stop();
+        }
+    } else {
+        if (settings.animatedBlending.continuous) {
+            animationUpdateTimer.setInterval(continuousBlendTimerInterval);
+        } else {
+            animationUpdateTimer.setInterval(settings.animatedBlending.timeBetweenImages);
+        }
+
+        if (!animationUpdateTimer.isActive()) {
+            animationStartTime = std::chrono::steady_clock::now();
+            animationUpdateTimer.start();
+        }
+    }
+}
+
+void ComparisonView::update()
+{
+    auto timeSinceAnimationStart = std::chrono::steady_clock::now() - animationStartTime;
+    double animationStep = durationRatio(timeSinceAnimationStart, settings.animatedBlending.timeBetweenImages);
+
     ComparisonViewLayers layers;
     runWithBusyDialog(
         "Updating Comparison View...",
         [&]() {
-            layers = computeComparisonViewLayers(session.getImages(), settings);
+            layers = computeComparisonViewLayers(images, settings, animationStep);
         },
         this);
 
@@ -32,4 +64,9 @@ void ComparisonView::update(Session const& session, ComparisonSettings const& se
 
     restoreView();
     forceViewPropagation();
+}
+
+void ComparisonView::animationUpdate()
+{
+    update();
 }

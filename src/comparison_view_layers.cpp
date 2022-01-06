@@ -1,13 +1,13 @@
 #include "comparison_view_layers.h"
 
+#include "comparison_settings.h"
 #include "image_difference.h"
-#include "widgets/comparison_settings.h"
 
 #include <cmath>
 
 namespace {
 
-ComparisonViewLayers computeHighlightDifferencesLayers(std::vector<Session::ImageHandle> const& images,
+ComparisonViewLayers computeHighlightDifferencesLayers(Session::Images const& images,
                                                        ComparisonSettings const& settings)
 {
     if (images.empty()) {
@@ -23,52 +23,89 @@ ComparisonViewLayers computeHighlightDifferencesLayers(std::vector<Session::Imag
         return image->image();
     });
 
+    int tolerance = 0;
+    if (settings.highlightDifferences.applyTolerance) {
+        tolerance = settings.highlightDifferences.tolerance;
+    }
+
     differenceImage =
-        computeDifferenceImage(imagesToCompare, settings.getDifferenceTolerance(), settings.showMinorDifferences());
+        computeDifferenceImage(imagesToCompare, tolerance, settings.highlightDifferences.showMinorDifferences);
 
     return {
         {images[0]->toGrayscalePixmap()},
-        {QPixmap::fromImage(differenceImage), 0.7},
+        {QPixmap::fromImage(differenceImage), settings.highlightDifferences.differencesTransparency},
     };
 }
 
-ComparisonViewLayers computeBlendLayers(std::vector<Session::ImageHandle> const& images,
-                                        ComparisonSettings const& settings)
+ComparisonViewLayers blendLayers(QPixmap const& image1, QPixmap const& image2, double blendPosition)
+{
+    return {
+        {image1, 1 - blendPosition},
+        {image2, blendPosition},
+    };
+}
+
+ComparisonViewLayers computeBlendLayers(Session::Images const& images, ComparisonSettings const& settings)
 {
     if (images.size() < 2) {
         return {};
     }
 
-    double const sequenceBlendPosition = settings.getBlendPosition() * static_cast<double>(images.size() - 1);
+    auto const& leftImage = *images[0];
+    auto const& rightImage = *images[1];
 
-    auto firstImageIndex = static_cast<size_t>(std::floor(sequenceBlendPosition));
-    firstImageIndex = std::min(firstImageIndex, images.size() - 2);
+    double const blendPosition = settings.blendPosition;
 
-    double const blendPosition = sequenceBlendPosition - firstImageIndex;
-
-    QColor firstImageColor = settings.blendImage1Color();
-    QColor secondImageColor = settings.blendImage2Color();
-    if (firstImageIndex % 2 != 0) {
-        std::swap(firstImageColor, secondImageColor);
+    QColor leftImageColor;
+    QColor rightImageColor;
+    if (settings.mode == ComparisonMode::BlendImagesFalseColors) {
+        leftImageColor = settings.blendFalseColors.leftColor;
+        rightImageColor = settings.blendFalseColors.rightColor;
     }
 
-    return {
-        {images[firstImageIndex]->toColorizedPixmap(firstImageColor), 1 - blendPosition},
-        {images[firstImageIndex + 1]->toColorizedPixmap(secondImageColor), blendPosition},
-    };
+    return blendLayers(leftImage.toColorizedPixmap(leftImageColor),
+                       rightImage.toColorizedPixmap(rightImageColor),
+                       blendPosition);
+}
+
+ComparisonViewLayers computeAnimatedBlendLayers(Session::Images const& images,
+                                                ComparisonSettings const& settings,
+                                                double animationStep)
+{
+    if (images.size() < 2) {
+        return {};
+    }
+
+    int const baseImageIndex = static_cast<int>(std::floor(animationStep));
+    size_t const firstImageIndex = baseImageIndex % images.size();
+    size_t const secondImageIndex = (firstImageIndex + 1) % images.size();
+
+    if (!settings.animatedBlending.continuous) {
+        return {
+            {images[firstImageIndex]->toPixmap()},
+        };
+    }
+
+    double const blendPosition = animationStep - baseImageIndex;
+    return blendLayers(images[firstImageIndex]->toPixmap(), images[secondImageIndex]->toPixmap(), blendPosition);
 }
 
 }  // namespace
 
-ComparisonViewLayers computeComparisonViewLayers(std::vector<Session::ImageHandle> const& images,
-                                                 ComparisonSettings const& settings)
+ComparisonViewLayers computeComparisonViewLayers(Session::Images const& images,
+                                                 ComparisonSettings const& settings,
+                                                 double animationStep)
 {
-    switch (settings.getComparisonMode()) {
+    switch (settings.mode) {
         case ComparisonMode::HighlightDifferences:
             return computeHighlightDifferencesLayers(images, settings);
-        case ComparisonMode::BlendImages:
+        case ComparisonMode::BlendImagesFalseColors:
+        case ComparisonMode::BlendImagesTrueColors:
             return computeBlendLayers(images, settings);
+        case ComparisonMode::BlendImagesAnimated:
+            return computeAnimatedBlendLayers(images, settings, animationStep);
     }
 
+    assert(false);
     return {};
 }
