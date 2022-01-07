@@ -46,6 +46,8 @@ add_executable(${PROJECT_NAME}
     src/screenshot_file_manager.h
     src/session.cpp
     src/session.h
+    src/settings.cpp
+    src/settings.h
     src/slider_helpers.cpp
     src/slider_helpers.h
     src/string_helpers.cpp

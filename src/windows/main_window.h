@@ -19,6 +19,9 @@ public:
 
     Session& getSession();
 
+protected:
+    void closeEvent(QCloseEvent* event) override;
+
 private slots:
     void openImages();
 
