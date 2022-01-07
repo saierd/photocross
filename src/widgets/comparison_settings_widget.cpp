@@ -5,6 +5,15 @@
 
 #include "ui_comparison_settings_widget.h"
 
+namespace {
+
+void showShortcutInTooltip(QAbstractButton* button)
+{
+    button->setToolTip(button->text() + " (" + button->shortcut().toString() + ")");
+}
+
+}  // namespace
+
 ComparisonSettingsWidget::ComparisonSettingsWidget(QWidget* parent)
   : QWidget(parent)
 {
@@ -16,6 +25,11 @@ ComparisonSettingsWidget::ComparisonSettingsWidget(QWidget* parent)
     updateMode();
 
     connect(ui->reset, &QToolButton::clicked, this, &ComparisonSettingsWidget::reset);
+
+    showShortcutInTooltip(ui->modeHighlightDifferences);
+    showShortcutInTooltip(ui->modeBlendImagesFalseColors);
+    showShortcutInTooltip(ui->modeBlendImagesTrueColors);
+    showShortcutInTooltip(ui->modeBlendImagesAnimated);
 
     connect(ui->modeHighlightDifferences, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
     connect(ui->modeBlendImagesFalseColors, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
