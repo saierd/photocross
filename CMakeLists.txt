@@ -54,6 +54,8 @@ add_executable(${PROJECT_NAME}
     src/string_helpers.h
     src/time_helpers.cpp
     src/time_helpers.h
+    src/widgets/color_picker.cpp
+    src/widgets/color_picker.h
     src/widgets/comparison_settings_widget.cpp
     src/widgets/comparison_settings_widget.h
     src/widgets/comparison_settings_widget.ui

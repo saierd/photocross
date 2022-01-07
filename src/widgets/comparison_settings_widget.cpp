@@ -48,6 +48,12 @@ ComparisonSettingsWidget::ComparisonSettingsWidget(QWidget* parent)
 
     connect(ui->resetBlendPosition, &QToolButton::clicked, this, &ComparisonSettingsWidget::resetBlendPosition);
     connect(ui->blendPosition, &QSlider::valueChanged, this, &ComparisonSettingsWidget::settingsChanged);
+    connect(ui->resetLeftBlendColor, &QToolButton::clicked, this, &ComparisonSettingsWidget::resetLeftBlendColor);
+    connect(ui->leftBlendColor, &ColorPicker::colorChanged, this, &ComparisonSettingsWidget::updateBlendLabelColors);
+    connect(ui->leftBlendColor, &ColorPicker::colorChanged, this, &ComparisonSettingsWidget::settingsChanged);
+    connect(ui->resetRightBlendColor, &QToolButton::clicked, this, &ComparisonSettingsWidget::resetRightBlendColor);
+    connect(ui->rightBlendColor, &ColorPicker::colorChanged, this, &ComparisonSettingsWidget::updateBlendLabelColors);
+    connect(ui->rightBlendColor, &ColorPicker::colorChanged, this, &ComparisonSettingsWidget::settingsChanged);
 
     connect(ui->resetAnimationSpeed, &QToolButton::clicked, this, &ComparisonSettingsWidget::resetAnimationSpeed);
     connect(ui->animationSpeed, &QSlider::valueChanged, this, &ComparisonSettingsWidget::settingsChanged);
@@ -99,6 +105,8 @@ ComparisonSettings ComparisonSettingsWidget::getComparisonSettings() const
     result.highlightDifferences.showMinorDifferences = ui->showMinorDifferences->isChecked();
 
     result.blendPosition = getBlendPosition();
+    result.blendFalseColors.leftColor = ui->leftBlendColor->getColor();
+    result.blendFalseColors.rightColor = ui->rightBlendColor->getColor();
 
     result.animatedBlending.timeBetweenImages = getAnimationTimeBetweenImages();
     result.animatedBlending.continuous = ui->animationContinuous->isChecked();
@@ -131,6 +139,8 @@ void ComparisonSettingsWidget::setComparisonSettings(ComparisonSettings const& s
     ui->showMinorDifferences->setChecked(settings.highlightDifferences.showMinorDifferences);
 
     setBlendPosition(settings.blendPosition);
+    ui->leftBlendColor->setColor(settings.blendFalseColors.leftColor);
+    ui->rightBlendColor->setColor(settings.blendFalseColors.rightColor);
 
     setAnimationTimeBetweenImages(settings.animatedBlending.timeBetweenImages);
     ui->animationContinuous->setChecked(settings.animatedBlending.continuous);
@@ -160,6 +170,7 @@ void ComparisonSettingsWidget::updateMode()
     }
 
     updateBlendLabelColors();
+    ui->blendColors->setVisible(getComparisonMode() == ComparisonMode::BlendImagesFalseColors);
 }
 
 void ComparisonSettingsWidget::updateBlendLabelColors()
@@ -180,6 +191,16 @@ void ComparisonSettingsWidget::updateBlendLabelColors()
 void ComparisonSettingsWidget::resetBlendPosition()
 {
     setBlendPosition(ComparisonSettings().blendPosition);
+}
+
+void ComparisonSettingsWidget::resetLeftBlendColor()
+{
+    ui->leftBlendColor->setColor(ComparisonSettings().blendFalseColors.leftColor);
+}
+
+void ComparisonSettingsWidget::resetRightBlendColor()
+{
+    ui->rightBlendColor->setColor(ComparisonSettings().blendFalseColors.rightColor);
 }
 
 void ComparisonSettingsWidget::resetAnimationSpeed()

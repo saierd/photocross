@@ -311,31 +311,21 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item row="0" column="1">
-        <widget class="QLabel" name="blendLeftLabel">
-         <property name="text">
-          <string>Left</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QSlider" name="blendPosition">
-         <property name="maximum">
-          <number>1000</number>
-         </property>
-         <property name="singleStep">
-          <number>10</number>
-         </property>
-         <property name="pageStep">
-          <number>100</number>
-         </property>
-         <property name="value">
-          <number>500</number>
-         </property>
+       <item row="4" column="0" colspan="5">
+        <spacer name="verticalSpacer">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeType">
+          <enum>QSizePolicy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="0" column="3">
         <widget class="QLabel" name="blendRightLabel">
@@ -360,6 +350,121 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="2">
+        <widget class="QSlider" name="blendPosition">
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="singleStep">
+          <number>10</number>
+         </property>
+         <property name="pageStep">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>500</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" rowspan="2" colspan="5">
+        <widget class="QFrame" name="blendColors">
+         <layout class="QGridLayout" name="gridLayout_5" columnstretch="0,0,1,0">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="2" column="3">
+           <widget class="QToolButton" name="resetRightBlendColor">
+            <property name="toolTip">
+             <string>Reset Right Color</string>
+            </property>
+            <property name="icon">
+             <iconset theme="undo">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="maximumSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="../../external/icons.qrc">:/icons/icons/select-color.svg</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Right Color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QToolButton" name="resetLeftBlendColor">
+            <property name="toolTip">
+             <string>Reset Left Color</string>
+            </property>
+            <property name="icon">
+             <iconset theme="undo">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="ColorPicker" name="leftBlendColor"/>
+          </item>
+          <item row="2" column="2">
+           <widget class="ColorPicker" name="rightBlendColor"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Left Color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="3">
+           <widget class="Line" name="line_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="blendLeftLabel">
+         <property name="text">
+          <string>Left</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="4">
         <widget class="QToolButton" name="resetBlendPosition">
          <property name="toolTip">
@@ -370,22 +475,6 @@
            <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
-       </item>
-       <item row="1" column="0" colspan="5">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::MinimumExpanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -492,6 +581,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QPushButton</extends>
+   <header>widgets/color_picker.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../external/icons.qrc"/>
  </resources>

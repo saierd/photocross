@@ -36,6 +36,8 @@ private slots:
 
     void updateBlendLabelColors();
     void resetBlendPosition();
+    void resetLeftBlendColor();
+    void resetRightBlendColor();
 
     void resetAnimationSpeed();
 

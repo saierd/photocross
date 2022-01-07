@@ -28,6 +28,7 @@
         <file alias="move-horizontal.svg">mdi/svg/arrow-left-right.svg</file>
         <file alias="move-vertical.svg">mdi/svg/arrow-up-down.svg</file>
         <file alias="animation.svg">mdi/svg/animation-play-outline.svg</file>
+        <file alias="select-color.svg">mdi/svg/eyedropper.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>
