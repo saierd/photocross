@@ -9,6 +9,7 @@ project(
     LANGUAGES CXX)
 
 # Search for dependencies.
+find_package(OpenMP REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(X11 REQUIRED)
 include(cmake/nautilus_extension.cmake)
@@ -91,7 +92,7 @@ add_executable(${PROJECT_NAME}
 source_group(TREE "src")
 target_include_directories(${PROJECT_NAME} PRIVATE "src")
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets X11::xcb)
+target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX Qt5::Widgets X11::xcb )
 set_target_properties(${PROJECT_NAME} PROPERTIES
     AUTOMOC ON
     AUTOUIC ON

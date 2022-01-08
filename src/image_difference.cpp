@@ -38,6 +38,7 @@ QImage computeDifferenceImage(std::vector<QImage> const& images, int tolerance, 
     QImage diff(totalSize, QImage::Format_ARGB32);
     diff.fill(noDifferenceColor);
 
+#pragma omp parallel for
     for (int y = 0; y < commonSize.height(); y++) {
         for (int x = 0; x < commonSize.width(); x++) {
             int maxDifference = 0;
@@ -63,6 +64,7 @@ QImage computeDifferenceImage(std::vector<QImage> const& images, int tolerance, 
     }
 
     // Fill bottom slice that is not contained in all images.
+#pragma omp parallel for
     for (int y = commonSize.height(); y < totalSize.height(); y++) {
         for (int x = 0; x < totalSize.width(); x++) {
             diff.setPixel(x, y, differenceColor);
