@@ -39,7 +39,7 @@ ImageEditMenu::ImageEditMenu(Image* image, QWidget* parent)
         [image, this]() {
             image->setOffset(getOffset());
         },
-        500ms);
+        300ms);
 
     connect(ui->xOffset, QOverload<int>::of(&QSpinBox::valueChanged), updateOffset);
     connect(ui->resetXOffset, &QToolButton::clicked, this, [this]() {
