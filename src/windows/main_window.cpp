@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget* parent)
         QCoreApplication::quit();
     });
 
-    connect(ui->actionReload, &QAction::triggered, [this]() {
+    connect(ui->actionReload, &QAction::triggered, this, [this]() {
         session->reload();
     });
 

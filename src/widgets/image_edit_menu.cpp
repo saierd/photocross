@@ -12,21 +12,21 @@ ImageEditMenu::ImageEditMenu(Image* image, QWidget* parent)
     ui->setupUi(this);
 
     ui->resetRotationButton->setDefaultAction(ui->actionResetRotation);
-    connect(ui->actionResetRotation, &QAction::triggered, [image]() {
+    connect(ui->actionResetRotation, &QAction::triggered, this, [image]() {
         if (image != nullptr) {
             image->resetRotation();
         }
     });
 
     ui->rotateLeftButton->setDefaultAction(ui->actionRotateLeft);
-    connect(ui->actionRotateLeft, &QAction::triggered, [image]() {
+    connect(ui->actionRotateLeft, &QAction::triggered, this, [image]() {
         if (image != nullptr) {
             image->rotateLeft();
         }
     });
 
     ui->rotateRightButton->setDefaultAction(ui->actionRotateRight);
-    connect(ui->actionRotateRight, &QAction::triggered, [image]() {
+    connect(ui->actionRotateRight, &QAction::triggered, this, [image]() {
         if (image != nullptr) {
             image->rotateRight();
         }
@@ -42,12 +42,12 @@ ImageEditMenu::ImageEditMenu(Image* image, QWidget* parent)
         500ms);
 
     connect(ui->xOffset, QOverload<int>::of(&QSpinBox::valueChanged), updateOffset);
-    connect(ui->resetXOffset, &QToolButton::clicked, [this]() {
+    connect(ui->resetXOffset, &QToolButton::clicked, this, [this]() {
         ui->xOffset->setValue(0);
     });
 
     connect(ui->yOffset, QOverload<int>::of(&QSpinBox::valueChanged), updateOffset);
-    connect(ui->resetYOffset, &QToolButton::clicked, [this]() {
+    connect(ui->resetYOffset, &QToolButton::clicked, this, [this]() {
         ui->yOffset->setValue(0);
     });
 }
