@@ -14,15 +14,13 @@ class ComparisonView : public ImageView {
 public:
     explicit ComparisonView(QWidget* parent = nullptr);
 
-    void update(Session const& session, ComparisonSettings const& _settings);
+    void update(Session::Images const& images, ComparisonSettings const& settings);
 
-private slots:
-    void update();
-    void animationUpdate();
+signals:
+    void requestAnimationUpdate();
 
 private:
-    Session::Images images;
-    ComparisonSettings settings;
+    void updateAnimationTimerSettings(ComparisonSettings const& settings);
 
     QTimer animationUpdateTimer;
     std::chrono::steady_clock::time_point animationStartTime;

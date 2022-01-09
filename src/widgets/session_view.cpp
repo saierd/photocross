@@ -34,6 +34,7 @@ SessionView::SessionView(QWidget* parent)
             &ComparisonSettingsWidget::settingsChanged,
             this,
             &SessionView::updateComparisonView);
+    connect(ui->comparisonView, &ComparisonView::requestAnimationUpdate, this, &SessionView::updateComparisonView);
 
     connect(ui->emptyImage, &EmptyImage::imagesDropped, this, [this](QStringList const& files) {
         session->loadImages(files);
@@ -287,7 +288,7 @@ void SessionView::updateComparisonView()
         return;
     }
 
-    ui->comparisonView->update(*session, settings);
+    ui->comparisonView->update(session->getImages(), settings);
 }
 
 void SessionView::clearMouseIndicators()

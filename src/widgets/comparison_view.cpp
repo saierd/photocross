@@ -12,34 +12,10 @@ ComparisonView::ComparisonView(QWidget* parent)
 {
     setCaption("Comparison View");
 
-    connect(&animationUpdateTimer, &QTimer::timeout, this, &ComparisonView::animationUpdate);
+    connect(&animationUpdateTimer, &QTimer::timeout, this, &ComparisonView::requestAnimationUpdate);
 }
 
-void ComparisonView::update(Session const& session, ComparisonSettings const& _settings)
-{
-    images = session.getImages();
-    settings = _settings;
-    update();
-
-    if (settings.mode != ComparisonMode::BlendImagesAnimated) {
-        if (animationUpdateTimer.isActive()) {
-            animationUpdateTimer.stop();
-        }
-    } else {
-        if (settings.animatedBlending.continuous) {
-            animationUpdateTimer.setInterval(continuousBlendTimerInterval);
-        } else {
-            animationUpdateTimer.setInterval(settings.animatedBlending.timeBetweenImages);
-        }
-
-        if (!animationUpdateTimer.isActive()) {
-            animationStartTime = std::chrono::steady_clock::now();
-            animationUpdateTimer.start();
-        }
-    }
-}
-
-void ComparisonView::update()
+void ComparisonView::update(Session::Images const& images, ComparisonSettings const& settings)
 {
     auto timeSinceAnimationStart = std::chrono::steady_clock::now() - animationStartTime;
     double animationStep = durationRatio(timeSinceAnimationStart, settings.animatedBlending.timeBetweenImages);
@@ -64,9 +40,26 @@ void ComparisonView::update()
 
     restoreView();
     forceViewPropagation();
+
+    updateAnimationTimerSettings(settings);
 }
 
-void ComparisonView::animationUpdate()
+void ComparisonView::updateAnimationTimerSettings(ComparisonSettings const& settings)
 {
-    update();
+    if (settings.mode != ComparisonMode::BlendImagesAnimated) {
+        if (animationUpdateTimer.isActive()) {
+            animationUpdateTimer.stop();
+        }
+    } else {
+        if (settings.animatedBlending.continuous) {
+            animationUpdateTimer.setInterval(continuousBlendTimerInterval);
+        } else {
+            animationUpdateTimer.setInterval(settings.animatedBlending.timeBetweenImages);
+        }
+
+        if (!animationUpdateTimer.isActive()) {
+            animationStartTime = std::chrono::steady_clock::now();
+            animationUpdateTimer.start();
+        }
+    }
 }
