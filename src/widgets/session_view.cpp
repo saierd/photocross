@@ -22,7 +22,7 @@ SessionView::SessionView(QWidget* parent)
 
     initializeImageView(*ui->comparisonView);
 
-    connect(ui->splitter, &QSplitter::splitterMoved, [this]() {
+    connect(ui->splitter, &QSplitter::splitterMoved, this, [this]() {
         adaptViewToWindow();
         ui->comparisonView->forceViewPropagation();
 
@@ -35,7 +35,7 @@ SessionView::SessionView(QWidget* parent)
             this,
             &SessionView::updateComparisonView);
 
-    connect(ui->emptyImage, &EmptyImage::imagesDropped, [this](QStringList const& files) {
+    connect(ui->emptyImage, &EmptyImage::imagesDropped, this, [this](QStringList const& files) {
         session->loadImages(files);
     });
 }
@@ -393,7 +393,7 @@ void SessionView::showEvent(QShowEvent* event)
 
 void SessionView::initializeImageView(ImageView& imageView)
 {
-    connect(&imageView, &ImageView::zoomChangedExplicitly, [this]() {
+    connect(&imageView, &ImageView::zoomChangedExplicitly, this, [this]() {
         setAutoFitInView(false);
     });
     connect(&imageView.getScene(),
