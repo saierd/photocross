@@ -41,6 +41,25 @@ public:
     void clear();
     void addPixmap(QPixmap const& image, double opacity = 1.);
 
+    class DelayUpdates {
+    public:
+        explicit DelayUpdates(QGraphicsView* _graphicsView = nullptr);
+        ~DelayUpdates();
+
+        DelayUpdates(DelayUpdates&& other) noexcept;
+        DelayUpdates& operator=(DelayUpdates&& other) noexcept;
+
+        DelayUpdates(DelayUpdates const&) = delete;
+        DelayUpdates& operator=(DelayUpdates const&) = delete;
+
+        void restoreUpdates();
+
+    private:
+        QGraphicsView* graphicsView = nullptr;
+    };
+
+    DelayUpdates delayUpdates();
+
 signals:
     void zoomChangedExplicitly();
 

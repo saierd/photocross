@@ -14,6 +14,21 @@
 
 #include "ui_session_view.h"
 
+namespace {
+
+class ImageViewsUpdateBlocker {
+public:
+    void block(ImageView& imageView)
+    {
+        reenableUpdates.push_back(imageView.delayUpdates());
+    }
+
+private:
+    std::vector<ImageView::DelayUpdates> reenableUpdates;
+};
+
+}  // namespace
+
 SessionView::SessionView(QWidget* parent)
   : QWidget(parent)
 {
@@ -267,6 +282,14 @@ void SessionView::updateImages()
 
 void SessionView::updateComparisonView()
 {
+    // Delay updating the image views until all changes are done (including updating the mouse indicators). Otherwise
+    // they might flicker.
+    ImageViewsUpdateBlocker imageViewUpdates;
+    imageViewUpdates.block(*ui->comparisonView);
+    for (auto const& imageView : imageViews) {
+        imageViewUpdates.block(*imageView);
+    }
+
     // Block mouse indicator updates while we update the view in case there is a mouse move event. We will restore the
     // previous mouse indicator position at the end of this function.
     mouseIndicatorUpdateBlocked = true;

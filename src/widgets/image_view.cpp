@@ -132,6 +132,46 @@ void ImageView::addPixmap(QPixmap const& image, double opacity)
     updateSceneRect();
 }
 
+ImageView::DelayUpdates::DelayUpdates(QGraphicsView* _graphicsView)
+  : graphicsView(_graphicsView)
+{
+    graphicsView->setUpdatesEnabled(false);
+}
+
+ImageView::DelayUpdates::~DelayUpdates()
+{
+    restoreUpdates();
+}
+
+ImageView::DelayUpdates::DelayUpdates(DelayUpdates&& other) noexcept
+{
+    restoreUpdates();
+    graphicsView = other.graphicsView;
+    other.graphicsView = nullptr;
+}
+
+ImageView::DelayUpdates& ImageView::DelayUpdates::operator=(DelayUpdates&& other) noexcept
+{
+    restoreUpdates();
+    graphicsView = other.graphicsView;
+    other.graphicsView = nullptr;
+
+    return *this;
+}
+
+void ImageView::DelayUpdates::restoreUpdates()
+{
+    if (graphicsView != nullptr) {
+        graphicsView->setUpdatesEnabled(true);
+        graphicsView = nullptr;
+    }
+}
+
+ImageView::DelayUpdates ImageView::delayUpdates()
+{
+    return DelayUpdates(&getGraphicsView());
+}
+
 void ImageView::zoomIn()
 {
     ui->graphicsView->zoomIn();
