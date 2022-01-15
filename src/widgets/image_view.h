@@ -68,7 +68,8 @@ public slots:
     void zoomOut();
 
 protected:
-    void updateSceneRect();
+    void updateSceneRectFromItems();
+    void updateSceneRect(QRectF rect);
 
 private:
     void setModifiable(bool enable);

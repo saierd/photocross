@@ -5,7 +5,21 @@
 #include "session.h"
 #include "time_helpers.h"
 
+namespace {
+
 auto constexpr continuousBlendTimerInterval = 50ms;
+
+QRect computeBoundingRect(Session::Images const& images)
+{
+    QRect result;
+    for (auto const& image : images) {
+        result |= image->toPixmap().rect();
+    }
+
+    return result;
+}
+
+}  // namespace
 
 ComparisonView::ComparisonView(QWidget* parent)
   : ImageView(parent)
@@ -21,10 +35,12 @@ void ComparisonView::update(Session::Images const& images, ComparisonSettings co
     double animationStep = durationRatio(timeSinceAnimationStart, settings.animatedBlending.timeBetweenImages);
 
     ComparisonViewLayers layers;
+    QRect boundingRect;
     runWithBusyDialog(
         "Updating Comparison View...",
         [&]() {
             layers = computeComparisonViewLayers(images, settings, animationStep);
+            boundingRect = computeBoundingRect(images);
         },
         this);
 
@@ -36,7 +52,10 @@ void ComparisonView::update(Session::Images const& images, ComparisonSettings co
         addPixmap(layer.pixmap, layer.opacity);
     }
 
-    updateSceneRect();
+    // Update the scene rect to the bounding rect of all images. In animated blending mode the images might have
+    // different sizes and we might not show the largest image at the moment. In that case the scene rect should still
+    // contain all possible images to avoid moving the scene when the displayed images change.
+    updateSceneRect(boundingRect);
 
     restoreView();
     forceViewPropagation();

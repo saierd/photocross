@@ -129,7 +129,7 @@ void ImageView::addPixmap(QPixmap const& image, double opacity)
 {
     auto* item = scene.addPixmap(image);
     item->setOpacity(opacity);
-    updateSceneRect();
+    updateSceneRectFromItems();
 }
 
 ImageView::DelayUpdates::DelayUpdates(QGraphicsView* _graphicsView)
@@ -182,9 +182,14 @@ void ImageView::zoomOut()
     ui->graphicsView->zoomOut();
 }
 
-void ImageView::updateSceneRect()
+void ImageView::updateSceneRectFromItems()
 {
-    scene.setSceneRect(scene.itemsBoundingRect());
+    updateSceneRect(scene.itemsBoundingRect());
+}
+
+void ImageView::updateSceneRect(QRectF rect)
+{
+    scene.setSceneRect(rect);
 }
 
 void ImageView::setModifiable(bool enable)
