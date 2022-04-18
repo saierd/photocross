@@ -22,23 +22,7 @@
      <property name="handleWidth">
       <number>6</number>
      </property>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QHBoxLayout" name="imagesContainer">
-       <item>
-        <layout class="QHBoxLayout" name="imagesLayout"/>
-       </item>
-       <item>
-        <widget class="EmptyImage" name="emptyImage" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+     <widget class="SourceImages" name="sourceImages" native="true"/>
      <widget class="QWidget" name="horizontalLayoutWidget">
       <layout class="QHBoxLayout" name="comparisonLayout" stretch="1,0">
        <item>
@@ -61,15 +45,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>EmptyImage</class>
-   <extends>QWidget</extends>
-   <header>widgets/empty_image.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ComparisonView</class>
    <extends>QWidget</extends>
    <header>widgets/comparison_view.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SourceImages</class>
+   <extends>QWidget</extends>
+   <header>widgets/source_images.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

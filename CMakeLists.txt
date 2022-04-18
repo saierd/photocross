@@ -84,6 +84,8 @@ add_executable(${PROJECT_NAME}
     src/widgets/session_view.cpp
     src/widgets/session_view.h
     src/widgets/session_view.ui
+    src/widgets/source_images.cpp
+    src/widgets/source_images.h
     src/widgets/source_image_view.cpp
     src/widgets/source_image_view.h
     src/widgets/synchronizable_graphics_view.cpp

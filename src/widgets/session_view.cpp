@@ -50,10 +50,6 @@ SessionView::SessionView(QWidget* parent)
             this,
             &SessionView::updateComparisonView);
     connect(ui->comparisonView, &ComparisonView::requestAnimationUpdate, this, &SessionView::updateComparisonView);
-
-    connect(ui->emptyImage, &EmptyImage::imagesDropped, this, [this](QStringList const& files) {
-        session->loadImages(files);
-    });
 }
 
 SessionView::~SessionView() = default;
@@ -61,6 +57,7 @@ SessionView::~SessionView() = default;
 void SessionView::setSession(Session* _session)
 {
     session = _session;
+    ui->sourceImages->setSession(session);
 
     connect(session, &Session::imagesChanged, this, &SessionView::updateImages);
     updateImages();
@@ -126,11 +123,11 @@ void SessionView::flipLayoutDirection()
     bool newLayoutHorizontal = !getLayoutIsHorizontal();
     if (newLayoutHorizontal) {
         ui->splitter->setOrientation(Qt::Vertical);
-        ui->imagesLayout->setDirection(QBoxLayout::LeftToRight);
+        ui->sourceImages->setDirection(QBoxLayout::LeftToRight);
         ui->comparisonLayout->setDirection(QBoxLayout::LeftToRight);
     } else {
         ui->splitter->setOrientation(Qt::Horizontal);
-        ui->imagesLayout->setDirection(QBoxLayout::TopToBottom);
+        ui->sourceImages->setDirection(QBoxLayout::TopToBottom);
         ui->comparisonLayout->setDirection(QBoxLayout::TopToBottom);
     }
 
@@ -219,10 +216,7 @@ void SessionView::adjustNumberOfImageViews(size_t numImages)
 
     if (!imageViews.empty()) {
         while (imageViews.size() > numImages) {
-            auto* item = ui->imagesLayout->takeAt(static_cast<int>(imageViews.size()) - 1);
-            item->widget()->deleteLater();
-            delete item;
-
+            ui->sourceImages->popImageWidget();
             imageViews.pop_back();
         }
     }
@@ -236,7 +230,7 @@ void SessionView::adjustNumberOfImageViews(size_t numImages)
         ui->comparisonView->synchronizeViews(*newImageView);
 
         imageViews.push_back(newImageView.get());
-        ui->imagesLayout->addWidget(newImageView.release());
+        ui->sourceImages->addImageWidget(newImageView.release());
     }
 }
 
@@ -263,8 +257,6 @@ void SessionView::updateImages()
         auto const& image = session->getImages()[i];
         imageViews[i]->setImage(image, session->getImages());
     }
-
-    ui->emptyImage->setVisible(numImages < 2);
 
     if (numImages > 0 && previousNumImages < 2) {
         // Initial load of images. Set up the layout of the view properly.
