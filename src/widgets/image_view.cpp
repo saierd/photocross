@@ -4,15 +4,43 @@
 #include "image.h"
 #include "image_edit_menu.h"
 
+#include <QGraphicsOpacityEffect>
 #include <QGraphicsPixmapItem>
+#include <QStackedLayout>
 
 #include "ui_image_view.h"
+
+namespace {
+
+void setUpDropIndicator(EmptyImage* dropIndicator)
+{
+    dropIndicator->setLabelText(QApplication::tr("Replace Image"));
+    dropIndicator->hideBorder();
+    dropIndicator->hide();
+
+    // We only use the drop indicator as a visual indicator, but handle drop events ourselves.
+    dropIndicator->setAcceptDrops(false);
+
+    // Make the indicator transparent so that once can still see the original image in the background.
+    dropIndicator->setAutoFillBackground(true);
+
+    auto* effect = new QGraphicsOpacityEffect(dropIndicator);
+    effect->setOpacity(0.95);
+    dropIndicator->setGraphicsEffect(effect);
+}
+
+}  // namespace
 
 ImageView::ImageView(QWidget* parent)
   : ImageDropWidget(parent)
 {
     ui = std::make_unique<Ui::ImageView>();
     ui->setupUi(this);
+
+    ui->widgetStack->setCurrentWidget(ui->viewPage);
+    dynamic_cast<QStackedLayout*>(ui->widgetStack->layout())->setStackingMode(QStackedLayout::StackAll);
+
+    setUpDropIndicator(ui->dropIndicator);
 
     ui->fitToView->setDefaultAction(ui->actionFitToView);
     connect(ui->actionFitToView, &QAction::triggered, [this]() {
@@ -42,6 +70,10 @@ ImageView::ImageView(QWidget* parent)
         }
     });
 
+    connect(this, &ImageDropWidget::dropping, [this](bool dropping) {
+        ui->dropIndicator->setVisible(dropping);
+        ui->widgetStack->setCurrentWidget(dropping ? ui->dropIndicatorPage : ui->viewPage);
+    });
     connect(this, &ImageDropWidget::imagesDropped, [this](QStringList const& files) {
         if (modifiable && imageToModify != nullptr) {
             emit imageToModify->imageReplaced(files);

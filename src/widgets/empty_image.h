@@ -15,6 +15,9 @@ public:
     explicit EmptyImage(QWidget* parent = nullptr);
     ~EmptyImage() override;
 
+    void setLabelText(QString const& text);
+    void hideBorder();
+
 private:
     std::unique_ptr<Ui::EmptyImage> ui;
 };

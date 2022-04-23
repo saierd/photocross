@@ -29,3 +29,14 @@ EmptyImage::EmptyImage(QWidget* parent)
 }
 
 EmptyImage::~EmptyImage() = default;
+
+void EmptyImage::setLabelText(QString const& text)
+{
+    ui->label->setText(text);
+}
+
+void EmptyImage::hideBorder()
+{
+    ui->frame->setFrameShape(QFrame::NoFrame);
+    ui->frame->setStyleSheet("");
+}
