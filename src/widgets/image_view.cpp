@@ -43,7 +43,7 @@ ImageView::ImageView(QWidget* parent)
     setUpDropIndicator(ui->dropIndicator);
 
     ui->fitToView->setDefaultAction(ui->actionFitToView);
-    connect(ui->actionFitToView, &QAction::triggered, [this]() {
+    connect(ui->actionFitToView, &QAction::triggered, this, [this]() {
         fitViewToScene();
         emit zoomChangedExplicitly();
     });
@@ -52,14 +52,14 @@ ImageView::ImageView(QWidget* parent)
     ui->editImage->addAction(editMenu);
 
     ui->closeImage->setDefaultAction(ui->actionCloseImage);
-    connect(ui->actionCloseImage, &QAction::triggered, [this]() {
+    connect(ui->actionCloseImage, &QAction::triggered, this, [this]() {
         if (modifiable && imageToModify != nullptr) {
             emit imageToModify->imageClosed();
         }
     });
 
     ui->replaceImage->setDefaultAction(ui->actionReplaceImage);
-    connect(ui->actionReplaceImage, &QAction::triggered, [this]() {
+    connect(ui->actionReplaceImage, &QAction::triggered, this, [this]() {
         if (!modifiable || imageToModify == nullptr) {
             return;
         }
