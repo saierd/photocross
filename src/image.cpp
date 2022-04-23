@@ -43,11 +43,6 @@ Image::Image(QString _filename)
 
 Image::~Image() = default;
 
-QString const& Image::file() const
-{
-    return filename;
-}
-
 QString Image::canonicalFilename() const
 {
     return QFileInfo(filename).canonicalFilePath();

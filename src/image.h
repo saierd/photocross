@@ -14,7 +14,6 @@ public:
     explicit Image(QString _filename);
     ~Image() override;
 
-    QString const& file() const;
     QString canonicalFilename() const;
     QSize size() const;
 

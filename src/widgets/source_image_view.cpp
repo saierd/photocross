@@ -39,9 +39,9 @@ QString formatImageSize(Image const& image, std::vector<std::shared_ptr<Image>> 
 
 QString commonFilenamePrefix(std::vector<std::shared_ptr<Image>> const& allImages)
 {
-    QString prefix = allImages[0]->file();
+    QString prefix = allImages[0]->canonicalFilename();
     for (auto const& image : allImages) {
-        prefix = commonPrefix(prefix, image->file());
+        prefix = commonPrefix(prefix, image->canonicalFilename());
     }
 
     return prefix;
@@ -59,11 +59,10 @@ void SourceImageView::setImage(std::shared_ptr<Image> newImage, std::vector<std:
     image = std::move(newImage);
     setModifiable(image.get());
 
-    QString filename = image->file();
+    QString filename = image->canonicalFilename();
     QString caption = simplifyFilename(filename, allImages) + " (" + formatImageSize(*image, allImages) + ")";
-    QString tooltip = image->canonicalFilename();
 
-    setCaption(caption, tooltip);
+    setCaption(caption, filename);
 
     clear();
     addPixmap(image->toPixmap());
