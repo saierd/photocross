@@ -14,6 +14,7 @@ SourceImages::SourceImages(QWidget* parent)
   , layout(QBoxLayout::LeftToRight)
 {
     setLayout(&layout);
+    layout.setMargin(0);
 
     layout.addWidget(&emptyImage);
     updateEmptyImage();
