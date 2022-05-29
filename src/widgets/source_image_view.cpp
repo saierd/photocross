@@ -2,6 +2,8 @@
 
 #include "string_helpers.h"
 
+#include <QFileInfo>
+
 namespace {
 
 QString highlight(QString const& string)
@@ -42,6 +44,12 @@ QString commonFilenamePrefix(std::vector<std::shared_ptr<Image>> const& allImage
     QString prefix = allImages[0]->canonicalFilename();
     for (auto const& image : allImages) {
         prefix = commonPrefix(prefix, image->canonicalFilename());
+    }
+
+    if (prefix == allImages[0]->canonicalFilename()) {
+        // All files have the same path. Strip the directory only, not the whole filename.
+        int const fileNameLength = QFileInfo(prefix).fileName().size();
+        prefix = prefix.left(prefix.size() - fileNameLength);
     }
 
     return prefix;
