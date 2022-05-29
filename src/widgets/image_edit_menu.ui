@@ -58,7 +58,7 @@
         </size>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../external/icons.qrc">:/icons/icons/move-vertical.svg</pixmap>
+        <pixmap resource="../../resources/icons.qrc">:/icons/icons/move-vertical.svg</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -74,7 +74,7 @@
         </size>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../external/icons.qrc">:/icons/icons/move-horizontal.svg</pixmap>
+        <pixmap resource="../../resources/icons.qrc">:/icons/icons/move-horizontal.svg</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -196,7 +196,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../../external/icons.qrc"/>
+  <include location="../../resources/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -74,7 +74,7 @@
         <string>Highlight Differences</string>
        </property>
        <property name="icon">
-        <iconset resource="../../external/icons.qrc">
+        <iconset resource="../../resources/icons.qrc">
          <normaloff>:/icons/icons/comparison-mode-differences.svg</normaloff>:/icons/icons/comparison-mode-differences.svg</iconset>
        </property>
        <property name="shortcut">
@@ -103,7 +103,7 @@
         <string>Blend False Color Images</string>
        </property>
        <property name="icon">
-        <iconset resource="../../external/icons.qrc">
+        <iconset resource="../../resources/icons.qrc">
          <normaloff>:/icons/icons/color.svg</normaloff>:/icons/icons/color.svg</iconset>
        </property>
        <property name="shortcut">
@@ -132,7 +132,7 @@
         <string>Blend Images</string>
        </property>
        <property name="icon">
-        <iconset resource="../../external/icons.qrc">
+        <iconset resource="../../resources/icons.qrc">
          <normaloff>:/icons/icons/comparison-mode-blend.svg</normaloff>:/icons/icons/comparison-mode-blend.svg</iconset>
        </property>
        <property name="shortcut">
@@ -161,7 +161,7 @@
         <string>Blend Images Animated</string>
        </property>
        <property name="icon">
-        <iconset resource="../../external/icons.qrc">
+        <iconset resource="../../resources/icons.qrc">
          <normaloff>:/icons/icons/animation.svg</normaloff>:/icons/icons/animation.svg</iconset>
        </property>
        <property name="shortcut">
@@ -275,7 +275,7 @@
           </size>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../external/icons.qrc">:/icons/icons/tolerance.svg</pixmap>
+          <pixmap resource="../../resources/icons.qrc">:/icons/icons/tolerance.svg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -343,7 +343,7 @@
           </size>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../external/icons.qrc">:/icons/icons/linear.svg</pixmap>
+          <pixmap resource="../../resources/icons.qrc">:/icons/icons/linear.svg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -404,7 +404,7 @@
              </size>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../external/icons.qrc">:/icons/icons/select-color.svg</pixmap>
+             <pixmap resource="../../resources/icons.qrc">:/icons/icons/select-color.svg</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -501,7 +501,7 @@
           </size>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../external/icons.qrc">:/icons/icons/clock-speed.svg</pixmap>
+          <pixmap resource="../../resources/icons.qrc">:/icons/icons/clock-speed.svg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -544,7 +544,7 @@
           </size>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../external/icons.qrc">:/icons/icons/triangle-wave.svg</pixmap>
+          <pixmap resource="../../resources/icons.qrc">:/icons/icons/triangle-wave.svg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -589,7 +589,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../external/icons.qrc"/>
+  <include location="../../resources/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

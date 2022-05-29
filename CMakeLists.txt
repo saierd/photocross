@@ -22,7 +22,7 @@ include(cmake/package.cmake)
 add_subdirectory(file_manager_integrations)
 
 add_executable(${PROJECT_NAME}
-    external/icons.qrc
+    resources/icons.qrc
     src/busy_dialog.cpp
     src/busy_dialog.h
     src/command_line.cpp
