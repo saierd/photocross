@@ -7,6 +7,7 @@
 #include <cmath>
 
 double constexpr zoomFactor = 1.1;
+double constexpr minimumVisiblePixels = 20;
 
 InteractiveGraphicsView::InteractiveGraphicsView(QWidget* parent)
   : QGraphicsView(parent)
@@ -31,8 +32,20 @@ void InteractiveGraphicsView::zoom(int steps)
     // Zoom towards mouse position.
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
-    double scaleFactor = std::pow(zoomFactor, steps);
-    scale(scaleFactor, scaleFactor);
+    double currentScaling = std::sqrt(transform().determinant());
+
+    double const minimumScaling =
+        std::min(viewport()->width() / sceneRect().width(), viewport()->height() / sceneRect().height());
+    double const minimumScalingFactor = minimumScaling / currentScaling;
+
+    double const maximumScaling = std::max(viewport()->width(), viewport()->height()) / minimumVisiblePixels;
+    double const maximumScalingFactor = maximumScaling / currentScaling;
+
+    double scalingFactor = std::pow(zoomFactor, steps);
+    scalingFactor = std::max(scalingFactor, minimumScalingFactor);
+    scalingFactor = std::min(scalingFactor, maximumScalingFactor);
+
+    scale(scalingFactor, scalingFactor);
 
     emit zoomChangedExplicitly();
     emit viewChanged();
