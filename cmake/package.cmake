@@ -15,9 +15,9 @@ if(UNIX)
     install(
         FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/icon/icon.svg"
         DESTINATION "share/pixmaps"
-        RENAME "slika.svg")
+        RENAME "photocross.svg")
     install(
-        FILES "${CMAKE_CURRENT_SOURCE_DIR}/cmake/package/slika.desktop"
+        FILES "${CMAKE_CURRENT_SOURCE_DIR}/cmake/package/photocross.desktop"
         DESTINATION "share/applications")
 endif()
 

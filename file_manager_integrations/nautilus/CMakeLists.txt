@@ -1,4 +1,4 @@
-project(slika-nautilus)
+project(photocross-nautilus)
 
 add_library(${PROJECT_NAME}
     SHARED
@@ -15,4 +15,4 @@ target_compile_options(${PROJECT_NAME} PRIVATE "-Wno-old-style-cast")
 
 install(
     TARGETS ${PROJECT_NAME}
-    DESTINATION "lib/slika/extensions/")
+    DESTINATION "lib/photocross/extensions/")

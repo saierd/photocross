@@ -61,7 +61,7 @@ GList* getFileItems(NautilusMenuProvider* /* provider */, GtkWidget* /* window *
 
     GList* menuItems = nullptr;
     for (auto const& menuEntry : executor.getMenuEntries(selectedFiles)) {
-        std::string entryId = "NautilusSlika::" + std::to_string(menuEntry.id);
+        std::string entryId = "NautilusPhotoCross::" + std::to_string(menuEntry.id);
 
         NautilusMenuItem* item =
             nautilus_menu_item_new(entryId.c_str(), menuEntry.caption.c_str(), menuEntry.description.c_str(), nullptr);
@@ -94,7 +94,11 @@ Extension::Extension(GTypeModule* module)
 
     static const GInterfaceInfo menuProviderInterfaceInfo = {initializeExtensionInterface, nullptr, nullptr};
 
-    type = g_type_module_register_type(module, G_TYPE_OBJECT, "nautilus-slika", &typeInfo, static_cast<GTypeFlags>(0));
+    type = g_type_module_register_type(module,
+                                       G_TYPE_OBJECT,
+                                       "nautilus-photocross",
+                                       &typeInfo,
+                                       static_cast<GTypeFlags>(0));
     g_type_module_add_interface(module, type, NAUTILUS_TYPE_MENU_PROVIDER, &menuProviderInterfaceInfo);
 
     executor = std::make_unique<Executor>();

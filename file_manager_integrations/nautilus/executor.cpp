@@ -4,23 +4,28 @@
 #include <iostream>
 #include <map>
 
-std::string const slikaCommand = "slika";
+namespace {
+
+std::string const applicationName = "PhotoCross";
+std::string const applicationCommand = "photocross";
+
+}  // namespace
 
 class Executor::Impl {
 public:
     std::map<int, std::function<void()>> currentEntryCallbacks;
     std::string selectedFile;
 
-    void launchSlika(std::vector<std::string> const& files)
+    void launch(std::vector<std::string> const& files)
     {
         selectedFile = "";
 
-        std::string command = slikaCommand;
+        std::string command = applicationCommand;
         for (auto const& file : files) {
             command += " \"" + file + "\"";
         }
         if (std::system(command.c_str()) != 0) {
-            std::cerr << "Failed to launch Slika" << std::endl;
+            std::cerr << "Failed to launch " << applicationName << std::endl;
         }
     }
 
@@ -82,24 +87,24 @@ std::vector<Executor::MenuEntry> Executor::getMenuEntries(std::vector<FileInfo> 
     Impl::MenuEntryBuilder menuEntries(impl.get());
 
     if (!impl->selectedFile.empty()) {
-        std::string description = "Slika: Compare with '" + impl->selectedFile + "'";
+        std::string description = applicationName + ": Compare with '" + impl->selectedFile + "'";
 
         std::vector<std::string> filesForComparison = files;
         filesForComparison.insert(filesForComparison.begin(), impl->selectedFile);
         menuEntries.add(description, [this, filesForComparison = std::move(filesForComparison)]() {
-            impl->launchSlika(filesForComparison);
+            impl->launch(filesForComparison);
         });
     }
 
     if (files.size() == 1) {
-        std::string description = "Slika: Select for Comparison";
+        std::string description = applicationName + ": Select for Comparison";
         menuEntries.add(description, [this, file = files[0]]() {
             impl->selectedFile = file;
         });
     } else {
-        std::string description = "Slika: Compare Images";
+        std::string description = applicationName + ": Compare Images";
         menuEntries.add(description, [this, files = std::move(files)]() {
-            impl->launchSlika(files);
+            impl->launch(files);
         });
     }
 

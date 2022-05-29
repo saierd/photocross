@@ -9,7 +9,7 @@
 int main(int argc, char** argv)
 {
     QApplication application(argc, argv);
-    QApplication::setApplicationName("Slika");
+    QApplication::setApplicationName("PhotoCross");
     QApplication::setWindowIcon(QIcon(":/icon.svg"));
 
     QIcon::setThemeName("icons");

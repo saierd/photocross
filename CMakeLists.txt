@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.14)
 include(cmake/version.cmake)
 
 project(
-    slika
+    photocross
     DESCRIPTION "Image Comparison Tool"
-    HOMEPAGE_URL "https://github.com/saierd/slika"
+    HOMEPAGE_URL "https://github.com/saierd/photocross"
     LANGUAGES CXX)
 
 # Search for dependencies.

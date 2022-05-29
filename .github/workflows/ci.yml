@@ -103,7 +103,7 @@ jobs:
 
       - name: Generate Qt Sources
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --parallel $(nproc) --target slika_autogen
+        run: cmake --build . --parallel $(nproc) --target photocross_autogen
 
       - name: Run clazy
         run: find $GITHUB_WORKSPACE/src -name "*.cpp" | xargs -P $(nproc) clazy-standalone -p ${{runner.workspace}}/build/compile_commands.json

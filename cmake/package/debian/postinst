@@ -1,8 +1,8 @@
 #!/bin/sh
 
-nautilus_extension="/usr/lib/slika/extensions/libslika-nautilus.so"
+nautilus_extension="/usr/lib/photocross/extensions/libphotocross-nautilus.so"
 nautilus_extension_directory="/usr/lib/x86_64-linux-gnu/nautilus/extensions-3.0/"
 if [ -d "${nautilus_extension_directory}" ]; then
-    rm -f "${nautilus_extension_directory}/libslika-nautilus.so"
+    rm -f "${nautilus_extension_directory}/libphotocross-nautilus.so"
     cp "${nautilus_extension}" "${nautilus_extension_directory}"
 fi
