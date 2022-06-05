@@ -31,6 +31,7 @@ add_executable(${PROJECT_NAME}
     src/comparison_settings.h
     src/comparison_view_layers.cpp
     src/comparison_view_layers.h
+    src/debounce.cpp
     src/debounce.h
     src/drag_drop_helpers.cpp
     src/drag_drop_helpers.h
