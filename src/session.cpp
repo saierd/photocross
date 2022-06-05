@@ -69,26 +69,32 @@ void Session::reload()
     emit imagesChanged();
 }
 
+Session::Images::const_iterator Session::insertImage(Images::const_iterator position, ImageHandle image)
+{
+    image->setReloadWhenFileChanges(watchFiles);
+    connect(image.get(), &Image::imageChanged, this, &Session::imagesChanged);
+
+    std::weak_ptr<Image> imageReference = image;
+
+    connect(image.get(), &Image::imageClosed, this, [this, imageReference]() {
+        if (auto imageHandle = imageReference.lock()) {
+            closeImage(imageHandle);
+        }
+    });
+
+    connect(image.get(), &Image::imageReplaced, this, [this, imageReference](QStringList const& files) {
+        if (auto imageHandle = imageReference.lock()) {
+            replaceImage(imageHandle, files);
+        }
+    });
+
+    return images.insert(position, std::move(image));
+}
+
 void Session::insertImages(Images::const_iterator position, Images const& newImages)
 {
     for (auto const& image : newImages) {
-        image->setReloadWhenFileChanges(watchFiles);
-        connect(image.get(), &Image::imageChanged, this, &Session::imagesChanged);
-
-        std::weak_ptr<Image> imageReference = image;
-
-        connect(image.get(), &Image::imageClosed, this, [this, imageReference]() {
-            if (auto imageHandle = imageReference.lock()) {
-                closeImage(imageHandle);
-            }
-        });
-
-        connect(image.get(), &Image::imageReplaced, this, [this, imageReference](QStringList const& files) {
-            if (auto imageHandle = imageReference.lock()) {
-                replaceImage(imageHandle, files);
-            }
-        });
+        position = insertImage(position, image);
+        position++;
     }
-
-    images.insert(position, std::make_move_iterator(newImages.begin()), std::make_move_iterator(newImages.end()));
 }

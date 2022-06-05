@@ -29,6 +29,7 @@ public slots:
     void reload();
 
 private:
+    Images::const_iterator insertImage(Images::const_iterator position, ImageHandle image);
     void insertImages(Images::const_iterator position, Images const& newImages);
 
     Images images;
