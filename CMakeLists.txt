@@ -31,19 +31,25 @@ add_executable(${PROJECT_NAME}
     src/comparison_settings.h
     src/comparison_view_layers.cpp
     src/comparison_view_layers.h
-    src/debounce.cpp
-    src/debounce.h
-    src/drag_drop_helpers.cpp
-    src/drag_drop_helpers.h
-    src/file_helpers.cpp
-    src/file_helpers.h
     src/image.cpp
     src/image.h
     src/image_difference.cpp
     src/image_difference.h
-    src/image_helpers.cpp
-    src/image_helpers.h
     src/main.cpp
+    src/utility/debounce.cpp
+    src/utility/debounce.h
+    src/utility/drag_drop.cpp
+    src/utility/drag_drop.h
+    src/utility/file.cpp
+    src/utility/file.h
+    src/utility/image.cpp
+    src/utility/image.h
+    src/utility/slider.cpp
+    src/utility/slider.h
+    src/utility/string_prefix.cpp
+    src/utility/string_prefix.h
+    src/utility/time.cpp
+    src/utility/time.h
     src/screenshot.cpp
     src/screenshot.h
     src/screenshot_file_manager.cpp
@@ -52,12 +58,6 @@ add_executable(${PROJECT_NAME}
     src/session.h
     src/settings.cpp
     src/settings.h
-    src/slider_helpers.cpp
-    src/slider_helpers.h
-    src/string_helpers.cpp
-    src/string_helpers.h
-    src/time_helpers.cpp
-    src/time_helpers.h
     src/widgets/color_picker.cpp
     src/widgets/color_picker.h
     src/widgets/comparison_settings_widget.cpp

@@ -1,6 +1,6 @@
 #include "image_drop_widget.h"
 
-#include "drag_drop_helpers.h"
+#include "utility/drag_drop.h"
 
 #include <QDropEvent>
 

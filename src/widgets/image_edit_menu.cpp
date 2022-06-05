@@ -1,7 +1,7 @@
 #include "image_edit_menu.h"
 
-#include "debounce.h"
 #include "image.h"
+#include "utility/debounce.h"
 
 #include "ui_image_edit_menu.h"
 

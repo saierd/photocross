@@ -1,4 +1,4 @@
-#include "slider_helpers.h"
+#include "slider.h"
 
 #include <QSlider>
 

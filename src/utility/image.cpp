@@ -1,4 +1,4 @@
-#include "image_helpers.h"
+#include "image.h"
 
 #include <QPainter>
 

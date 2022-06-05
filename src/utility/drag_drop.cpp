@@ -1,6 +1,6 @@
-#include "drag_drop_helpers.h"
+#include "drag_drop.h"
 
-#include "file_helpers.h"
+#include "file.h"
 
 #include <QDropEvent>
 #include <QMimeData>

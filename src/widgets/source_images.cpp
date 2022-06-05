@@ -1,7 +1,7 @@
 #include "source_images.h"
 
-#include "drag_drop_helpers.h"
 #include "session.h"
+#include "utility/drag_drop.h"
 
 #include <QApplication>
 #include <QDragEnterEvent>

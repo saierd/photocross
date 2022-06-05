@@ -1,6 +1,6 @@
 #include "source_image_view.h"
 
-#include "string_helpers.h"
+#include "utility/string_prefix.h"
 
 #include <QFileInfo>
 

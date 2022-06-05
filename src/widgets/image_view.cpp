@@ -1,8 +1,8 @@
 #include "image_view.h"
 
-#include "file_helpers.h"
 #include "image.h"
 #include "image_edit_menu.h"
+#include "utility/file.h"
 
 #include <QGraphicsOpacityEffect>
 #include <QGraphicsPixmapItem>

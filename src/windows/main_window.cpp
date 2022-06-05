@@ -1,8 +1,8 @@
 #include "main_window.h"
 
-#include "file_helpers.h"
 #include "session.h"
 #include "settings.h"
+#include "utility/file.h"
 
 #include "ui_main_window.h"
 

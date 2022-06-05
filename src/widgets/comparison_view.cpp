@@ -3,7 +3,7 @@
 #include "busy_dialog.h"
 #include "comparison_view_layers.h"
 #include "session.h"
-#include "time_helpers.h"
+#include "utility/time.h"
 
 namespace {
 

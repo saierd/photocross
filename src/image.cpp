@@ -1,6 +1,6 @@
 #include "image.h"
 
-#include "image_helpers.h"
+#include "utility/image.h"
 
 #include <QFileInfo>
 

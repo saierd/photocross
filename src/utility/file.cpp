@@ -1,4 +1,4 @@
-#include "file_helpers.h"
+#include "file.h"
 
 #include <QFileDialog>
 #include <QMimeDatabase>

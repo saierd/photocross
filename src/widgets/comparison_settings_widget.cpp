@@ -1,7 +1,7 @@
 #include "comparison_settings_widget.h"
 
-#include "slider_helpers.h"
-#include "time_helpers.h"
+#include "utility/slider.h"
+#include "utility/time.h"
 
 #include "ui_comparison_settings_widget.h"
 

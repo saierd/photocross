@@ -1,4 +1,4 @@
-#include "string_helpers.h"
+#include "string_prefix.h"
 
 QString commonPrefix(QString const& a, QString const& b)
 {
