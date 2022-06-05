@@ -40,6 +40,12 @@ void Session::loadImages(QStringList const& files)
     emit imagesChanged();
 }
 
+void Session::addImage(QImage image)
+{
+    insertImage(images.end(), std::make_shared<Image>(std::move(image)));
+    emit imagesChanged();
+}
+
 void Session::replaceImage(ImageHandle const& image, QStringList const& files)
 {
     auto it = std::find(images.begin(), images.end(), image);

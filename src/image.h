@@ -11,7 +11,8 @@ class Image : public QObject {
     Q_OBJECT
 
 public:
-    explicit Image(QString _filename);
+    explicit Image(QString _filename = "");
+    explicit Image(QImage _imageData);
     ~Image() override;
 
     QString canonicalFilename() const;

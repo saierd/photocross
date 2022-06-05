@@ -22,10 +22,13 @@ struct Image::Cache {
 
 Image::Image(QString _filename)
   : filename(std::move(_filename))
-  , imageData(filename)
 {
-    fileWatcher.addPath(filename);
-    connect(&fileWatcher, &QFileSystemWatcher::fileChanged, this, &Image::imageFileChanged);
+    if (!filename.isEmpty()) {
+        imageData = QImage(filename);
+
+        fileWatcher.addPath(filename);
+        connect(&fileWatcher, &QFileSystemWatcher::fileChanged, this, &Image::imageFileChanged);
+    }
 
     // We will save converted versions of the image in the cache to avoid recomputing them whenever the display of the
     // image in the UI changes.
@@ -39,6 +42,12 @@ Image::Image(QString _filename)
             cache->invalidate();
         }
     });
+}
+
+Image::Image(QImage _imageData)
+  : Image()
+{
+    imageData = std::move(_imageData);
 }
 
 Image::~Image() = default;

@@ -5,10 +5,6 @@
 class QApplication;
 
 struct CommandLineOptions {
-    bool clearScreenshots;
-    bool takeScreenshot;
-    bool takeDesktopScreenshot;
-
     QStringList files;
 };
 

@@ -23,6 +23,7 @@ signals:
 
 public slots:
     void loadImages(QStringList const& files);
+    void addImage(QImage image);
     void replaceImage(Session::ImageHandle const& image, QStringList const& files);
     void closeImage(Session::ImageHandle const& image);
 

@@ -53,8 +53,8 @@ add_executable(${PROJECT_NAME}
     src/utility/time.h
     src/screenshot.cpp
     src/screenshot.h
-    src/screenshot_file_manager.cpp
-    src/screenshot_file_manager.h
+    src/screenshot_manager.cpp
+    src/screenshot_manager.h
     src/session.cpp
     src/session.h
     src/settings.cpp
@@ -98,7 +98,12 @@ add_executable(${PROJECT_NAME}
 source_group(TREE "src")
 target_include_directories(${PROJECT_NAME} PRIVATE "src")
 
-target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX Qt5::Widgets X11::xcb )
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    OpenMP::OpenMP_CXX
+    QHotkey::QHotkey
+    Qt5::Widgets
+    X11::xcb
+)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     AUTOMOC ON
     AUTOUIC ON
