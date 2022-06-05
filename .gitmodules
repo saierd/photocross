@@ -1,3 +1,6 @@
 [submodule "external/mdi"]
 	path = external/mdi
 	url = https://github.com/Templarian/MaterialDesign-SVG.git
+[submodule "external/qhotkey"]
+	path = external/qhotkey
+	url = git@github.com:Skycoder42/QHotkey.git

@@ -24,7 +24,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install libnautilus-extension-dev qt5-default
+          sudo apt-get install libnautilus-extension-dev libqt5x11extras5-dev qt5-default
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -87,7 +87,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install libnautilus-extension-dev qt5-default
+          sudo apt-get install libnautilus-extension-dev libqt5x11extras5-dev qt5-default
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -109,3 +109,4 @@ jobs:
         run: find $GITHUB_WORKSPACE/src -name "*.cpp" | xargs -P $(nproc) clazy-standalone -p ${{runner.workspace}}/build/compile_commands.json
         env:
           CLAZY_CHECKS: level0,level1,old-style-connect,no-non-pod-global-static
+          CLAZY_IGNORE_DIRS: .*external.*

@@ -19,6 +19,7 @@ include(cmake/clang_tidy.cmake)
 include(cmake/compiler_flags.cmake)
 include(cmake/package.cmake)
 
+add_subdirectory(external)
 add_subdirectory(file_manager_integrations)
 
 add_executable(${PROJECT_NAME}
