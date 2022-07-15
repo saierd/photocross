@@ -153,36 +153,14 @@ void SessionView::zoomOut()
     ui->comparisonView->zoomOut();
 }
 
-double computeSceneToViewSizeRatio(ImageView const* view)
-{
-    return std::max(view->getScene().sceneRect().width() / view->width(),
-                    view->getScene().sceneRect().height() / view->height());
-}
-
-ImageView* selectTightestImageView(std::vector<ImageView*> views)
-{
-    return *std::max_element(views.begin(), views.end(), [](ImageView const* a, ImageView const* b) {
-        return computeSceneToViewSizeRatio(a) < computeSceneToViewSizeRatio(b);
-    });
-}
-
 void SessionView::fitToView()
 {
     if (session->getImages().empty()) {
         return;
     }
 
-    std::vector<ImageView*> views;
-    if (getSourceImagesVisible()) {
-        std::copy(imageViews.begin(), imageViews.end(), std::back_inserter(views));
-    }
-    if (ui->comparisonView->isVisible()) {
-        views.push_back(ui->comparisonView);
-    }
-
-    if (!views.empty()) {
-        auto* tightestImageView = selectTightestImageView(views);
-        tightestImageView->fitViewToScene();
+    if (auto* view = selectImageViewForFitToView(); view != nullptr) {
+        view->fitViewToScene();
         setAutoFitInView(true);
     }
 }
@@ -417,4 +395,38 @@ void SessionView::initializeImageView(ImageView& imageView)
             this,
             qOverload<MouseIndicatorPosition const&>(&SessionView::updateMouseIndicators));
     connect(&imageView.getScene(), &ImageViewScene::mouseLeft, this, &SessionView::clearMouseIndicators);
+}
+
+namespace {
+
+double computeSceneToViewSizeRatio(ImageView const* view)
+{
+    return std::max(view->getScene().sceneRect().width() / view->width(),
+                    view->getScene().sceneRect().height() / view->height());
+}
+
+ImageView* selectTightestImageView(std::vector<ImageView*> views)
+{
+    return *std::max_element(views.begin(), views.end(), [](ImageView const* a, ImageView const* b) {
+        return computeSceneToViewSizeRatio(a) < computeSceneToViewSizeRatio(b);
+    });
+}
+
+}  // namespace
+
+ImageView* SessionView::selectImageViewForFitToView()
+{
+    std::vector<ImageView*> views;
+    if (getSourceImagesVisible()) {
+        std::copy(imageViews.begin(), imageViews.end(), std::back_inserter(views));
+    }
+    if (ui->comparisonView->isVisible()) {
+        views.push_back(ui->comparisonView);
+    }
+
+    if (views.empty()) {
+        return nullptr;
+    }
+
+    return selectTightestImageView(views);
 }

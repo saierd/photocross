@@ -74,6 +74,7 @@ private slots:
 
 private:
     void initializeImageView(ImageView& imageView);
+    ImageView* selectImageViewForFitToView();
 
 private:
     std::unique_ptr<Ui::SessionView> ui;
