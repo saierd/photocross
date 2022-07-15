@@ -6,6 +6,7 @@
 
 #include <QGraphicsItem>
 #include <QGraphicsView>
+#include <QKeyEvent>
 #include <QScopeGuard>
 
 #include <algorithm>
@@ -397,6 +398,16 @@ void SessionView::showEvent(QShowEvent* event)
 {
     QWidget::showEvent(event);
     adaptViewToWindow();
+}
+
+void SessionView::keyPressEvent(QKeyEvent* event)
+{
+    if (session != nullptr && session->positionSelectionModeEnabled() && event->matches(QKeySequence::Cancel)) {
+        session->disablePositionSelectionMode();
+        return;
+    }
+
+    QWidget::keyPressEvent(event);
 }
 
 void SessionView::initializeImageView(ImageView& imageView)

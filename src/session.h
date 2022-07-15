@@ -15,11 +15,16 @@ public:
     bool getWatchFiles() const;
     void setWatchFiles(bool enable);
 
+    bool positionSelectionModeEnabled() const;
+
     Images const& getImages() const;
 
 signals:
     void watchFilesChanged(bool enabled);
     void imagesChanged();
+
+    void positionSelectionModeChanged(bool enabled);
+    void imagePositionSelected(Image* image, QPoint const& point);
 
 public slots:
     void loadImages(QStringList const& files);
@@ -29,6 +34,9 @@ public slots:
 
     void reload();
 
+    void enablePositionSelectionMode(bool enabled = true);
+    void disablePositionSelectionMode();
+
 private:
     Images::const_iterator insertImage(Images::const_iterator position, ImageHandle image);
     void insertImages(Images::const_iterator position, Images const& newImages);
@@ -36,4 +44,5 @@ private:
     Images images;
 
     bool watchFiles = true;
+    bool isPositionSelectionModeEnabled = false;
 };

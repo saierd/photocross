@@ -83,4 +83,7 @@ private:
 
     bool modifiable = false;
     Image* imageToModify = nullptr;
+
+    QMetaObject::Connection positionSelectionModeConnection;
+    QMetaObject::Connection positionSelectionConnection;
 };

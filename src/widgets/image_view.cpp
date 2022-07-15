@@ -2,6 +2,7 @@
 
 #include "image.h"
 #include "image_edit_menu.h"
+#include "session.h"
 #include "utility/file.h"
 
 #include <QGraphicsOpacityEffect>
@@ -95,6 +96,9 @@ void ImageView::setNotModifiable()
 {
     imageToModify = nullptr;
     setModifiable(false);
+
+    disconnect(positionSelectionModeConnection);
+    disconnect(positionSelectionConnection);
 }
 
 void ImageView::setModifiable(Image* image)
@@ -102,6 +106,32 @@ void ImageView::setModifiable(Image* image)
     imageToModify = image;
     editMenu->setImage(image);
     setModifiable(true);
+
+    disconnect(positionSelectionModeConnection);
+    disconnect(positionSelectionConnection);
+
+    if (imageToModify != nullptr) {
+        auto* session = imageToModify->getSession();
+        if (session != nullptr) {
+            positionSelectionModeConnection =
+                connect(session, &Session::positionSelectionModeChanged, [this](bool enabled) {
+                    if (enabled) {
+                        ui->graphicsView->overrideCursor(Qt::CrossCursor);
+                    } else {
+                        ui->graphicsView->resetCursor();
+                    }
+                });
+
+            positionSelectionConnection =
+                connect(ui->graphicsView,
+                        &InteractiveGraphicsView::mouseClicked,
+                        [session, imageToModify = imageToModify](QPoint const& scenePosition) {
+                            if (session->positionSelectionModeEnabled()) {
+                                emit session->imagePositionSelected(imageToModify, scenePosition);
+                            }
+                        });
+        }
+    }
 }
 
 void ImageView::synchronizeViews(ImageView const& other) const

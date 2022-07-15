@@ -15,6 +15,11 @@ void Session::setWatchFiles(bool enable)
     emit watchFilesChanged(enable);
 }
 
+bool Session::positionSelectionModeEnabled() const
+{
+    return isPositionSelectionModeEnabled;
+}
+
 Session::Images const& Session::getImages() const
 {
     return images;
@@ -73,6 +78,17 @@ void Session::reload()
         image->reload();
     }
     emit imagesChanged();
+}
+
+void Session::enablePositionSelectionMode(bool enabled)
+{
+    isPositionSelectionModeEnabled = enabled;
+    emit positionSelectionModeChanged(enabled);
+}
+
+void Session::disablePositionSelectionMode()
+{
+    enablePositionSelectionMode(false);
 }
 
 Session::Images::const_iterator Session::insertImage(Images::const_iterator position, ImageHandle image)
