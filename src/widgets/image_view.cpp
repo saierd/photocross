@@ -81,6 +81,7 @@ ImageView::ImageView(QWidget* parent)
     });
 
     connect(ui->graphicsView, &InteractiveGraphicsView::zoomChangedExplicitly, this, &ImageView::zoomChangedExplicitly);
+    connect(ui->graphicsView, &InteractiveGraphicsView::zoomOutLimitReached, this, &ImageView::zoomOutLimitReached);
     connect(ui->graphicsView, &InteractiveGraphicsView::mouseLeft, &scene, &ImageViewScene::mouseLeft);
 
     setNotModifiable();

@@ -62,6 +62,7 @@ public:
 
 signals:
     void zoomChangedExplicitly();
+    void zoomOutLimitReached();
 
 public slots:
     void zoomIn();

@@ -49,6 +49,10 @@ void InteractiveGraphicsView::zoom(int steps)
 
     emit zoomChangedExplicitly();
     emit viewChanged();
+
+    if (scalingFactor == minimumScalingFactor) {
+        emit zoomOutLimitReached();
+    }
 }
 
 void InteractiveGraphicsView::zoomIn()

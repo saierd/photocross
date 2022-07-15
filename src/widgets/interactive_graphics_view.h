@@ -18,6 +18,7 @@ public slots:
 
 signals:
     void zoomChangedExplicitly();
+    void zoomOutLimitReached();
     void viewChanged();
 
     void mouseLeft();
