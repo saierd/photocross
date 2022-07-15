@@ -7,13 +7,17 @@
 
 #include <memory>
 
+class Session;
+
 class Image : public QObject {
     Q_OBJECT
 
 public:
-    explicit Image(QString _filename = "");
-    explicit Image(QImage _imageData);
+    explicit Image(Session* _session, QString _filename = "");
+    Image(Session* _session, QImage _imageData);
     ~Image() override;
+
+    Session* getSession() const;
 
     QString canonicalFilename() const;
     QSize size() const;
@@ -46,6 +50,7 @@ private slots:
     void imageFileChanged();
 
 private:
+    Session* session = nullptr;
     QString filename;
     QImage imageData;
 

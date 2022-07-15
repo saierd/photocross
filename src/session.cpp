@@ -20,12 +20,12 @@ Session::Images const& Session::getImages() const
     return images;
 }
 
-Session::Images loadImagesFromFiles(QStringList const& files)
+Session::Images loadImagesFromFiles(Session* session, QStringList const& files)
 {
     Session::Images result;
     result.reserve(files.size());
-    std::transform(files.begin(), files.end(), std::back_inserter(result), [](QString const& file) {
-        return std::make_shared<Image>(file);
+    std::transform(files.begin(), files.end(), std::back_inserter(result), [session](QString const& file) {
+        return std::make_shared<Image>(session, file);
     });
     return result;
 }
@@ -36,13 +36,13 @@ void Session::loadImages(QStringList const& files)
         return;
     }
 
-    insertImages(images.end(), loadImagesFromFiles(files));
+    insertImages(images.end(), loadImagesFromFiles(this, files));
     emit imagesChanged();
 }
 
 void Session::addImage(QImage image)
 {
-    insertImage(images.end(), std::make_shared<Image>(std::move(image)));
+    insertImage(images.end(), std::make_shared<Image>(this, std::move(image)));
     emit imagesChanged();
 }
 
@@ -53,7 +53,7 @@ void Session::replaceImage(ImageHandle const& image, QStringList const& files)
         it = images.erase(it);
     }
 
-    insertImages(it, loadImagesFromFiles(files));
+    insertImages(it, loadImagesFromFiles(this, files));
 
     emit imagesChanged();
 }

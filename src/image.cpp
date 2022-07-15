@@ -20,8 +20,9 @@ struct Image::Cache {
     }
 };
 
-Image::Image(QString _filename)
-  : filename(std::move(_filename))
+Image::Image(Session* _session, QString _filename)
+  : session(_session)
+  , filename(std::move(_filename))
 {
     if (!filename.isEmpty()) {
         imageData = QImage(filename);
@@ -44,13 +45,18 @@ Image::Image(QString _filename)
     });
 }
 
-Image::Image(QImage _imageData)
-  : Image()
+Image::Image(Session* _session, QImage _imageData)
+  : Image(_session)
 {
     imageData = std::move(_imageData);
 }
 
 Image::~Image() = default;
+
+Session* Image::getSession() const
+{
+    return session;
+}
 
 QString Image::canonicalFilename() const
 {
