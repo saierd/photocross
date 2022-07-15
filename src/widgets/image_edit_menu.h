@@ -31,8 +31,6 @@ public:
 
     void setImage(Image* _image);
 
-    void offsetChanged(QPoint const& offset);
-
 protected:
     QWidget* createWidget(QWidget* parent) override;
 
