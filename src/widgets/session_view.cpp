@@ -284,6 +284,20 @@ void SessionView::updateComparisonView()
     ui->comparisonView->update(session->getImages(), settings);
 }
 
+void SessionView::imageViewReachedZoomOutLimit()
+{
+    // Select tightest image views with a bit of tolerance in order to snap to the fit to view functionality when zoom
+    // is close enough, even if zooming happened in an image view that is technically not the tightest.
+    for (ImageView* view : tightestImageViews(0.01)) {
+        if (sender() == view) {
+            // Zoomed out in the tightest image view that decides the zoom level for the fit to view function.
+            // Automatically enable the fit to view functionality again.
+            fitToView();
+            return;
+        }
+    }
+}
+
 void SessionView::clearMouseIndicators()
 {
     lastMouseIndicatorPosition.reset();
@@ -390,6 +404,7 @@ void SessionView::initializeImageView(ImageView& imageView)
     connect(&imageView, &ImageView::zoomChangedExplicitly, this, [this]() {
         setAutoFitInView(false);
     });
+    connect(&imageView, &ImageView::zoomOutLimitReached, this, &SessionView::imageViewReachedZoomOutLimit);
     connect(&imageView.getScene(),
             &ImageViewScene::mouseMoved,
             this,
@@ -405,16 +420,27 @@ double computeSceneToViewSizeRatio(ImageView const* view)
                     view->getScene().sceneRect().height() / view->height());
 }
 
-ImageView* selectTightestImageView(std::vector<ImageView*> views)
+std::vector<ImageView*> selectTightestImageViews(std::vector<ImageView*> views, double tolerance)
 {
-    return *std::max_element(views.begin(), views.end(), [](ImageView const* a, ImageView const* b) {
+    auto* tightest = *std::max_element(views.begin(), views.end(), [](ImageView const* a, ImageView const* b) {
         return computeSceneToViewSizeRatio(a) < computeSceneToViewSizeRatio(b);
     });
+
+    std::vector<ImageView*> result;
+    std::copy_if(views.begin(), views.end(), std::back_inserter(result), [&](ImageView const* view) {
+        if (computeSceneToViewSizeRatio(tightest) == computeSceneToViewSizeRatio(view)) {
+            return true;
+        }
+
+        return std::abs(computeSceneToViewSizeRatio(tightest) / computeSceneToViewSizeRatio(view) - 1) < tolerance;
+    });
+
+    return result;
 }
 
 }  // namespace
 
-ImageView* SessionView::selectImageViewForFitToView()
+std::vector<ImageView*> SessionView::tightestImageViews(double tolerance)
 {
     std::vector<ImageView*> views;
     if (getSourceImagesVisible()) {
@@ -425,8 +451,19 @@ ImageView* SessionView::selectImageViewForFitToView()
     }
 
     if (views.empty()) {
+        return {};
+    }
+
+    return selectTightestImageViews(views, tolerance);
+}
+
+ImageView* SessionView::selectImageViewForFitToView()
+{
+    auto tightestViews = tightestImageViews();
+
+    if (tightestViews.empty()) {
         return nullptr;
     }
 
-    return selectTightestImageView(views);
+    return tightestViews[0];
 }

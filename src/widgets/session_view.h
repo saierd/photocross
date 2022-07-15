@@ -61,6 +61,7 @@ private slots:
     void adjustNumberOfImageViews(size_t numImages);
     void updateImages();
     void updateComparisonView();
+    void imageViewReachedZoomOutLimit();
 
     void clearMouseIndicators();
     void removeMouseIndicatorsFromScenes();
@@ -74,6 +75,8 @@ private slots:
 
 private:
     void initializeImageView(ImageView& imageView);
+
+    std::vector<ImageView*> tightestImageViews(double tolerance = 0);
     ImageView* selectImageViewForFitToView();
 
 private:
