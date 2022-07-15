@@ -16,6 +16,9 @@ public slots:
 
     void fitSceneInView();
 
+    void overrideCursor(QCursor newCursor);
+    void resetCursor();
+
 signals:
     void zoomChangedExplicitly();
     void zoomOutLimitReached();
@@ -25,5 +28,16 @@ signals:
 
 protected:
     void wheelEvent(QWheelEvent* event) override;
+    void enterEvent(QEvent* event) override;
     void leaveEvent(QEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+
+private:
+    void applyOverriddenCursor();
+
+private:
+    bool cursorOverridden = false;
+    QCursor cursor;
+    QCursor previousCursor;
 };

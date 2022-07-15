@@ -71,6 +71,28 @@ void InteractiveGraphicsView::fitSceneInView()
     emit viewChanged();
 }
 
+void InteractiveGraphicsView::overrideCursor(QCursor newCursor)
+{
+    if (!cursorOverridden) {
+        previousCursor = viewport()->cursor();
+    }
+
+    cursorOverridden = true;
+    cursor = std::move(newCursor);
+
+    applyOverriddenCursor();
+}
+
+void InteractiveGraphicsView::resetCursor()
+{
+    if (!cursorOverridden) {
+        return;
+    }
+
+    cursorOverridden = false;
+    viewport()->setCursor(previousCursor);
+}
+
 void InteractiveGraphicsView::wheelEvent(QWheelEvent* event)
 {
     if (event->angleDelta().y() > 0) {
@@ -80,8 +102,35 @@ void InteractiveGraphicsView::wheelEvent(QWheelEvent* event)
     }
 }
 
+void InteractiveGraphicsView::enterEvent(QEvent* event)
+{
+    QGraphicsView::enterEvent(event);
+    applyOverriddenCursor();
+}
+
 void InteractiveGraphicsView::leaveEvent(QEvent* event)
 {
     QGraphicsView::leaveEvent(event);
     emit mouseLeft();
+}
+
+void InteractiveGraphicsView::mousePressEvent(QMouseEvent* event)
+{
+    QGraphicsView::mousePressEvent(event);
+    applyOverriddenCursor();
+}
+
+void InteractiveGraphicsView::mouseReleaseEvent(QMouseEvent* event)
+{
+    QGraphicsView::mouseReleaseEvent(event);
+    applyOverriddenCursor();
+}
+
+void InteractiveGraphicsView::applyOverriddenCursor()
+{
+    if (!cursorOverridden) {
+        return;
+    }
+
+    viewport()->setCursor(cursor);
 }
