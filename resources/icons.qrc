@@ -29,6 +29,7 @@
         <file alias="move-vertical.svg">../external/mdi/svg/arrow-up-down.svg</file>
         <file alias="animation.svg">../external/mdi/svg/animation-play-outline.svg</file>
         <file alias="select-color.svg">../external/mdi/svg/eyedropper.svg</file>
+        <file alias="pick-offset-from-locations.svg">../external/mdi/svg/selection-drag.svg</file>
     </qresource>
     <qresource prefix="/">
         <file alias="icon.svg">icon/icon.svg</file>

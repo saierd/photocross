@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>216</width>
-    <height>118</height>
+    <height>149</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,19 +49,10 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="maximumSize">
-        <size>
-         <width>16</width>
-         <height>16</height>
-        </size>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../resources/icons.qrc">:/icons/icons/move-vertical.svg</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>X Offset</string>
        </property>
       </widget>
      </item>
@@ -107,10 +98,14 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>X Offset</string>
+     <item row="1" column="3">
+      <widget class="QToolButton" name="resetYOffset">
+       <property name="toolTip">
+        <string>Reset Y Offset</string>
+       </property>
+       <property name="icon">
+        <iconset theme="undo">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -122,6 +117,22 @@
        <property name="icon">
         <iconset theme="undo">
          <normaloff>.</normaloff>.</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="maximumSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../resources/icons.qrc">:/icons/icons/move-vertical.svg</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -144,14 +155,16 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="3">
-      <widget class="QToolButton" name="resetYOffset">
-       <property name="toolTip">
-        <string>Reset Y Offset</string>
+     <item row="2" column="1" colspan="3">
+      <widget class="QToolButton" name="pickOffsetFromLocationsButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="icon">
-        <iconset theme="undo">
-         <normaloff>.</normaloff>.</iconset>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
        </property>
       </widget>
      </item>
@@ -192,6 +205,30 @@
    </property>
    <property name="toolTip">
     <string>Reset Rotation</string>
+   </property>
+  </action>
+  <action name="actionPickOffsetFromLocations">
+   <property name="icon">
+    <iconset theme="pick-offset-from-locations">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Pick from Locations</string>
+   </property>
+   <property name="toolTip">
+    <string>Pick Offset from Selected Locations</string>
+   </property>
+  </action>
+  <action name="actionCancelPickOffsetFromLocations">
+   <property name="icon">
+    <iconset theme="pick-offset-from-locations">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Cancel Offset Picking</string>
+   </property>
+   <property name="toolTip">
+    <string>Cancel Offset Picking</string>
    </property>
   </action>
  </widget>
