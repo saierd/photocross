@@ -21,7 +21,9 @@ signals:
 
 private:
     void updateAnimationTimerSettings(ComparisonSettings const& settings);
+    double currentAnimationStep(ComparisonSettings const& settings);
 
     QTimer animationUpdateTimer;
     std::chrono::steady_clock::time_point animationStartTime;
+    std::chrono::milliseconds previousAnimationTimeBetweenImages;
 };

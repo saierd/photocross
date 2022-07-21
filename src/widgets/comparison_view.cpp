@@ -31,8 +31,8 @@ ComparisonView::ComparisonView(QWidget* parent)
 
 void ComparisonView::update(Session::Images const& images, ComparisonSettings const& settings)
 {
-    auto timeSinceAnimationStart = std::chrono::steady_clock::now() - animationStartTime;
-    double animationStep = durationRatio(timeSinceAnimationStart, settings.animatedBlending.timeBetweenImages);
+    updateAnimationTimerSettings(settings);
+    double animationStep = currentAnimationStep(settings);
 
     ComparisonViewLayers layers;
     QRect boundingRect;
@@ -59,8 +59,6 @@ void ComparisonView::update(Session::Images const& images, ComparisonSettings co
 
     restoreView();
     forceViewPropagation();
-
-    updateAnimationTimerSettings(settings);
 }
 
 void ComparisonView::updateAnimationTimerSettings(ComparisonSettings const& settings)
@@ -79,6 +77,24 @@ void ComparisonView::updateAnimationTimerSettings(ComparisonSettings const& sett
         if (!animationUpdateTimer.isActive()) {
             animationStartTime = std::chrono::steady_clock::now();
             animationUpdateTimer.start();
+        } else if (previousAnimationTimeBetweenImages != settings.animatedBlending.timeBetweenImages) {
+            // Patch animation start time to keep the same animation step.
+
+            ComparisonSettings oldSettings = settings;
+            oldSettings.animatedBlending.timeBetweenImages = previousAnimationTimeBetweenImages;
+            double animationStepWithOldSettings = currentAnimationStep(oldSettings);
+
+            auto patchedTimeSinceAnimationStart = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                animationStepWithOldSettings * settings.animatedBlending.timeBetweenImages);
+            animationStartTime = std::chrono::steady_clock::now() - patchedTimeSinceAnimationStart;
         }
+
+        previousAnimationTimeBetweenImages = settings.animatedBlending.timeBetweenImages;
     }
+}
+
+double ComparisonView::currentAnimationStep(ComparisonSettings const& settings)
+{
+    auto timeSinceAnimationStart = std::chrono::steady_clock::now() - animationStartTime;
+    return durationRatio(timeSinceAnimationStart, settings.animatedBlending.timeBetweenImages);
 }
