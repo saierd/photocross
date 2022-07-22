@@ -50,6 +50,7 @@
      <string>File</string>
     </property>
     <addaction name="actionOpenImages"/>
+    <addaction name="actionSaveComparisonView"/>
     <addaction name="separator"/>
     <addaction name="actionReload"/>
     <addaction name="actionReloadWhenImageFileChanges"/>
@@ -277,6 +278,21 @@
    </property>
    <property name="toolTip">
     <string>Rotate Images Right</string>
+   </property>
+  </action>
+  <action name="actionSaveComparisonView">
+   <property name="icon">
+    <iconset theme="document-save">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Save Comparison View...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save Comparison View...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

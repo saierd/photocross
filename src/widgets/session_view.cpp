@@ -51,6 +51,7 @@ SessionView::SessionView(QWidget* parent)
             this,
             &SessionView::updateComparisonView);
     connect(ui->comparisonView, &ComparisonView::requestAnimationUpdate, this, &SessionView::updateComparisonView);
+    connect(ui->comparisonView, &ImageView::canSaveImageChanged, this, &SessionView::canSaveComparisonViewChanged);
 }
 
 SessionView::~SessionView() = default;
@@ -117,6 +118,11 @@ bool SessionView::getLayoutIsHorizontal() const
     // The splitter's layout is the inverse of what we call the layout, since e.g. the list of source images is layed
     // out perpendicular to the splitter itself.
     return ui->splitter->orientation() != Qt::Horizontal;
+}
+
+bool SessionView::canSaveComparisonView() const
+{
+    return ui->comparisonView->canSaveImage();
 }
 
 void SessionView::flipLayoutDirection()
@@ -186,6 +192,11 @@ void SessionView::rotateImagesRight()
         image->rotateRight();
     }
     adaptViewToWindow();
+}
+
+void SessionView::saveComparisonView()
+{
+    ui->comparisonView->saveImage();
 }
 
 void SessionView::adjustNumberOfImageViews(size_t numImages)

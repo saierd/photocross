@@ -37,11 +37,15 @@ public:
 
     bool getLayoutIsHorizontal() const;
 
+    bool canSaveComparisonView() const;
+
 signals:
     void sourceImagesVisibleChanged(bool sourceImagesVisible);
     void mouseIndicatorsVisibleChanged(bool mouseIndicatorsVisible);
     void autoFitInViewChanged(bool autoFitInView);
     void layoutDirectionChanged(bool layoutIsHorizontal);
+
+    void canSaveComparisonViewChanged(bool enabled);
 
 public slots:
     void flipLayoutDirection();
@@ -53,6 +57,8 @@ public slots:
 
     void rotateImagesLeft();
     void rotateImagesRight();
+
+    void saveComparisonView();
 
 private:
     using MouseIndicatorPosition = ImageViewScene::MouseMovedInfo;

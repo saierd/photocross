@@ -17,6 +17,14 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->actionOpenImages, &QAction::triggered, this, &MainWindow::openImages);
 
+    connect(ui->actionSaveComparisonView, &QAction::triggered, this, [this]() {
+        ui->session->saveComparisonView();
+    });
+    ui->actionSaveComparisonView->setEnabled(ui->session->canSaveComparisonView());
+    connect(ui->session, &SessionView::canSaveComparisonViewChanged, this, [this](bool enabled) {
+        ui->actionSaveComparisonView->setEnabled(enabled);
+    });
+
     connect(ui->actionExit, &QAction::triggered, []() {
         QCoreApplication::quit();
     });
