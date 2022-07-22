@@ -79,6 +79,9 @@
           <widget class="QToolButton" name="fitToView"/>
          </item>
          <item>
+          <widget class="QToolButton" name="saveImage"/>
+         </item>
+         <item>
           <widget class="QToolButton" name="editImage">
            <property name="toolTip">
             <string>Edit Image</string>
@@ -152,6 +155,18 @@
    </property>
    <property name="toolTip">
     <string>Replace Image</string>
+   </property>
+  </action>
+  <action name="actionSaveImage">
+   <property name="icon">
+    <iconset theme="document-save">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Save Image</string>
+   </property>
+   <property name="toolTip">
+    <string>Save Image</string>
    </property>
   </action>
  </widget>

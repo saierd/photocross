@@ -8,6 +8,7 @@
         <file alias="comparison-mode-blend.svg">../external/mdi/svg/vector-intersection.svg</file>
         <file alias="comparison-mode-differences.svg">../external/mdi/svg/image-filter-black-white.svg</file>
         <file alias="document-open.svg">../external/mdi/svg/folder-open-outline.svg</file>
+        <file alias="document-save.svg">../external/mdi/svg/content-save-outline.svg</file>
         <file alias="edit.svg">../external/mdi/svg/pencil-outline.svg</file>
         <file alias="exit.svg">../external/mdi/svg/exit-to-app.svg</file>
         <file alias="fit-to-page.svg">../external/mdi/svg/fit-to-page-outline.svg</file>

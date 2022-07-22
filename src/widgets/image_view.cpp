@@ -1,5 +1,6 @@
 #include "image_view.h"
 
+#include "busy_dialog.h"
 #include "image.h"
 #include "image_edit_menu.h"
 #include "session.h"
@@ -52,6 +53,9 @@ ImageView::ImageView(QWidget* parent)
     editMenu = new ImageEditMenuAction(this);
     ui->editImage->addAction(editMenu);
 
+    ui->saveImage->setDefaultAction(ui->actionSaveImage);
+    connect(ui->actionSaveImage, &QAction::triggered, this, &ImageView::saveImage);
+
     ui->closeImage->setDefaultAction(ui->actionCloseImage);
     connect(ui->actionCloseImage, &QAction::triggered, this, [this]() {
         if (modifiable && imageToModify != nullptr) {
@@ -86,6 +90,7 @@ ImageView::ImageView(QWidget* parent)
     connect(ui->graphicsView, &InteractiveGraphicsView::mouseLeft, &scene, &ImageViewScene::mouseLeft);
 
     setNotModifiable();
+    setCanSaveImage(true);
     ui->graphicsView->setMouseTracking(true);
     ui->graphicsView->setScene(&scene);
 }
@@ -132,6 +137,11 @@ void ImageView::setModifiable(Image* image)
                         });
         }
     }
+}
+
+bool ImageView::canSaveImage() const
+{
+    return ui->actionSaveImage->isEnabled();
 }
 
 void ImageView::synchronizeViews(ImageView const& other) const
@@ -243,6 +253,38 @@ void ImageView::zoomIn()
 void ImageView::zoomOut()
 {
     ui->graphicsView->zoomOut();
+}
+
+void ImageView::setCanSaveImage(bool enabled)
+{
+    ui->actionSaveImage->setEnabled(enabled);
+    emit canSaveImageChanged(enabled);
+}
+
+void ImageView::saveImage()
+{
+    QString defaultFileName;
+    if (imageToModify != nullptr) {
+        defaultFileName = imageToModify->canonicalFilename();
+    }
+
+    auto file = selectImageFileForSaving(defaultFileName, this);
+    if (file.isEmpty()) {
+        return;
+    }
+
+    runWithBusyDialog(
+        "Saving Image...",
+        [&]() {
+            QImage image(scene.sceneRect().size().toSize(), QImage::Format_ARGB32);
+            image.fill(Qt::transparent);
+
+            QPainter painter(&image);
+            scene.render(&painter);
+
+            image.save(file);
+        },
+        this);
 }
 
 void ImageView::updateSceneRectFromItems()

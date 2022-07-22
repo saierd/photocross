@@ -25,6 +25,8 @@ public:
     void setNotModifiable();
     void setModifiable(Image* image);
 
+    bool canSaveImage() const;
+
     void synchronizeViews(ImageView const& other) const;
     void forceViewPropagation() const;
     void rememberView();
@@ -64,9 +66,14 @@ signals:
     void zoomChangedExplicitly();
     void zoomOutLimitReached();
 
+    void canSaveImageChanged(bool enabled);
+
 public slots:
     void zoomIn();
     void zoomOut();
+
+    void setCanSaveImage(bool enabled);
+    void saveImage();
 
 protected:
     void updateSceneRectFromItems();

@@ -91,6 +91,8 @@ void ComparisonView::updateAnimationTimerSettings(ComparisonSettings const& sett
 
         previousAnimationTimeBetweenImages = settings.animatedBlending.timeBetweenImages;
     }
+
+    setCanSaveImage(!animationUpdateTimer.isActive());
 }
 
 double ComparisonView::currentAnimationStep(ComparisonSettings const& settings)
