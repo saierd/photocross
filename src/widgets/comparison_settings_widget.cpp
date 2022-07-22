@@ -31,10 +31,16 @@ ComparisonSettingsWidget::ComparisonSettingsWidget(QWidget* parent)
     showShortcutInTooltip(ui->modeBlendImagesTrueColors);
     showShortcutInTooltip(ui->modeBlendImagesAnimated);
 
-    connect(ui->modeHighlightDifferences, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
-    connect(ui->modeBlendImagesFalseColors, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
-    connect(ui->modeBlendImagesTrueColors, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
-    connect(ui->modeBlendImagesAnimated, &QToolButton::toggled, this, &ComparisonSettingsWidget::modeChanged);
+    auto modeChangedIfToggledOn = [this](bool checked) {
+        if (checked) {
+            emit modeChanged();
+        }
+    };
+
+    connect(ui->modeHighlightDifferences, &QToolButton::toggled, this, modeChangedIfToggledOn);
+    connect(ui->modeBlendImagesFalseColors, &QToolButton::toggled, this, modeChangedIfToggledOn);
+    connect(ui->modeBlendImagesTrueColors, &QToolButton::toggled, this, modeChangedIfToggledOn);
+    connect(ui->modeBlendImagesAnimated, &QToolButton::toggled, this, modeChangedIfToggledOn);
 
     connect(this, &ComparisonSettingsWidget::modeChanged, this, &ComparisonSettingsWidget::updateMode);
     connect(this, &ComparisonSettingsWidget::modeChanged, this, &ComparisonSettingsWidget::settingsChanged);
