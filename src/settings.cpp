@@ -3,35 +3,30 @@
 #include <QApplication>
 #include <QMainWindow>
 
-namespace {
-
-QString windowGeometryGroup(QString const& windowName)
+QSettings applicationSettings(QString const& scope)
 {
-    return windowName + "Geometry";
+    return QSettings(QSettings::IniFormat, QSettings::UserScope, QApplication::applicationName(), scope);
 }
 
-}  // namespace
-
-QSettings applicationSettings()
+QSettings windowGeometrySettings()
 {
-    auto const& applicationName = QApplication::applicationName();
-    return QSettings(QSettings::IniFormat, QSettings::UserScope, applicationName, applicationName);
+    return applicationSettings("WindowGeometry");
 }
 
 void saveWindowGeometry(QMainWindow const* window, QString const& windowName)
 {
-    auto settings = applicationSettings();
+    auto settings = windowGeometrySettings();
 
-    settings.beginGroup(windowGeometryGroup(windowName));
+    settings.beginGroup(windowName);
     settings.setValue("geometry", window->saveGeometry());
     settings.setValue("state", window->saveState());
 }
 
 void restoreWindowGeometry(QMainWindow* window, QString const& windowName)
 {
-    auto settings = applicationSettings();
+    auto settings = windowGeometrySettings();
 
-    settings.beginGroup(windowGeometryGroup(windowName));
+    settings.beginGroup(windowName);
     window->restoreGeometry(settings.value("geometry").toByteArray());
     window->restoreState(settings.value("state").toByteArray());
 }
