@@ -13,6 +13,7 @@ SingleDirectionScrollArea::SingleDirectionScrollArea(QWidget* parent)
   : QScrollArea(parent)
 {
     setWidgetResizable(true);
+    setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 
     setOrientation(orientation);
 }
@@ -41,6 +42,14 @@ bool SingleDirectionScrollArea::eventFilter(QObject* object, QEvent* event)
     }
 
     return QScrollArea::eventFilter(object, event);
+}
+
+QSize SingleDirectionScrollArea::viewportSizeHint() const
+{
+    if (widget()) {
+        return widget()->sizeHint();
+    }
+    return QScrollArea::viewportSizeHint();
 }
 
 void SingleDirectionScrollArea::updateMinimumSize()

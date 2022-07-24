@@ -14,6 +14,8 @@ public:
 
     bool eventFilter(QObject* object, QEvent* event) override;
 
+    QSize viewportSizeHint() const override;
+
 private:
     void updateMinimumSize();
 
