@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QMainWindow>
+#include "window.h"
 
 #include <memory>
 
@@ -10,7 +10,7 @@ class MainWindow;
 
 class Session;
 
-class MainWindow final : public QMainWindow {
+class MainWindow final : public Window {
     Q_OBJECT
 
 public:
@@ -18,9 +18,6 @@ public:
     ~MainWindow() override;
 
     Session& getSession();
-
-protected:
-    void closeEvent(QCloseEvent* event) override;
 
 private slots:
     void openImages();

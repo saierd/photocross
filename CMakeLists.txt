@@ -92,6 +92,8 @@ add_executable(${PROJECT_NAME}
     src/widgets/source_image_view.h
     src/widgets/synchronizable_graphics_view.cpp
     src/widgets/synchronizable_graphics_view.h
+    src/window.cpp
+    src/window.h
     src/windows/main_window.cpp
     src/windows/main_window.h
     src/windows/main_window.ui)

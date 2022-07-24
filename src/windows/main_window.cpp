@@ -7,7 +7,7 @@
 #include "ui_main_window.h"
 
 MainWindow::MainWindow(QWidget* parent)
-  : QMainWindow(parent)
+  : Window(parent)
 {
     ui = std::make_unique<Ui::MainWindow>();
     ui->setupUi(this);
@@ -65,8 +65,6 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionFlipLayoutDirection, &QAction::triggered, ui->session, &SessionView::flipLayoutDirection);
     updateLayoutDirection(ui->session->getLayoutIsHorizontal());
     connect(ui->session, &SessionView::layoutDirectionChanged, this, &MainWindow::updateLayoutDirection);
-
-    restoreWindowGeometry(this, metaObject()->className());
 }
 
 MainWindow::~MainWindow() = default;
@@ -74,12 +72,6 @@ MainWindow::~MainWindow() = default;
 Session& MainWindow::getSession()
 {
     return *session;
-}
-
-void MainWindow::closeEvent(QCloseEvent* event)
-{
-    saveWindowGeometry(this, metaObject()->className());
-    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::openImages()
