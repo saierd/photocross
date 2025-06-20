@@ -97,7 +97,6 @@ add_executable(${PROJECT_NAME}
     src/windows/main_window.cpp
     src/windows/main_window.h
     src/windows/main_window.ui)
-source_group(TREE "src")
 target_include_directories(${PROJECT_NAME} PRIVATE "src")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
