@@ -1,5 +1,6 @@
 #include "synchronizable_graphics_view.h"
 
+#include <QPainterPath>
 #include <QSignalBlocker>
 
 SynchronizableGraphicsView::SynchronizableGraphicsView(QWidget* parent)
