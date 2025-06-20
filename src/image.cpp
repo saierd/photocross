@@ -78,7 +78,7 @@ QImage Image::image() const
     if (rotation != 0) {
         // Note that rotation by positive angles is clockwise here since Qt widget coordinates have their y axis
         // downwards.
-        rotated = imageData.transformed(QMatrix().rotate(rotation * -90));
+        rotated = imageData.transformed(QTransform().rotate(rotation * -90));
     } else {
         rotated = imageData;
     }

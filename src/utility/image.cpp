@@ -31,7 +31,7 @@ QImage colorizeGrayscaleImage(QImage const& image, QColor const& color)
     painter.end();
 
     if (image.hasAlphaChannel()) {
-        target.setAlphaChannel(image.alphaChannel());
+        target.setAlphaChannel(image.convertToFormat(QImage::Format_Alpha8));
     }
 
     return target;
