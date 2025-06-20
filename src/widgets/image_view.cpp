@@ -119,7 +119,7 @@ void ImageView::setModifiable(Image* image)
         auto* session = imageToModify->getSession();
         if (session != nullptr) {
             positionSelectionModeConnection =
-                connect(session, &Session::positionSelectionModeChanged, [this](bool enabled) {
+                connect(session, &Session::positionSelectionModeChanged, this, [this](bool enabled) {
                     if (enabled) {
                         ui->graphicsView->overrideCursor(Qt::CrossCursor);
                     } else {
@@ -130,6 +130,7 @@ void ImageView::setModifiable(Image* image)
             positionSelectionConnection =
                 connect(ui->graphicsView,
                         &InteractiveGraphicsView::mouseClicked,
+                        this,
                         [session, imageToModify = imageToModify](QPoint const& scenePosition) {
                             if (session->positionSelectionModeEnabled()) {
                                 emit session->imagePositionSelected(imageToModify, scenePosition);
