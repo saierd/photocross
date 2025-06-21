@@ -6,7 +6,7 @@
 
 namespace {
 
-std::string const applicationName = "PhotoCross";
+std::string const applicationName = "Photocross";
 std::string const applicationCommand = "photocross";
 
 }  // namespace

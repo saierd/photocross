@@ -8,7 +8,7 @@
 int main(int argc, char** argv)
 {
     QApplication application(argc, argv);
-    QApplication::setApplicationName("PhotoCross");
+    QApplication::setApplicationName("Photocross");
     QApplication::setWindowIcon(QIcon(":/icon.svg"));
 
     QIcon::setThemeName("icons");

@@ -61,7 +61,7 @@ GList* getFileItems(NautilusMenuProvider* /* provider */, GtkWidget* /* window *
 
     GList* menuItems = nullptr;
     for (auto const& menuEntry : executor.getMenuEntries(selectedFiles)) {
-        std::string entryId = "NautilusPhotoCross::" + std::to_string(menuEntry.id);
+        std::string entryId = "NautilusPhotocross::" + std::to_string(menuEntry.id);
 
         NautilusMenuItem* item =
             nautilus_menu_item_new(entryId.c_str(), menuEntry.caption.c_str(), menuEntry.description.c_str(), nullptr);
