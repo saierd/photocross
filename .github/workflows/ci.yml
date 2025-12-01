@@ -27,7 +27,7 @@ jobs:
           sudo apt-get install libnautilus-extension-dev qtbase5-dev libqt5x11extras5-dev
 
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -62,7 +62,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Check Code Formatting
         uses: DoozyX/clang-format-lint-action@v0.20
@@ -90,7 +90,7 @@ jobs:
           sudo apt-get install libnautilus-extension-dev qtbase5-dev libqt5x11extras5-dev
 
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
